@@ -1,6 +1,6 @@
 /* Hero Section */
 .hero {
-    height: 60vh; /* 60% of the screen height */
+    height: 50vh; /* 60% of the screen height */
     background: url('{% static "home/images/bg.jpg" %}') center/cover no-repeat;
     display: flex;
     justify-content: center;
