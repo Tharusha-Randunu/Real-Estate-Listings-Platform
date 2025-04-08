@@ -1,0 +1,77 @@
+/* Hero Section - Background Image 60% of Screen */
+.hero {
+    background: url('../images/bg.jpg') center/cover no-repeat;
+    height: 60vh; /* 60% of the viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 50px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+}
+
+/* Search Bar Centered */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Features Section */
+.features {
+    margin: 50px 0;
+}
+
+/* Cards - Equal Size */
+.feature-card {
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%; /* Ensures all cards are equal height */
+}
+
+.feature-card:hover {
+    transform: scale(1.05);
+}
+
+.feature-card img {
+    width: 100%;
+    height: 200px; /* Consistent Image Size */
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.card h3 {
+    margin-top: 15px;
+    font-size: 1.5rem;
+}
+
+.card p {
+    color: #666;
+}
+
+.card a {
+    margin-top: 10px;
+    display: inline-block;
+}
