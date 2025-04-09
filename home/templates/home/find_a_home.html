@@ -1,0 +1,117 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block title %}Find a Home{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Available Real Estate Listings</h2>
+
+    <div class="row">
+        {% for ad in ads %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card square-card h-100 shadow-sm border-light rounded">
+                <!-- Check if ad has images, and display it -->
+                {% if ad.images %}
+                    <img src="{{ ad.images.url }}" alt="Image" class="card-img-top" style="height: 250px; width: 100%; object-fit: cover;">
+                {% else %}
+                    <!-- Default image if no image for the ad -->
+                    <img src="{% static 'home/images/default.jpg' %}" alt="Default Image" class="card-img-top" style="height: 250px; width: 100%; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body">
+                    <!-- Property Name -->
+                    <h5 class="card-title">{{ ad.name }}</h5>
+                    <!-- Property Address -->
+                    <p class="card-text">{{ ad.address }}</p>
+                    <!-- Property Price -->
+                    <p class="card-text">Price: ${{ ad.price }}</p>
+                    <!-- Additional Information Button (could link to property detail page) -->
+                    <a href="{% url 'property_detail' ad.id %}" class="btn btn-primary btn-block">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* Custom Styles for Cards */
+    .square-card {
+        height: 370px; /* Further increased card height */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 15px; /* More rounded corners */
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.2); /* A more prominent shadow */
+    }
+
+    .card-title {
+        font-size: 1.25rem; /* Slightly larger text for titles */
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 1rem; /* Adjusted for better readability */
+        color: #555;
+    }
+
+    .card-body {
+        padding: 1.2rem; /* Increased padding for better spacing */
+        overflow: hidden; /* Prevent text overflow */
+    }
+
+    .btn-block {
+        margin-top: 15px;
+    }
+
+    .card-img-top {
+        height: 250px; /* Adjusted height for better fit */
+        object-fit: cover;
+        width: 100%;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .square-card {
+            height: 330px; /* Slightly smaller on medium screens */
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .square-card {
+            height: 300px; /* Even smaller on small screens */
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+
+        .btn-block {
+            margin-top: 10px;
+        }
+    }
+</style>
+{% endblock %}

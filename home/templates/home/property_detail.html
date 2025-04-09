@@ -1,0 +1,24 @@
+{% extends "home/base.html" %}
+
+{% block title %}Property Details{% endblock %}
+
+{% block content %}
+    <h2>{{ ad.name }}</h2>
+    <div class="property-detail">
+        <img src="{{ ad.images.url }}" alt="Property Image">
+        <div class="property-info">
+            <p><strong>Price:</strong> Rs. {{ ad.price }}</p>
+            <p><strong>Location:</strong> {{ ad.address }}</p>
+            <p><strong>Property Type:</strong> {{ ad.property_type }}</p>
+            <p><strong>Bedrooms:</strong> {{ ad.bedrooms }}</p>
+            <p><strong>Bathrooms:</strong> {{ ad.bathrooms }}</p>
+            <p><strong>Details:</strong> {{ ad.details }}</p>
+            <p><strong>Floor Area:</strong> {{ ad.floor_area }} sq. ft.</p>
+            <p><strong>Parking:</strong> {{ ad.parking }}</p>
+            <p><strong>Furnishing Status:</strong> {{ ad.furnishing_status }}</p>
+            <p><strong>Contact Name:</strong> {{ ad.contact_name }}</p>
+            <p><strong>Contact Tel:</strong> {{ ad.contact_tel }}</p>
+            <p><strong>Contact Email:</strong> {{ ad.contact_email }}</p>
+        </div>
+    </div>
+{% endblock %}
