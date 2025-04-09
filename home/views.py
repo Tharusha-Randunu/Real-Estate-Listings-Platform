@@ -5,3 +5,7 @@ def home(request):
     return render(request, 'home/home.html')
 def list_property(request):
     return render(request, 'home/list_property.html')
+
+def rent_property(request):
+    return render(request, 'home/rent_property.html')
+
