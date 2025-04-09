@@ -22,6 +22,12 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
+        h4 {
+            color: #000000; /* force black for consistency */
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
         .section {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px;
@@ -112,11 +118,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="age" class="form-label">Age of Property (Years)</label>
-                    <select id="age" class="form-select">
-                        {% for i in "1234567891011121314151617181920"|make_list %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="number" class="form-control" id="age" placeholder="e.g. 5" required>
                 </div>
                 <div class="col-md-3">
                     <label for="furnishing" class="form-label">Furnishing Status</label>
@@ -140,7 +142,7 @@
             <h4 class="text-center">Ad Details</h4>
             <div class="mb-3">
                 <label for="title" class="form-label">Ad Title <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="title" placeholder="e.g. House for sale in Borella" required>
+                <input type="text" class="form-control" id="title" placeholder="e.g. Apartment for Sale in Moratuwa" required>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Ad Description <span class="text-danger">*</span></label>
@@ -160,7 +162,7 @@
 
         <!-- Submit -->
         <div class="text-center">
-            <button class="btn btn-success px-5 py-2">Submit</button>
+            <a href="{% url 'upload_confirm' %}" class="btn btn-success px-5 py-2">Next</a>
         </div>
     </div>
 

@@ -13,19 +13,13 @@
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            color: #000; /* default black */
+            color: #000;
         }
 
         h1 {
-            color: #ffffff; /* bright white */
+            color: #ffffff;
             font-weight: 700;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-        }
-
-        h4 {
-            color: #000000; /* force black */
-            font-weight: bold;
-            margin-bottom: 20px;
         }
 
         label {
@@ -34,7 +28,7 @@
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.9); /* readable over image */
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             margin-bottom: 30px;
             border-radius: 15px;
@@ -56,81 +50,128 @@
             background-color: #0d6efd !important;
             color: white !important;
         }
+
+        .form-check-label {
+            font-weight: normal;
+        }
+
+        .section-title {
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container my-5">
-        <h1 class="text-center mb-5">List Your Property</h1>
+<div class="container my-5">
+    <h1 class="text-center mb-5">List Your Property</h1>
 
-        <!-- I Am Section -->
-        <div class="section">
-            <h4 class="text-center">I am</h4>
-            <div class="btn-choice-group">
-                <button type="button" class="btn btn-outline-primary btn-choice">Owner</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Agent</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Developer</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Business</button>
-            </div>
-        </div>
-
-        <!-- Offer Type Section -->
-        <div class="section">
-            <h4 class="text-center">Offer Type</h4>
-            <div class="btn-choice-group">
-                <button type="button" class="btn btn-primary btn-choice active-choice">Sale</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Rent</button>
-            </div>
-        </div>
-
-        <!-- Property Type Section -->
-        <div class="section">
-            <h4 class="text-center">Property Type</h4>
-            <div class="btn-choice-group">
-                <button type="button" class="btn btn-outline-primary btn-choice">House</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Apartment</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Land</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Commercial</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Bungalow</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Villa</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Annexe</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Rooms</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Studio</button>
-            </div>
-        </div>
-
-        <!-- Location and Map Section -->
-        <div class="section">
-            <h4 class="text-center">Location and Map</h4>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="city" class="form-label">City / Town <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="city" placeholder="E.g. Piliyandala">
-                </div>
-                <div class="col-md-6">
-                    <label for="street" class="form-label">Street</label>
-                    <input type="text" class="form-control" id="street" placeholder="E.g. Park Road">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="latitude" class="form-label">Latitude</label>
-                    <input type="text" class="form-control" id="latitude" placeholder="eg. 6.8723">
-                </div>
-                <div class="col-md-4">
-                    <label for="longitude" class="form-label">Longitude</label>
-                    <input type="text" class="form-control" id="longitude" placeholder="eg. 73.5869">
-                </div>
-                <div class="col-md-4 d-flex align-items-end">
-                    <button class="btn btn-outline-secondary w-100" type="button">📍 Get Current Location</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="text-center">
-            <a href="{% url 'list_property_details' %}" class="btn btn-success px-5 py-2">Next</a>
+    <!-- I Am Section -->
+    <div class="section">
+        <h4 class="text-center section-title">I am</h4>
+        <div class="btn-choice-group" data-single-select>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Owner</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Agent</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Developer</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Business</button>
         </div>
     </div>
+
+    <!-- Offer Type Section -->
+    <div class="section">
+        <h4 class="text-center section-title">Offer Type</h4>
+        <div class="btn-choice-group" data-single-select>
+            <button type="button" class="btn btn-outline-primary btn-choice active-choice" required>Sale</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Rent</button>
+        </div>
+    </div>
+
+    <!-- Property Type Section -->
+    <div class="section">
+        <h4 class="text-center section-title">Property Type</h4>
+        <div class="btn-choice-group" data-single-select>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>House</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Apartment</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Land</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Commercial</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Bungalow</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Villa</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Annexe</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Rooms</button>
+            <button type="button" class="btn btn-outline-primary btn-choice" required>Studio</button>
+        </div>
+    </div>
+
+    <!-- Location and Map Section -->
+    <div class="section">
+        <h4 class="text-center">Location and Map</h4>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="city" class="form-label">City / Town <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="city" placeholder="E.g. Piliyandala" required>
+            </div>
+            <div class="col-md-6">
+                <label for="street" class="form-label">Street <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="street" placeholder="E.g. Park Road" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="latitude" class="form-label">Latitude</label>
+                <input type="text" class="form-control" id="latitude" placeholder="eg. 6.8723">
+            </div>
+            <div class="col-md-4">
+                <label for="longitude" class="form-label">Longitude</label>
+                <input type="text" class="form-control" id="longitude" placeholder="eg. 73.5869">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button class="btn btn-outline-secondary w-100" type="button">📍 Get Current Location</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+        <a href="{% url 'list_property_details' %}" class="btn btn-success px-5 py-2" id="nextButton" disabled>Next</a>
+    </div>
+</div>
+
+<script>
+    const nextButton = document.getElementById('nextButton');
+    const requiredInputs = document.querySelectorAll('input[required]');
+    const singleSelectGroups = document.querySelectorAll('[data-single-select]');
+
+    // Ensure only one button in a group can be selected
+    singleSelectGroups.forEach(group => {
+        const buttons = group.querySelectorAll('.btn-choice');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active-choice'));
+                button.classList.add('active-choice');
+                validateForm();
+            });
+        });
+    });
+
+    // Form validation
+    function validateForm() {
+        let allInputsFilled = true;
+
+        requiredInputs.forEach(input => {
+            if (!input.value.trim()) allInputsFilled = false;
+        });
+
+        singleSelectGroups.forEach(group => {
+            if (!group.querySelector('.active-choice')) allInputsFilled = false;
+        });
+
+        nextButton.disabled = !allInputsFilled;
+    }
+
+    requiredInputs.forEach(input => {
+        input.addEventListener('input', validateForm);
+    });
+
+</script>
 </body>
 </html>

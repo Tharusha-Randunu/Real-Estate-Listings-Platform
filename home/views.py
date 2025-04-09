@@ -122,5 +122,28 @@ def list_property_details(request):
     ]
     return render(request, 'home/list_property_details.html', {'features': features})
 
+def upload_and_confirm(request):
+    if request.method == 'POST' and request.FILES.get('property_image'):
+        image = request.FILES['property_image']
+        confirm = request.POST.get('confirm')
+
+        if not confirm:
+            return render(request, 'home/upload_confirm.html', {
+                'error': 'Please confirm ownership.'
+            })
+
+        # Save image to media folder
+        fs = FileSystemStorage()
+        filename = fs.save(image.name, image)
+        uploaded_file_url = fs.url(filename)
+
+        # You could save everything to DB here
+        # For now just show a success message
+        return render(request, 'home/upload_confirm.html', {
+            'success': True,
+            'image_url': uploaded_file_url
+        })
+
+    return render(request, 'home/upload_confirm.html')
 
 
