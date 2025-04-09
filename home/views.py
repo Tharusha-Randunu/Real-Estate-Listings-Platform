@@ -29,3 +29,6 @@ def serve_image(request, path):
             return HttpResponse(img_file.read(), content_type='image/jpeg')
     except FileNotFoundError:
         return HttpResponse(status=404)
+
+def market_insights_page(request):
+    return render(request, 'home/market_insights.html')

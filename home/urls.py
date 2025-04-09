@@ -12,4 +12,5 @@ urlpatterns = [
     path('list-property/', list_property, name='list_property'),
     path('property/<int:ad_id>/', views.property_detail, name='property_detail'),
     path('rent-property/', rent_property, name='rent_property'),
+    path('market-insights/', views.market_insights_page, name='market_insights'),
 ]
