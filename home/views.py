@@ -7,10 +7,12 @@ import os
 
 def home(request):
     return render(request, 'home/home.html')
+
 def list_property(request):
     return render(request, 'home/list_property.html')
 
-
+def rent_property(request):
+    return render(request, 'home/rent_property.html')
 
 def find_a_home(request):
     ads = ConfirmedAd.objects.all().order_by('-id')  # Show latest ads first
@@ -18,12 +20,7 @@ def find_a_home(request):
 
 def property_detail(request, ad_id):
     ad = get_object_or_404(ConfirmedAd, id=ad_id)
-
-    # Pass the property ad to the template
     return render(request, 'home/property_detail.html', {'ad': ad})
-
-
-
 
 def serve_image(request, path):
     media_path = os.path.join(settings.MEDIA_ROOT, path)
