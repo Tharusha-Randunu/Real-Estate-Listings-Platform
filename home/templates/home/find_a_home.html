@@ -8,6 +8,42 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4 text-white">Find Your Dream Home</h2>
 
+        <!-- Search & Filter Form -->
+        <form method="GET" action="{% url 'find_a_home' %}" class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" name="q" class="form-control" placeholder="Keyword (e.g., pool, garage)" value="{{ query }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="city" class="form-control" placeholder="City" value="{{ city }}">
+                </div>
+                <div class="col-md-2">
+                    <select name="property_type" class="form-control">
+                        <option value="">Property Type</option>
+                        <option value="House" {% if property_type == "House" %}selected{% endif %}>House</option>
+                        <option value="Apartment" {% if property_type == "Apartment" %}selected{% endif %}>Apartment</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <input type="number" name="bedrooms" class="form-control" placeholder="Beds" value="{{ bedrooms }}">
+                </div>
+                <div class="col-md-1">
+                    <input type="number" name="bathrooms" class="form-control" placeholder="Baths" value="{{ bathrooms }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="min_price" class="form-control" placeholder="Min Price" value="{{ min_price }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ max_price }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </div>
+        </form>
+
+
+        <!-- Property Listings -->
         <div class="row">
             {% for ad in ads %}
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">

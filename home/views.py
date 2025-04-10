@@ -19,6 +19,55 @@ def find_a_home(request):
     ads = ConfirmedAd.objects.all().order_by('-id')  # Show latest ads first
     return render(request, 'home/find_a_home.html', {'ads': ads})
 
+
+    query = request.GET.get('q', '')  # Search keyword
+    city = request.GET.get('city', '')
+    property_type = request.GET.get('property_type', '')
+    bedrooms = request.GET.get('bedrooms', '')
+    bathrooms = request.GET.get('bathrooms', '')
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+
+    ads = ConfirmedAd.objects.all()
+
+    # Apply filters
+    if query:
+        ads = ads.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(features__icontains=query)
+        )
+
+    if city:
+        ads = ads.filter(city__icontains=city)
+
+    if property_type:
+        ads = ads.filter(property_type__icontains=property_type)
+
+    if bedrooms:
+        ads = ads.filter(bedrooms=bedrooms)
+
+    if bathrooms:
+        ads = ads.filter(bathrooms=bathrooms)
+
+    if min_price:
+        ads = ads.filter(price__gte=min_price)
+
+    if max_price:
+        ads = ads.filter(price__lte=max_price)
+
+    return render(request, 'home/find_a_home.html', {
+        'ads': ads,
+        'query': query,
+        'city': city,
+        'property_type': property_type,
+        'bedrooms': bedrooms,
+        'bathrooms': bathrooms,
+        'min_price': min_price,
+        'max_price': max_price,
+    })
+
+
 def property_detail(request, ad_id):
     ad = get_object_or_404(ConfirmedAd, id=ad_id)
     return render(request, 'home/property_detail.html', {'ad': ad})
