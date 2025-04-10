@@ -3,22 +3,49 @@
 {% block title %}Property Details{% endblock %}
 
 {% block content %}
-    <h2>{{ ad.name }}</h2>
-    <div class="property-detail">
-        <img src="{{ ad.images.url }}" alt="Property Image">
-        <div class="property-info">
-            <p><strong>Price:</strong> Rs. {{ ad.price }}</p>
-            <p><strong>Location:</strong> {{ ad.address }}</p>
-            <p><strong>Property Type:</strong> {{ ad.property_type }}</p>
-            <p><strong>Bedrooms:</strong> {{ ad.bedrooms }}</p>
-            <p><strong>Bathrooms:</strong> {{ ad.bathrooms }}</p>
-            <p><strong>Details:</strong> {{ ad.details }}</p>
-            <p><strong>Floor Area:</strong> {{ ad.floor_area }} sq. ft.</p>
-            <p><strong>Parking:</strong> {{ ad.parking }}</p>
-            <p><strong>Furnishing Status:</strong> {{ ad.furnishing_status }}</p>
-            <p><strong>Contact Name:</strong> {{ ad.contact_name }}</p>
-            <p><strong>Contact Tel:</strong> {{ ad.contact_tel }}</p>
-            <p><strong>Contact Email:</strong> {{ ad.contact_email }}</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center">{{ ad.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="{{ ad.images.url }}" alt="Property Image" class="img-fluid rounded">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-tag"></i> Price:</strong> Rs. {{ ad.price }}</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> Location:</strong> {{ ad.address }}</p>
+                            <p><strong><i class="fas fa-home"></i> Property Type:</strong> {{ ad.property_type }}</p>
+                            <p><strong><i class="fas fa-bed"></i> Bedrooms:</strong> {{ ad.bedrooms }}</p>
+                            <p><strong><i class="fas fa-bath"></i> Bathrooms:</strong> {{ ad.bathrooms }}</p>
+                            <p><strong><i class="fas fa-expand"></i> Land Area:</strong> {{ ad.land_area }} sq. ft.</p>
+                            <p><strong><i class="fas fa-ruler-combined"></i> Floor Area:</strong> {{ ad.floor_area }} sq. ft.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-parking"></i> Parking:</strong> {{ ad.parking }}</p>
+                            <p><strong><i class="fas fa-building"></i> Floors:</strong> {{ ad.floors }}</p>
+                            <p><strong><i class="fas fa-history"></i> Age of Building:</strong> {{ ad.age_of_building }}</p>
+                            <p><strong><i class="fas fa-couch"></i> Furnishing Status:</strong> {{ ad.furnishing_status }}</p>
+                            <p><strong><i class="fas fa-info-circle"></i> Status:</strong> {{ ad.status }}</p>
+                            <p><strong><i class="fas fa-star"></i> Features:</strong> {{ ad.property_features }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5 class="text-center text-primary"><i class="fas fa-user"></i> Seller Information</h5>
+                    <p><strong><i class="fas fa-user"></i> Name:</strong> {{ ad.seller_name }}</p>
+                    <p><strong><i class="fas fa-phone"></i> Tel:</strong> {{ ad.seller_tel }}</p>
+                    <p><strong><i class="fas fa-envelope"></i> Email:</strong> <a href="mailto:{{ ad.seller_email }}">{{ ad.seller_email }}</a></p>
+                    <p><strong><i class="fas fa-link"></i> More Images:</strong> <a href="{{ ad.link }}" target="_blank">View Here</a></p>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+<!-- Add FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 {% endblock %}
