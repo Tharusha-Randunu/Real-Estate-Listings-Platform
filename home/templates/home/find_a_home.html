@@ -11,37 +11,60 @@
         <!-- Search & Filter Form -->
         <form method="GET" action="{% url 'find_a_home' %}" class="mb-4">
             <div class="row">
+                <!-- Keyword Filter -->
                 <div class="col-md-4">
                     <input type="text" name="q" class="form-control" placeholder="Keyword (e.g., pool, garage)" value="{{ query }}">
                 </div>
+                <!-- City Filter -->
                 <div class="col-md-2">
                     <input type="text" name="city" class="form-control" placeholder="City" value="{{ city }}">
                 </div>
+                <!-- Property Type Filter -->
                 <div class="col-md-2">
                     <select name="property_type" class="form-control">
                         <option value="">Property Type</option>
                         <option value="House" {% if property_type == "House" %}selected{% endif %}>House</option>
                         <option value="Apartment" {% if property_type == "Apartment" %}selected{% endif %}>Apartment</option>
+                        <option value="Land" {% if property_type == "Land" %}selected{% endif %}>Land</option>
+                        <option value="Commercial" {% if property_type == "Commercial" %}selected{% endif %}>Commercial</option>
                     </select>
                 </div>
+                <!-- Bedrooms Filter -->
                 <div class="col-md-1">
                     <input type="number" name="bedrooms" class="form-control" placeholder="Beds" value="{{ bedrooms }}">
                 </div>
+                <!-- Bathrooms Filter -->
                 <div class="col-md-1">
                     <input type="number" name="bathrooms" class="form-control" placeholder="Baths" value="{{ bathrooms }}">
                 </div>
+                <!-- Min Price Filter -->
                 <div class="col-md-2">
                     <input type="number" name="min_price" class="form-control" placeholder="Min Price" value="{{ min_price }}">
                 </div>
+                <!-- Max Price Filter -->
                 <div class="col-md-2">
                     <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ max_price }}">
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+
+            <div class="row mt-3">
+                <!-- Property Features Filter -->
+                <div class="col-md-12">
+                    <h5>Property Features:</h5>
+                    <div class="form-check form-check-inline">
+                        {% for feature in available_features %}
+                            <input type="checkbox" class="form-check-input" name="features" value="{{ feature.id }}" {% if feature.id|stringformat:"s" in selected_features %}checked{% endif %}>
+                            <label class="form-check-label">{{ feature.name }}</label>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </form>
 
+            <!-- Search Button -->
+            <div class="col-md-2 mt-3">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
 
         <!-- Property Listings -->
         <div class="row">

@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import ConfirmedAd
+from .models import ConfirmedAd, PropertyFeature
 from django.conf.urls.static import static
 from django.conf import settings
 from django.shortcuts import render
 import os
+from django.db.models import Q
 
 def home(request):
     return render(request, 'home/home.html')
@@ -15,34 +16,33 @@ def list_property(request):
 def rent_property(request):
     return render(request, 'home/rent_property.html')
 
+#def find_a_home(request):
+  #  ads = ConfirmedAd.objects.all().order_by('-id')  # Show latest ads first
+  #  return render(request, 'home/find_a_home.html', {'ads': ads})
+
 def find_a_home(request):
-    ads = ConfirmedAd.objects.all().order_by('-id')  # Show latest ads first
-    return render(request, 'home/find_a_home.html', {'ads': ads})
-
-
-    query = request.GET.get('q', '')  # Search keyword
+    # Get filter parameters from the GET request
+    query = request.GET.get('q', '')  # Search by keyword
     city = request.GET.get('city', '')
     property_type = request.GET.get('property_type', '')
     bedrooms = request.GET.get('bedrooms', '')
     bathrooms = request.GET.get('bathrooms', '')
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
+    features = request.GET.getlist('features', [])  # List of selected features
 
+    # Start with all ads
     ads = ConfirmedAd.objects.all()
 
-    # Apply filters
+    # Apply filters based on the query parameters
     if query:
-        ads = ads.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(features__icontains=query)
-        )
+        ads = ads.filter(Q(name__icontains=query) | Q(details__icontains=query))
 
     if city:
-        ads = ads.filter(city__icontains=city)
+        ads = ads.filter(address__icontains=city)
 
     if property_type:
-        ads = ads.filter(property_type__icontains=property_type)
+        ads = ads.filter(property_type=property_type)
 
     if bedrooms:
         ads = ads.filter(bedrooms=bedrooms)
@@ -56,6 +56,13 @@ def find_a_home(request):
     if max_price:
         ads = ads.filter(price__lte=max_price)
 
+    # Apply filtering for features (many-to-many relationship)
+    if features:
+        ads = ads.filter(property_features__in=features)
+
+    # Get the available features for the filter dropdown
+    available_features = PropertyFeature.objects.all()
+
     return render(request, 'home/find_a_home.html', {
         'ads': ads,
         'query': query,
@@ -65,7 +72,16 @@ def find_a_home(request):
         'bathrooms': bathrooms,
         'min_price': min_price,
         'max_price': max_price,
+        'available_features': available_features,
+        'selected_features': features,
     })
+
+
+
+
+
+
+
 
 
 def property_detail(request, ad_id):
