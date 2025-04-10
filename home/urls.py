@@ -13,6 +13,6 @@ urlpatterns = [
     path('property/<int:ad_id>/', views.property_detail, name='property_detail'),
     path('rent-property/', rent_property, name='rent_property'),
     path('seller-register/', views.seller_register, name='seller_register'),
-
+    path('market-insights/', views.market_insights_page, name='market_insights'),
 ]
 
