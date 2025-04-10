@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import ConfirmedAd
 from django.conf.urls.static import static
 from django.conf import settings
+from django.shortcuts import render
 import os
 
 def home(request):
@@ -44,6 +45,7 @@ def seller_register(request):
 
     return render(request, 'home/seller_register.html')
 
- def market_insights_page(request):
+def market_insights_page(request):
     return render(request, 'home/market_insights.html')
+
 
