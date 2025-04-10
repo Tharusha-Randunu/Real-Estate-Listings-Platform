@@ -30,5 +30,20 @@ def serve_image(request, path):
     except FileNotFoundError:
         return HttpResponse(status=404)
 
-def market_insights_page(request):
+def seller_register(request):
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        contact = request.POST.get('contact')
+        district = request.POST.get('district')
+
+        # You can save to DB later – just printing for now
+        print(f"Name: {full_name}, Email: {email}, Contact: {contact}, District: {district}")
+
+        return render(request, 'home/list_property.html')  # redirect to listing form
+
+    return render(request, 'home/seller_register.html')
+
+ def market_insights_page(request):
     return render(request, 'home/market_insights.html')
+
