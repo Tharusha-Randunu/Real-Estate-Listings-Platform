@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 import os
 
+
 def home(request):
     return render(request, 'home/home.html')
 
@@ -44,6 +45,6 @@ def seller_register(request):
 
     return render(request, 'home/seller_register.html')
 
- def market_insights_page(request):
+def market_insights_page(request):
     return render(request, 'home/market_insights.html')
 
