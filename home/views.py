@@ -48,4 +48,14 @@ def seller_register(request):
 def market_insights_page(request):
     return render(request, 'home/market_insights.html')
 
+def list_property_details(request):
+    features = [
+        "AC Rooms", "Indoor Garden", "Swimming Pool", "Waterfront/Riverside", "Beachfront",
+        "Gated Community", "Rooftop Garden", "Lawn Garden", "Luxury Specification", "Brand New",
+        "24 Hours Security", "Maid's Room", "Maid's Toilet", "Hot Water", "Attached Toilets",
+        "Infinity Pool", "Garage"
+    ]
+    return render(request, 'home/list_property_details.html', {'features': features})
+
+
 
