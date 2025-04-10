@@ -14,5 +14,7 @@ urlpatterns = [
     path('rent-property/', rent_property, name='rent_property'),
     path('seller-register/', views.seller_register, name='seller_register'),
     path('market-insights/', views.market_insights_page, name='market_insights'),
+    path('list/details/', views.list_property_details, name='list_property_details'),
+
 ]
 
