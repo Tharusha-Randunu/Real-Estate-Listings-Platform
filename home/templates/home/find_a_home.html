@@ -34,13 +34,16 @@
 
 <!-- Custom Styles -->
 <style>
-    /* Background Styling */
     .bg-container {
-        background: url("{% static 'home/images/building.jpeg' %}") no-repeat center center/cover;
-        padding: 60px 0;
-        height: 100vh; /* Full viewport height */
-        display: flex;
-    }
+    background: url("{% static 'home/images/building.jpeg' %}") no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed; /* Ensures the image stays while scrolling */
+    min-height: 100vh; /* Minimum full viewport height */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
     /* Property Card */
