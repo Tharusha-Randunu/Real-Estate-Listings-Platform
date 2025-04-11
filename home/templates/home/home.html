@@ -305,6 +305,8 @@
 
 
 /* Carousel Controller Arrows */
+
+
 .carousel-control-prev,
 .carousel-control-next {
     width: 40px;
@@ -349,6 +351,42 @@
 
 
 
+.dream-home-section {
+    position: relative;
+     background: url('{% static "home/images/bg2.jpg" %}') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.dream-home-overlay {
+    background: rgba(0, 0, 0, 0.6); /* Dark overlay to enhance text readability */
+    padding: 50px 20px;
+    border-radius: 10px;
+}
+
+.dream-home-section h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.dream-home-section ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.dream-home-section ul li {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.dream-home-section ul li::before {
+    content: "✅";
+    margin-right: 10px;
+}
 
 
 
@@ -415,30 +453,9 @@
         </div>
     </section>
 
-<!-- Latest Listings Section -->
-<section class="latest-listings container my-5">
-    <h2 class="text-center mb-4">Latest Listings</h2>
-    <div class="row" style="padding-top:20px">
-        {% for ad in latest_ads %}
-        <div class="col-md-3"> <!-- Smaller cards -->
-            <div class="card latest-card">  <!-- Applied a new class -->
-                <img src="{{ ad.images.url }}" alt="{{ ad.name }}" class="card-img-top latest-img">
-                <div class="card-body p-2">
-                    <h6 class="card-title">{{ ad.name }}</h6>
-                    <p class="card-text"><strong>Price:</strong> ${{ ad.price }}</p>
-                    <p class="card-text small-text">{{ ad.address }}</p>
-                    <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View</a>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <p class="text-center">No recent ads available.</p>
-        {% endfor %}
-    </div>
-</section>
 
 <!-- Carousel Section -->
-<div class="container my-5" style="background-color: #f8f9fa; padding: 30px;">
+<div class="my-5" style="background-color: #f0f0f0; padding: 30px;">
     <h2 class="text-center">What would you like to do?</h2>
     <div id="exploreCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner" style="padding: 30px;">
@@ -529,7 +546,39 @@
 
 
 
+<!-- Latest Listings Section -->
+<section class="latest-listings container my-5">
+    <h2 class="text-center mb-4">Latest Listings</h2>
+    <div class="row" style="padding-top:20px">
+        {% for ad in latest_ads %}
+        <div class="col-md-3"> <!-- Smaller cards -->
+            <div class="card latest-card">  <!-- Applied a new class -->
+                <img src="{{ ad.images.url }}" alt="{{ ad.name }}" class="card-img-top latest-img">
+                <div class="card-body p-2">
+                    <h6 class="card-title">{{ ad.name }}</h6>
+                    <p class="card-text"><strong>Price:</strong> ${{ ad.price }}</p>
+                    <p class="card-text small-text">{{ ad.address }}</p>
+                    <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No recent ads available.</p>
+        {% endfor %}
+    </div>
+</section>
 
+<section class="dream-home-section">
+    <div class="dream-home-overlay">
+        <h2>Your Dream Home is Just a Touch Away</h2>
+        <ul>
+            <li>Search properties anytime anywhere</li>
+            <li>Contact advertisers with just a touch</li>
+            <li>Find properties near you instantly</li>
+            <li>Snap pics and upload your ad in a few minutes</li>
+        </ul>
+    </div>
+</section>
 
 
 
