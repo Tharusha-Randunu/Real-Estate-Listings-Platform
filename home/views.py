@@ -155,3 +155,6 @@ def rent_property_details(request):
         "Infinity Pool", "Garage"
     ]
     return render(request, 'home/rent_property_details.html', {'features': features})
+
+def agent_list(request):
+    return render(request, 'home/agent.html')
