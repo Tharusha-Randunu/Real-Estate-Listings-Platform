@@ -10,7 +10,8 @@ from django.core.files.storage import FileSystemStorage
 
 
 def home(request):
-    return render(request, 'home/home.html')
+    latest_ads = ConfirmedAd.objects.order_by('-id')[:10]  # Fetch the latest 10 ads
+    return render(request, 'home/home.html', {'latest_ads': latest_ads})
 
 def list_property(request):
     return render(request, 'home/list_property.html')
