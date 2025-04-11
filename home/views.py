@@ -6,6 +6,8 @@ from django.conf import settings
 from django.shortcuts import render
 import os
 from django.db.models import Q
+from django.core.files.storage import FileSystemStorage
+
 
 def home(request):
     return render(request, 'home/home.html')
@@ -122,5 +124,33 @@ def list_property_details(request):
     ]
     return render(request, 'home/list_property_details.html', {'features': features})
 
+def upload_and_confirm(request):
+    if request.method == 'POST' and request.FILES.get('property_image'):
+        image = request.FILES['property_image']
+        confirm = request.POST.get('confirm')
 
+        if not confirm:
+            return render(request, 'home/upload_confirm.html', {
+                'error': 'Please confirm ownership.'
+            })
 
+        # Save image to media folder
+        fs = FileSystemStorage()
+        filename = fs.save(image.name, image)
+        uploaded_file_url = fs.url(filename)
+
+        return render(request, 'home/upload_confirm.html', {
+            'success': True,
+            'image_url': uploaded_file_url
+        })
+
+    return render(request, 'home/upload_confirm.html')
+
+def rent_property_details(request):
+    features = [
+        "AC Rooms", "Indoor Garden", "Swimming Pool", "Waterfront/Riverside", "Beachfront",
+        "Gated Community", "Rooftop Garden", "Lawn Garden", "Luxury Specification", "Brand New",
+        "24 Hours Security", "Maid's Room", "Maid's Toilet", "Hot Water", "Attached Toilets",
+        "Infinity Pool", "Garage"
+    ]
+    return render(request, 'home/rent_property_details.html', {'features': features})

@@ -10,4 +10,7 @@ urlpatterns = [
     path('seller-register/', views.seller_register, name='seller_register'),
     path('market-insights/', views.market_insights_page, name='market_insights'),
     path('list/details/', views.list_property_details, name='list_property_details'),
+    path('upload_confirm/', views.upload_and_confirm, name='upload_confirm'),
+    path('rent-property/details/', views.rent_property_details, name='rent_property_details'),
 ]
+

@@ -23,7 +23,7 @@
         }
 
         h4 {
-            color: #000000; /* force black for consistency */
+            color: #000000;
             font-weight: bold;
             margin-bottom: 20px;
         }
@@ -54,6 +54,10 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: start;
+        }
+
+        .price-row .form-select {
+            max-width: 200px;
         }
     </style>
 </head>
@@ -91,8 +95,21 @@
         <!-- Price Details -->
         <div class="section">
             <h4 class="text-center">Price Details</h4>
-            <label for="price" class="form-label">Expected Selling Price (Rs) <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="price" placeholder="e.g. 15000000" required>
+            <div class="row mb-3 price-row">
+                <div class="col-md-6">
+                    <label for="price" class="form-label">Expected Price (Rs) <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="price" placeholder="e.g. 75000" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="price_type" class="form-label">Price Type</label>
+                    <select class="form-select" id="price_type">
+                        <option>Per Month</option>
+                        <option>Per Week</option>
+                        <option>Per Quarter</option>
+                        <option>Per Day</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <!-- Property Specifics -->
@@ -142,7 +159,7 @@
             <h4 class="text-center">Ad Details</h4>
             <div class="mb-3">
                 <label for="title" class="form-label">Ad Title <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="title" placeholder="e.g. Apartment for Sale in Moratuwa" required>
+                <input type="text" class="form-control" id="title" placeholder="e.g. Apartment for Rent in Borella" required>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Ad Description <span class="text-danger">*</span></label>
