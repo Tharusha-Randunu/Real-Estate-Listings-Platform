@@ -6,6 +6,8 @@ from django.conf import settings
 from django.shortcuts import render
 import os
 from django.db.models import Q
+from django.core.files.storage import FileSystemStorage
+
 
 def home(request):
     return render(request, 'home/home.html')
@@ -137,8 +139,6 @@ def upload_and_confirm(request):
         filename = fs.save(image.name, image)
         uploaded_file_url = fs.url(filename)
 
-        # You could save everything to DB here
-        # For now just show a success message
         return render(request, 'home/upload_confirm.html', {
             'success': True,
             'image_url': uploaded_file_url
@@ -146,4 +146,11 @@ def upload_and_confirm(request):
 
     return render(request, 'home/upload_confirm.html')
 
-
+def rent_property_details(request):
+    features = [
+        "AC Rooms", "Indoor Garden", "Swimming Pool", "Waterfront/Riverside", "Beachfront",
+        "Gated Community", "Rooftop Garden", "Lawn Garden", "Luxury Specification", "Brand New",
+        "24 Hours Security", "Maid's Room", "Maid's Toilet", "Hot Water", "Attached Toilets",
+        "Infinity Pool", "Garage"
+    ]
+    return render(request, 'home/rent_property_details.html', {'features': features})

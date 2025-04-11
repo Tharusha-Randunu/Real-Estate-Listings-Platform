@@ -66,10 +66,10 @@
         <div class="section">
             <h4 class="text-center">I am</h4>
             <div class="btn-choice-group">
-                <button type="button" class="btn btn-outline-primary btn-choice">Owner</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Agent</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Developer</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Business</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Owner</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Agent</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Developer</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Business</button>
             </div>
         </div>
 
@@ -77,8 +77,8 @@
         <div class="section">
             <h4 class="text-center">Offer Type</h4>
             <div class="btn-choice-group">
-                <button type="button" class="btn btn-outline-primary btn-choice">Sale</button>
-                <button type="button" class="btn btn-primary btn-choice active-choice">Rent</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Sale</button>
+                <button type="button" class="btn btn-primary btn-choice active-choice" onclick="selectChoice(this)">Rent</button>
             </div>
         </div>
 
@@ -86,15 +86,15 @@
         <div class="section">
             <h4 class="text-center">Property Type</h4>
             <div class="btn-choice-group">
-                <button type="button" class="btn btn-outline-primary btn-choice">House</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Apartment</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Land</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Commercial</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Bungalow</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Villa</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Annexe</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Rooms</button>
-                <button type="button" class="btn btn-outline-primary btn-choice">Studio</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">House</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Apartment</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Land</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Commercial</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Bungalow</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Villa</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Annexe</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Rooms</button>
+                <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this)">Studio</button>
             </div>
         </div>
 
@@ -129,8 +129,24 @@
 
         <!-- Submit Button -->
         <div class="text-center">
-            <button class="btn btn-success px-5 py-2">Next</button>
+            <a href="{% url 'rent_property_details' %}" class="btn btn-success px-5 py-2">Next</a>
         </div>
     </div>
+
+    <script>
+        // Function to handle button selection
+        function selectChoice(button) {
+            // Get all buttons in the same group (parent element)
+            const buttonGroup = button.closest('.btn-choice-group').children;
+
+            // Remove active class from all buttons
+            for (let btn of buttonGroup) {
+                btn.classList.remove('active-choice');
+            }
+
+            // Add active class to the clicked button
+            button.classList.add('active-choice');
+        }
+    </script>
 </body>
 </html>
