@@ -43,7 +43,7 @@ def safe_decimal(value, default=None):
         return default
 
 def home(request):
-    latest_ads = ConfirmedAd.objects.order_by('-id')[:10]
+    latest_ads = ConfirmedAd.objects.order_by('-id')[:4]
     return render(request, 'home/home.html', {'latest_ads': latest_ads})
 
 def list_property(request):
@@ -61,7 +61,16 @@ def find_a_home(request):
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
     features = request.GET.getlist('features', [])
+    offer_type = request.GET.get('offer_type', '')
 
+    # Convert bedrooms to an integer if it's provided
+    if bedrooms:
+        bedrooms = int(bedrooms)
+
+    if bathrooms:
+        bathrooms = int(bathrooms)
+
+    # Start with all ads
     ads = ConfirmedAd.objects.all()
 
     if query:
@@ -78,10 +87,18 @@ def find_a_home(request):
         ads = ads.filter(price__gte=min_price)
     if max_price:
         ads = ads.filter(price__lte=max_price)
-    if features:
-        ads = ads.filter(property_features__name__in=features).distinct()
+    if offer_type:
+        ads = ads.filter(offer_type=offer_type)
 
+    # Apply filtering for features (many-to-many relationship)
+    if features:
+        ads = ads.filter(property_features__in=features)
+
+    # Get the available features for the filter dropdown
     available_features = PropertyFeature.objects.all()
+    # Pass a range of numbers for the bedroom selection
+    bedroom_range = range(1, 11)  # Numbers 1 to 10
+    bathroom_range = range(1, 11)  # Numbers 1 to 10
 
     return render(request, 'home/find_a_home.html', {
         'ads': ads,
@@ -89,11 +106,15 @@ def find_a_home(request):
         'city': city,
         'property_type': property_type,
         'bedrooms': bedrooms,
+        'bedroom_range': bedroom_range,
         'bathrooms': bathrooms,
+        'bathroom_range': bathroom_range,
         'min_price': min_price,
         'max_price': max_price,
         'available_features': available_features,
         'selected_features': features,
+        'offer_type': offer_type,
+
     })
 
 def property_detail(request, ad_id):
