@@ -62,8 +62,94 @@
 
 <section id="price-meter">
     <h2>Price Meter</h2>
-    <p>Check estimated property prices in major cities and suburbs. Use interactive comparisons to evaluate your next investment.</p>
+    <p>Enter your property details to see how your price compares to market value.</p>
+
+    <div style="max-width:500px;margin:20px auto;">
+        <label>Property Type:</label>
+        <select id="propertyType" style="width:100%;padding:8px;margin:5px 0;">
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="land">Land</option>
+        </select>
+
+        <label>Location:</label>
+        <input type="text" id="location" placeholder="e.g. Colombo 7" style="width:100%;padding:8px;margin:5px 0;">
+
+        <label>Floor Area (sqft):</label>
+        <input type="number" id="floorArea" placeholder="Enter floor area" style="width:100%;padding:8px;margin:5px 0;">
+
+        <label>Total Price (LKR):</label>
+        <input type="number" id="totalPrice" placeholder="Enter total price" style="width:100%;padding:8px;margin:5px 0;">
+
+        <button onclick="checkMarketValue()" style="width:100%;padding:10px;background:#006400;color:white;border:none;border-radius:5px;margin:10px 0;">Check Now</button>
+    </div>
+
+    <div style="max-width:400px; margin:20px auto;">
+        <canvas id="propertyGauge"></canvas>
+    </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-gauges/gauge.min.js"></script>
+
+<script>
+    const gauge = new RadialGauge({
+        renderTo: 'propertyGauge',
+        width: 300,
+        height: 300,
+        units: "Market Value",
+        minValue: 0,
+        maxValue: 100,
+        majorTicks: ["Too Low","Low","OK","High","Too High"],
+        highlights: [
+            { from: 0, to: 20, color: "rgba(200, 50, 50, .75)" },
+            { from: 20, to: 40, color: "rgba(240, 150, 0, .75)" },
+            { from: 40, to: 60, color: "rgba(255, 255, 0, .75)" },
+            { from: 60, to: 80, color: "rgba(100, 255, 100, .75)" },
+            { from: 80, to: 100, color: "rgba(0, 200, 0, .75)" }
+        ],
+        value: 0,
+        animationRule: "elastic",
+        animationDuration: 1500
+    }).draw();
+
+    function checkMarketValue() {
+        let type = document.getElementById('propertyType').value;
+        let location = document.getElementById('location').value.trim().toLowerCase();
+        let area = parseFloat(document.getElementById('floorArea').value);
+        let price = parseFloat(document.getElementById('totalPrice').value);
+
+        if (!area || !price || !location) {
+            alert("Please enter all fields.");
+            return;
+        }
+
+        let pricePerSqft = price / area;
+
+        // Mocked market data for testing
+        let expectedMarket = 0;
+
+        if (location.includes('colombo')) {
+            expectedMarket = type === 'apartment' ? 35000 : 30000;
+        } else if (location.includes('kandy')) {
+            expectedMarket = type === 'apartment' ? 18000 : 15000;
+        } else {
+            expectedMarket = 12000;
+        }
+
+        let score = (pricePerSqft / expectedMarket) * 50;
+
+        if (score > 100) score = 100;
+        if (score < 0) score = 0;
+
+        gauge.value = score;
+    }
+
+    window.addEventListener('resize', function() {
+        let size = Math.min(400, window.innerWidth * 0.8);
+        gauge.update({ width: size, height: size });
+    });
+</script>
+
 
 <section id="buying-guide">
     <h2>Property Buying Guide</h2>
