@@ -62,7 +62,7 @@
 
 <section id="price-meter" style="text-align:center;padding:50px 20px;background:#fff;">
     <h2 style="color:#006400;">Market Value</h2>
-    <p>Enter your property details to see how your price compares to market trends.</p>
+    <p>Enter your property details to check if your price is fair.</p>
 
     <div style="max-width:500px;margin:20px auto;">
         <select id="propertyType" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
@@ -89,7 +89,9 @@
 
     <div style="max-width:450px;margin:40px auto;">
         <canvas id="marketGauge" width="400" height="200"></canvas>
-        <div id="gaugeLabel" style="margin-top:15px;font-size:18px;font-weight:bold;color:#333;"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:14px;">
+            <span>Too Low</span><span>Low</span><span>High</span><span>Too High</span>
+        </div>
     </div>
 </section>
 
@@ -99,44 +101,43 @@ function drawGauge(percentage) {
     const ctx = canvas.getContext('2d');
     const w = canvas.width, h = canvas.height;
 
-    // Clear canvas
     ctx.clearRect(0, 0, w, h);
 
-    // Background arc (grey guide)
+    // Draw background arc
     ctx.beginPath();
     ctx.lineWidth = 25;
     ctx.strokeStyle = '#eee';
     ctx.arc(w/2, h, w/2 - 20, Math.PI, 2 * Math.PI);
     ctx.stroke();
 
-    // Gradient arc
-    let grad = ctx.createLinearGradient(20, 0, w-20, 0);
-    grad.addColorStop(0, '#e53935'); // Red
-    grad.addColorStop(0.25, '#ffb300'); // Orange
-    grad.addColorStop(0.5, '#cddc39'); // Lime
-    grad.addColorStop(0.75, '#7cb342'); // Olive
-    grad.addColorStop(1, '#388e3c'); // Dark Green
+    // Gradient from Red -> Green
+    const grad = ctx.createLinearGradient(20, 0, w - 20, 0);
+    grad.addColorStop(0, '#D32F2F');      // Red
+    grad.addColorStop(0.25, '#FBC02D');   // Yellow
+    grad.addColorStop(0.5, '#388E3C');    // Green
+    grad.addColorStop(0.75, '#FBC02D');   // Yellow
+    grad.addColorStop(1, '#D32F2F');      // Red
 
     ctx.beginPath();
     ctx.lineWidth = 25;
     ctx.strokeStyle = grad;
-    ctx.arc(w/2, h, w/2 - 20, Math.PI, Math.PI + (Math.PI * percentage/100));
+    ctx.arc(w/2, h, w/2 - 20, Math.PI, Math.PI + (Math.PI * percentage / 100));
     ctx.stroke();
 
-    // Needle
-    let angle = Math.PI + (Math.PI * percentage / 100);
-    let radius = w/2 - 35;
-    let needleX = w/2 + radius * Math.cos(angle);
-    let needleY = h + radius * Math.sin(angle);
+    // Draw Needle
+    const angle = Math.PI + Math.PI * percentage / 100;
+    const needleLength = w / 2 - 35;
+    const needleX = w / 2 + needleLength * Math.cos(angle);
+    const needleY = h + needleLength * Math.sin(angle);
 
     ctx.beginPath();
     ctx.moveTo(w/2, h);
     ctx.lineTo(needleX, needleY);
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 4;
     ctx.strokeStyle = '#333';
     ctx.stroke();
 
-    // Needle base
+    // Needle Base
     ctx.beginPath();
     ctx.arc(w/2, h, 10, 0, 2 * Math.PI);
     ctx.fillStyle = '#333';
@@ -144,38 +145,35 @@ function drawGauge(percentage) {
 }
 
 function calculateMarketValue() {
-    let type = document.getElementById('propertyType').value;
-    let location = document.getElementById('location').value.trim().toLowerCase();
-    let area = parseFloat(document.getElementById('floorArea').value);
-    let price = parseFloat(document.getElementById('totalPrice').value);
+    const type = document.getElementById('propertyType').value;
+    const location = document.getElementById('location').value.trim().toLowerCase();
+    const area = parseFloat(document.getElementById('floorArea').value);
+    const price = parseFloat(document.getElementById('totalPrice').value);
 
     if (!type || !location || !area || !price) {
-        alert("Please fill in all fields.");
+        alert("Please fill all the fields.");
         return;
     }
 
-    let pricePerSqft = price / area;
+    // Example logic (replace with real DB / API logic)
+    let marketAverage = 10000;
+    if (location.includes('colombo')) {
+        marketAverage = (type === 'apartment') ? 35000 : 30000;
+    } else if (location.includes('kandy')) {
+        marketAverage = 18000;
+    }
 
-    // Basic sample market range (adjust to your real data later!)
-    let expected = location.includes('colombo') ?
-        (type === 'apartment' ? 35000 : 30000) :
-        (location.includes('kandy') ? 18000 : 12000);
-
-    let percentage = Math.min(Math.max((pricePerSqft / expected) * 50, 0), 100);
+    const pricePerSqft = price / area;
+    const ratio = pricePerSqft / marketAverage;
+    const percentage = Math.min(Math.max(ratio * 50, 0), 100);
 
     drawGauge(percentage);
-
-    let label = document.getElementById('gaugeLabel');
-    if (percentage < 20) label.textContent = "Too Low";
-    else if (percentage < 40) label.textContent = "Low";
-    else if (percentage < 60) label.textContent = "Fair";
-    else if (percentage < 80) label.textContent = "High";
-    else label.textContent = "Too High";
 }
 
-// Initial empty gauge
+// Draw empty state
 drawGauge(0);
 </script>
+
 
 
 <section id="buying-guide">
