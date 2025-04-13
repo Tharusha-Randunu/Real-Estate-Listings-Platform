@@ -1,200 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Market Insights - Sri Lanka Real Estate</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f9f9f9;
-            color: #333;
-        }
-        nav {
-            background: #006400;
-            padding: 15px 30px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            gap: 20px;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: #ffd700;
-        }
-        section {
-            padding: 60px 30px;
-            border-bottom: 1px solid #ddd;
-            background: #fff;
-        }
-        h2 {
-            color: #006400;
-            margin-bottom: 10px;
-        }
-        p {
-            font-size: 1.1em;
-            max-width: 800px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Market Insights - Sri Lanka Real Estate</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      color: #222;
+    }
+
+    section {
+      padding: 60px 20px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    #overview {
+      background: url("/static/home/images/bg.jpg") no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    }
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+      font-size: 17px;
+    }
+
+    .chart-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    #price-meter {
+      background-color: #e0e0e0; /* ash */
+    }
+
+    #house-index {
+      background-color: #ffffff;
+    }
+
+    #land-index {
+      background-color: #e0e0e0; /* ash */
+    }
+
+    .form-gauge-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    form {
+      text-align: left;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      max-width: 320px;
+      width: 100%;
+    }
+
+    form input,
+    form select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    form button {
+      width: 100%;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      margin-top: 12px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #gaugeContainer {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+
+    #pricePerSqft {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 26px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-    <a href="#overview">Overview</a>
-    <a href="#price-meter">Price Meter</a>
-    <a href="#buying-guide">Buying Guide</a>
-    <a href="#capital-gains">Capital Gains</a>
-    <a href="#outlook">Market Outlook</a>
-    <a href="#news">News</a>
-</nav>
-
 <section id="overview">
-    <h2>Market Insights Overview</h2>
-    <p>Discover key trends and ROI forecasts in Sri Lanka’s dynamic real estate sector. Gain insights to make smarter investments.</p>
+  <h2>Market Insights Overview</h2>
+  <p>Discover key trends and ROI forecasts in Sri Lanka’s dynamic real estate sector. Get data-driven insights into property value and market growth.</p>
 </section>
 
-<section id="price-meter" style="text-align:center;padding:50px 20px;background:#fff;">
-    <h2 style="color:#006400;">Market Value</h2>
-    <p>Enter your property details to check if your price is fair.</p>
+<section id="price-meter">
+  <h2>Market Value Estimator</h2>
+  <div class="form-gauge-wrapper">
+    <form id="marketForm">
+      <label for="propertyType">Select Property Type</label>
+      <select id="propertyType">
+        <option>House</option>
+        <option>Land</option>
+      </select>
+      <input type="text" id="location" placeholder="Location (e.g., Colombo 7)">
+      <input type="number" id="area" placeholder="Floor area (sqft)">
+      <input type="number" id="price" placeholder="Total price (LKR)">
+      <button type="button" onclick="calculateValue()">Check Now</button>
+    </form>
 
-    <div style="max-width:500px;margin:20px auto;">
-        <select id="propertyType" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
-            <option value="">Select Property Type</option>
-            <option value="apartment">Apartment</option>
-            <option value="house">House</option>
-            <option value="land">Land</option>
-        </select>
-
-        <input type="text" id="location" placeholder="Location (e.g. Colombo 7)"
-               style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
-
-        <input type="number" id="floorArea" placeholder="Floor area (sqft)"
-               style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
-
-        <input type="number" id="totalPrice" placeholder="Total price (LKR)"
-               style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
-
-        <button onclick="calculateMarketValue()"
-                style="width:100%;padding:12px;background:#008000;color:white;border:none;border-radius:5px;margin-top:10px;font-weight:bold;">
-            Check Now
-        </button>
+    <div id="gaugeContainer">
+      <canvas id="gaugeChart"></canvas>
+      <div id="pricePerSqft"></div>
     </div>
+  </div>
+</section>
 
-    <div style="max-width:450px;margin:40px auto;">
-        <canvas id="marketGauge" width="400" height="200"></canvas>
-        <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:14px;">
-            <span>Too Low</span><span>Low</span><span>High</span><span>Too High</span>
-        </div>
-    </div>
+<section id="house-index">
+  <h2>House Price Index</h2>
+  <p>Track housing price trends across major regions in Sri Lanka.</p>
+  <div class="chart-container">
+    <canvas id="houseChart"></canvas>
+  </div>
+</section>
+
+<section id="land-index">
+  <h2>Land Price Index</h2>
+  <p>Analyze land price fluctuations from 2018 to 2023 across national regions.</p>
+  <div class="chart-container">
+    <canvas id="landChart"></canvas>
+  </div>
 </section>
 
 <script>
-function drawGauge(percentage) {
-    const canvas = document.getElementById('marketGauge');
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width, h = canvas.height;
+  let gaugeChart;
 
-    ctx.clearRect(0, 0, w, h);
+  function calculateValue() {
+    const area = parseFloat(document.getElementById('area').value);
+    const price = parseFloat(document.getElementById('price').value);
 
-    // Draw background arc
-    ctx.beginPath();
-    ctx.lineWidth = 25;
-    ctx.strokeStyle = '#eee';
-    ctx.arc(w/2, h, w/2 - 20, Math.PI, 2 * Math.PI);
-    ctx.stroke();
-
-    // Gradient from Red -> Green
-    const grad = ctx.createLinearGradient(20, 0, w - 20, 0);
-    grad.addColorStop(0, '#D32F2F');      // Red
-    grad.addColorStop(0.25, '#FBC02D');   // Yellow
-    grad.addColorStop(0.5, '#388E3C');    // Green
-    grad.addColorStop(0.75, '#FBC02D');   // Yellow
-    grad.addColorStop(1, '#D32F2F');      // Red
-
-    ctx.beginPath();
-    ctx.lineWidth = 25;
-    ctx.strokeStyle = grad;
-    ctx.arc(w/2, h, w/2 - 20, Math.PI, Math.PI + (Math.PI * percentage / 100));
-    ctx.stroke();
-
-    // Draw Needle
-    const angle = Math.PI + Math.PI * percentage / 100;
-    const needleLength = w / 2 - 35;
-    const needleX = w / 2 + needleLength * Math.cos(angle);
-    const needleY = h + needleLength * Math.sin(angle);
-
-    ctx.beginPath();
-    ctx.moveTo(w/2, h);
-    ctx.lineTo(needleX, needleY);
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = '#333';
-    ctx.stroke();
-
-    // Needle Base
-    ctx.beginPath();
-    ctx.arc(w/2, h, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = '#333';
-    ctx.fill();
-}
-
-function calculateMarketValue() {
-    const type = document.getElementById('propertyType').value;
-    const location = document.getElementById('location').value.trim().toLowerCase();
-    const area = parseFloat(document.getElementById('floorArea').value);
-    const price = parseFloat(document.getElementById('totalPrice').value);
-
-    if (!type || !location || !area || !price) {
-        alert("Please fill all the fields.");
-        return;
+    if (!area || !price || area <= 0) {
+      alert('Please enter valid numbers for area and price.');
+      return;
     }
 
-    // Example logic (replace with real DB / API logic)
-    let marketAverage = 10000;
-    if (location.includes('colombo')) {
-        marketAverage = (type === 'apartment') ? 35000 : 30000;
-    } else if (location.includes('kandy')) {
-        marketAverage = 18000;
+    const value = price / area;
+    document.getElementById('pricePerSqft').innerText = `LKR ${value.toFixed(2)} / sqft`;
+
+    const percentage = Math.min((value / 10000) * 100, 100);
+
+    if (gaugeChart) {
+      gaugeChart.data.datasets[0].data = [percentage, 100 - percentage];
+      gaugeChart.update();
+    } else {
+      const ctx = document.getElementById('gaugeChart').getContext('2d');
+      gaugeChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Value', 'Remaining'],
+          datasets: [{
+            data: [percentage, 100 - percentage],
+            backgroundColor: ['#007bff', '#e0e0e0'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '80%',
+          plugins: {
+            legend: { display: false },
+          },
+          rotation: -90,
+          circumference: 180,
+        }
+      });
     }
+  }
 
-    const pricePerSqft = price / area;
-    const ratio = pricePerSqft / marketAverage;
-    const percentage = Math.min(Math.max(ratio * 50, 0), 100);
+  async function fetchHousePriceData() {
+    return {
+      labels: ['2022 Q1', '2022 Q2', '2022 Q3', '2023 Q1', '2023 Q2', '2024 Q1'],
+      datasets: [
+        {
+          label: 'Urban Region',
+          data: [100, 110, 130, 150, 160, 170],
+          borderColor: '#1e88e5',
+          tension: 0.4
+        },
+        {
+          label: 'Suburban Region',
+          data: [100, 105, 120, 135, 145, 150],
+          borderColor: '#43a047',
+          tension: 0.4
+        }
+      ]
+    };
+  }
 
-    drawGauge(percentage);
-}
+  async function fetchLandPriceData() {
+    return {
+      labels: ['2022 Q1', '2022 Q2', '2022 Q3', '2023 Q1', '2023 Q2', '2024 Q1'],
+      datasets: [
+        {
+          label: 'Colombo',
+          data: [100, 120, 150, 180, 200, 210],
+          borderColor: '#d32f2f',
+          tension: 0.4
+        },
+        {
+          label: 'Kandy',
+          data: [100, 115, 135, 150, 160, 170],
+          borderColor: '#388e3c',
+          tension: 0.4
+        }
+      ]
+    };
+  }
 
-// Draw empty state
-drawGauge(0);
+  async function renderCharts() {
+    const houseData = await fetchHousePriceData();
+    const landData = await fetchLandPriceData();
+
+    const houseCtx = document.getElementById('houseChart').getContext('2d');
+    new Chart(houseCtx, {
+      type: 'line',
+      data: {
+        labels: houseData.labels,
+        datasets: houseData.datasets
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'House Price Index (Real-time)',
+            font: { size: 18 }
+          },
+          legend: { position: 'bottom' }
+        },
+        responsive: true
+      }
+    });
+
+    const landCtx = document.getElementById('landChart').getContext('2d');
+    new Chart(landCtx, {
+      type: 'line',
+      data: {
+        labels: landData.labels,
+        datasets: landData.datasets
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Land Price Index (Real-time)',
+            font: { size: 18 }
+          },
+          legend: { position: 'bottom' }
+        },
+        responsive: true
+      }
+    });
+  }
+
+  renderCharts();
 </script>
-
-
-
-<section id="buying-guide">
-    <h2>Property Buying Guide</h2>
-    <p>Learn the step-by-step process to legally and securely purchase property in Sri Lanka, tailored for local and international buyers.</p>
-</section>
-
-<section id="capital-gains">
-    <h2>Capital Gains Tax</h2>
-    <p>Understand how Capital Gains Tax applies to real estate, including recent policy updates and practical tips for compliance.</p>
-</section>
-
-<section id="outlook">
-    <h2>Market Outlook</h2>
-    <p>Explore the latest annual report analyzing residential and commercial property trends, forecasts, and economic impacts.</p>
-</section>
-
-<section id="news">
-    <h2>Real Estate News</h2>
-    <p>Stay updated with expert insights, policy changes, and emerging opportunities in Sri Lanka’s real estate market.</p>
-</section>
 
 </body>
 </html>
