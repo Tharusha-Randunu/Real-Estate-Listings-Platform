@@ -63,133 +63,170 @@
 </head>
 <body>
     <div class="container my-5">
-        <h1 class="text-center mb-5">Property Information</h1>
+        <h1 class="text-center mb-5">Property Information - Step 2</h1>
 
-        <!-- Basic Details -->
-        <div class="section">
-            <h4 class="text-center">Basic Details</h4>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="bedrooms" class="form-label">Bedrooms <span class="text-danger">*</span></label>
-                    <select id="bedrooms" class="form-select" required>
-                        {% for i in "12345" %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="bathrooms" class="form-label">Bathrooms <span class="text-danger">*</span></label>
-                    <select id="bathrooms" class="form-select" required>
-                        {% for i in "12345" %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="floor_area" class="form-label">Floor Area (sq ft) <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" id="floor_area" placeholder="e.g. 1200" required>
-                </div>
-            </div>
-        </div>
+        {# Wrap everything in a form that posts to the details view itself #}
+        <form method="post" action="{% url 'rent_property_details' %}"> {% csrf_token %}
 
-        <!-- Price Details -->
-        <div class="section">
-            <h4 class="text-center">Price Details</h4>
-            <div class="row mb-3 price-row">
-                <div class="col-md-6">
-                    <label for="price" class="form-label">Expected Price (Rs) <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" id="price" placeholder="e.g. 75000" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="price_type" class="form-label">Price Type</label>
-                    <select class="form-select" id="price_type">
-                        <option>Per Month</option>
-                        <option>Per Week</option>
-                        <option>Per Quarter</option>
-                        <option>Per Day</option>
-                    </select>
+            <div class="section">
+                <h4 class="text-center">Basic Details</h4>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="bedrooms" class="form-label">Bedrooms <span class="text-danger">*</span></label>
+                        {# Added name attribute #}
+                        <select id="bedrooms" name="bedrooms" class="form-select" required>
+                            <option value="" selected disabled>Select...</option> {# Added default option #}
+                            {% for i in "12345" %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                            <option value="6">6+</option> {# Added 6+ option #}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="bathrooms" class="form-label">Bathrooms <span class="text-danger">*</span></label>
+                         {# Added name attribute #}
+                        <select id="bathrooms" name="bathrooms" class="form-select" required>
+                             <option value="" selected disabled>Select...</option> {# Added default option #}
+                            {% for i in "12345" %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                            <option value="6">6+</option> {# Added 6+ option #}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="floor_area" class="form-label">Floor Area (sq ft) <span class="text-danger">*</span></label>
+                        {# Added name attribute #}
+                        <input type="number" class="form-control" id="floor_area" name="floor_area" placeholder="e.g. 1200" required min="1">
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Property Specifics -->
-        <div class="section">
-            <h4 class="text-center">Property Specifics</h4>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label for="floors" class="form-label">No. of Floors</label>
-                    <select id="floors" class="form-select">
-                        {% for i in "12345" %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-                    <select id="status" class="form-select" required>
-                        <option>Available Now</option>
-                        <option>Available Soon</option>
-                        <option>Offer Received</option>
-                        <option>Price Reduced</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="age" class="form-label">Age of Property (Years)</label>
-                    <input type="number" class="form-control" id="age" placeholder="e.g. 5" required>
-                </div>
-                <div class="col-md-3">
-                    <label for="furnishing" class="form-label">Furnishing Status</label>
-                    <select id="furnishing" class="form-select">
-                        <option>Fully Furnished</option>
-                        <option>Semi Furnished</option>
-                        <option>Unfurnished</option>
-                    </select>
+            <div class="section">
+                <h4 class="text-center">Price Details</h4>
+                <div class="row mb-3 price-row">
+                    <div class="col-md-6">
+                        <label for="price" class="form-label">Expected Price (Rs) <span class="text-danger">*</span></label>
+                        {# Added name attribute #}
+                        <input type="number" class="form-control" id="price" name="price" placeholder="e.g. 75000" required min="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="price_type" class="form-label">Price Type</label>
+                        {# Added name attribute #}
+                        <select class="form-select" id="price_type" name="price_type">
+                            <option>Per Month</option>
+                            <option>Per Week</option>
+                            <option>Per Quarter</option>
+                            <option>Per Day</option>
+                            <option>Total Price</option> {# Added possibility #}
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="form-check mt-3">
-                <input class="form-check-input" type="checkbox" id="parking">
-                <label class="form-check-label" for="parking">
-                    Parking Available
-                </label>
-            </div>
-        </div>
 
-        <!-- Ad Details -->
-        <div class="section">
-            <h4 class="text-center">Ad Details</h4>
-            <div class="mb-3">
-                <label for="title" class="form-label">Ad Title <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="title" placeholder="e.g. Apartment for Rent in Borella" required>
+            <div class="section">
+                <h4 class="text-center">Property Specifics</h4>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="floors" class="form-label">No. of Floors</label>
+                        {# Added name attribute #}
+                        <select id="floors" name="floors" class="form-select">
+                            <option value="" selected>Select (Optional)...</option>
+                            {% for i in "12345" %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                            <option value="6">6+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                        {# Added name attribute #}
+                        <select id="status" name="status" class="form-select" required>
+                            <option>Available Now</option>
+                            <option>Available Soon</option>
+                            <option>Offer Received</option>
+                            <option>Price Reduced</option>
+                            <option>Let Agreed</option> {# Added option #}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="age" class="form-label">Age of Property (Years)</label>
+                        {# Added name attribute #}
+                        <input type="number" class="form-control" id="age" name="age" placeholder="e.g. 5" min="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="furnishing" class="form-label">Furnishing Status</label>
+                        {# Added name attribute #}
+                        <select id="furnishing" name="furnishing" class="form-select">
+                            <option>Fully Furnished</option>
+                            <option>Semi Furnished</option>
+                            <option>Unfurnished</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-check mt-3">
+                    {# Added name and value attributes #}
+                    <input class="form-check-input" type="checkbox" id="parking" name="parking" value="true">
+                    <label class="form-check-label" for="parking">
+                        Parking Available
+                    </label>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Ad Description <span class="text-danger">*</span></label>
-                <textarea class="form-control" id="description" rows="5" placeholder="Describe your property..." required></textarea>
-            </div>
-        </div>
 
-        <!-- Features -->
-        <div class="section">
-            <h4 class="text-center">Property Features</h4>
-            <div class="features-group">
-                {% for feature in features %}
-                    <button type="button" class="btn btn-outline-primary btn-feature">{{ feature }}</button>
-                {% endfor %}
+            <div class="section">
+                <h4 class="text-center">Ad Details</h4>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Ad Title <span class="text-danger">*</span></label>
+                    {# Added name attribute #}
+                    <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Apartment for Rent in Borella" required maxlength="255">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Ad Description <span class="text-danger">*</span></label>
+                    {# Added name attribute #}
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Describe your property..." required></textarea>
+                </div>
             </div>
-        </div>
 
-        <!-- Submit -->
-        <div class="text-center">
-            <a href="{% url 'upload_confirm' %}" class="btn btn-success px-5 py-2">Next</a>
-        </div>
+            <div class="section">
+                <h4 class="text-center">Property Features</h4>
+                {# Hidden input to store selected features as comma-separated string #}
+                <input type="hidden" name="features_list" id="features_list_input">
+                <div class="features-group">
+                    {% for feature in features %}
+                        {# Pass feature name to JS function #}
+                        <button type="button" class="btn btn-outline-primary btn-feature" onclick="toggleFeature(this, '{{ feature }}')">{{ feature }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="text-center">
+                {# Changed <a> to <button type="submit"> #}
+                <button type="submit" class="btn btn-success px-5 py-2">Next</button>
+            </div>
+        </form> {# End form #}
     </div>
 
     <script>
-        // Toggle feature selection
-        document.querySelectorAll('.btn-feature').forEach(button => {
-            button.addEventListener('click', () => {
-                button.classList.toggle('active');
-            });
-        });
+        const selectedFeatures = new Set();
+        const featuresInput = document.getElementById('features_list_input');
+
+        function toggleFeature(button, featureName) {
+            button.classList.toggle('active');
+            button.classList.toggle('btn-outline-primary');
+            button.classList.toggle('btn-primary');
+
+            if (button.classList.contains('active')) {
+                selectedFeatures.add(featureName);
+            } else {
+                selectedFeatures.delete(featureName);
+            }
+            // Update hidden input
+            featuresInput.value = Array.from(selectedFeatures).join(',');
+            console.log("Selected features:", featuresInput.value); // For debugging
+        }
+
+        // Initialize features input on page load (e.g., if coming back to the page)
+        // This part requires more complex logic if you want to repopulate based on session
+        // featuresInput.value = Array.from(selectedFeatures).join(',');
     </script>
 </body>
 </html>
