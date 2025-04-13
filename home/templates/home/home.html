@@ -540,11 +540,13 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="explore-card border border-dark">
-                            <i class="fas fa-building icon" style="font-size: 32px; color: #f7a923;"></i>
-                            <h4>Find new apartments</h4>
-                            <p>Find the best luxury apartments in Sri Lanka</p>
-                        </div>
+                        <a href="{% url 'find_a_home' %}?property_type=Apartment" style="text-decoration: none; color: inherit;">
+                            <div class="explore-card border border-dark">
+                                <i class="fas fa-building icon" style="font-size: 32px; color: #f7a923;"></i>
+                                <h4>Find new apartments</h4>
+                                <p>Find the best luxury apartments in Sri Lanka</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>

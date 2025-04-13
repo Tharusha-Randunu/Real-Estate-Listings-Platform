@@ -1,9 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import ConfirmedAd, PropertyFeature
-from django.conf.urls.static import static
 from django.conf import settings
-from django.shortcuts import render
 import os
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
@@ -19,10 +17,6 @@ def list_property(request):
 def rent_property(request):
     return render(request, 'home/rent_property.html')
 
-#def find_a_home(request):
-  #  ads = ConfirmedAd.objects.all().order_by('-id')  # Show latest ads first
-  #  return render(request, 'home/find_a_home.html', {'ads': ads})
-
 def find_a_home(request):
     # Get filter parameters from the GET request
     query = request.GET.get('q', '')  # Search by keyword
@@ -33,6 +27,7 @@ def find_a_home(request):
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
     features = request.GET.getlist('features', [])  # List of selected features
+    offer_type = request.GET.get('offer_type', '')  # New offer type filter (Sale or Rent)
 
     # Start with all ads
     ads = ConfirmedAd.objects.all()
@@ -59,6 +54,9 @@ def find_a_home(request):
     if max_price:
         ads = ads.filter(price__lte=max_price)
 
+    if offer_type:
+        ads = ads.filter(offer_type=offer_type)  # Apply filtering for offer type (Sale/Rent)
+
     # Apply filtering for features (many-to-many relationship)
     if features:
         ads = ads.filter(property_features__in=features)
@@ -77,15 +75,8 @@ def find_a_home(request):
         'max_price': max_price,
         'available_features': available_features,
         'selected_features': features,
+        'offer_type': offer_type,  # Pass the offer_type to the template for form persistence
     })
-
-
-
-
-
-
-
-
 
 def property_detail(request, ad_id):
     ad = get_object_or_404(ConfirmedAd, id=ad_id)
