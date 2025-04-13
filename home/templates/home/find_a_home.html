@@ -8,63 +8,110 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4 text-white">Find Your Dream Home</h2>
 
-        <!-- Search & Filter Form -->
-        <form method="GET" action="{% url 'find_a_home' %}" class="mb-4">
-            <div class="row">
-                <!-- Keyword Filter -->
-                <div class="col-md-4">
-                    <input type="text" name="q" class="form-control" placeholder="Keyword (e.g., pool, garage)" value="{{ query }}">
-                </div>
-                <!-- City Filter -->
-                <div class="col-md-2">
-                    <input type="text" name="city" class="form-control" placeholder="City" value="{{ city }}">
-                </div>
-                <!-- Property Type Filter -->
-                <div class="col-md-2">
-                    <select name="property_type" class="form-control">
-                        <option value="">Property Type</option>
-                        <option value="House" {% if property_type == "House" %}selected{% endif %}>House</option>
-                        <option value="Apartment" {% if property_type == "Apartment" %}selected{% endif %}>Apartment</option>
-                        <option value="Land" {% if property_type == "Land" %}selected{% endif %}>Land</option>
-                        <option value="Commercial" {% if property_type == "Commercial" %}selected{% endif %}>Commercial</option>
-                    </select>
-                </div>
-                <!-- Bedrooms Filter -->
-                <div class="col-md-1">
-                    <input type="number" name="bedrooms" class="form-control" placeholder="Beds" value="{{ bedrooms }}">
-                </div>
-                <!-- Bathrooms Filter -->
-                <div class="col-md-1">
-                    <input type="number" name="bathrooms" class="form-control" placeholder="Baths" value="{{ bathrooms }}">
-                </div>
-                <!-- Min Price Filter -->
-                <div class="col-md-2">
-                    <input type="number" name="min_price" class="form-control" placeholder="Min Price" value="{{ min_price }}">
-                </div>
-                <!-- Max Price Filter -->
-                <div class="col-md-2">
-                    <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ max_price }}">
-                </div>
-            </div>
+        <!-- Filter Section -->
+        <div class="container my-5">
+            <div class="card shadow-lg p-4 rounded-4">
+                <form method="GET" action="{% url 'find_a_home' %}">
+                    <div class="row g-4">
 
-            <div class="row mt-3">
-                <!-- Property Features Filter -->
-                <div class="col-md-12">
-                    <h5>Property Features:</h5>
-                    <div class="form-check form-check-inline">
-                        {% for feature in available_features %}
-                            <input type="checkbox" class="form-check-input" name="features" value="{{ feature.id }}" {% if feature.id|stringformat:"s" in selected_features %}checked{% endif %}>
-                            <label class="form-check-label">{{ feature.name }}</label>
-                        {% endfor %}
+                        <!-- Offer Type -->
+                        <div class="col-md-3 col-lg-3">
+                            <label for="offer_type" class="form-label">Offer Type</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-tags"></i></span>
+                                <select id="offer_type" name="offer_type" class="form-select shadow-sm">
+                                    <option value="">Select Offer Type</option>
+                                    <option value="Sale" {% if offer_type == "Sale" %}selected{% endif %}>Sale</option>
+                                    <option value="Rent" {% if offer_type == "Rent" %}selected{% endif %}>Rent</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="col-md-3 col-lg-3">
+                            <label for="city" class="form-label">City</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                <input type="text" id="city" name="city" class="form-control shadow-sm" placeholder="City" value="{{ city }}">
+                            </div>
+                        </div>
+
+                        <!-- Property Type -->
+                        <div class="col-md-3 col-lg-3">
+                            <label for="property_type" class="form-label">Property Type</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                <select id="property_type" name="property_type" class="form-select shadow-sm">
+                                    <option value="">Select Type</option>
+                                    <option value="House" {% if property_type == "House" %}selected{% endif %}>House</option>
+                                    <option value="Apartment" {% if property_type == "Apartment" %}selected{% endif %}>Apartment</option>
+                                    <option value="Land" {% if property_type == "Land" %}selected{% endif %}>Land</option>
+                                    <option value="Commercial" {% if property_type == "Commercial" %}selected{% endif %}>Commercial</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Min Price -->
+                        <div class="col-md-3 col-lg-3">
+                            <label for="min_price" class="form-label">Min Price</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Rs.</span>
+                                <input type="number" id="min_price" name="min_price" class="form-control shadow-sm" placeholder="e.g., 1000000" value="{{ min_price }}">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Search Button -->
-            <div class="col-md-2 mt-3">
-                <button type="submit" class="btn btn-primary w-100">Search</button>
+                    <div class="row g-4">
+                        <!-- Max Price -->
+                        <div class="col-md-3 col-lg-3">
+                            <label for="max_price" class="form-label">Max Price</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Rs.</span>
+                                <input type="number" id="max_price" name="max_price" class="form-control shadow-sm" placeholder="e.g., 5000000" value="{{ max_price }}">
+                            </div>
+                        </div>
+
+                        <!-- Bedrooms -->
+                        <div class="col-md-3 col-lg-3">
+                            <label for="bedrooms" class="form-label">Bedrooms</label>
+                            <input type="number" id="bedrooms" name="bedrooms" class="form-control shadow-sm" placeholder="e.g., 3" value="{{ bedrooms }}">
+                        </div>
+
+                        <!-- Bathrooms -->
+                        <div class="col-md-3 col-lg-3">
+                            <label for="bathrooms" class="form-label">Bathrooms</label>
+                            <input type="number" id="bathrooms" name="bathrooms" class="form-control shadow-sm" placeholder="e.g., 2" value="{{ bathrooms }}">
+                        </div>
+                    </div>
+
+                    <!-- Features Section -->
+<div class="mt-5">
+    <h5 class="mb-4 fw-semibold">Property Features</h5>
+    <div class="row">
+        {% for feature in available_features %}
+        <div class="col-md-3 mb-3">
+            <div class="form-check">
+    <input class="form-check-input styled-checkbox" type="checkbox" id="feature{{ feature.id }}" name="features" value="{{ feature.id }}" {% if feature.id|stringformat:"s" in selected_features %}checked{% endif %}>
+    <label class="form-check-label ms-2" for="feature{{ feature.id }}">
+        {{ feature.name }}
+    </label>
+</div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+                    <!-- Submit Button -->
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
 
         <!-- Property Listings -->
         <div class="row">
@@ -94,18 +141,16 @@
 <!-- Custom Styles -->
 <style>
     .bg-container {
-    background: url("{% static 'home/images/building.jpeg' %}") no-repeat center center;
-    background-size: cover;
-    background-attachment: fixed; /* Ensures the image stays while scrolling */
-    min-height: 100vh; /* Minimum full viewport height */
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        background: url("{% static 'home/images/building.jpeg' %}") no-repeat center center;
+        background-size: cover;
+        background-attachment: fixed;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-
-    /* Property Card */
     .property-card {
         border: none;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -157,5 +202,60 @@
     .btn-primary:hover {
         background: #0056b3;
     }
+    .form-select{
+
+        width:80%;
+
+    }
+    .form-select, .form-control {
+        font-size: 1rem;
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        border-radius: 5px;
+    }
+
+
+/* Custom Checkbox Styling */
+.styled-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #ccc; /* Light gray when not selected */
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    background-color: #fff;
+}
+
+.styled-checkbox:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.003 11.803L2.2 8l1.4-1.4 2.4 2.4 5.4-5.4L12.8 5l-6.797 6.803z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 14px;
+}
+
+.styled-checkbox:focus {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* optional spacing between checkbox and text */
+}
+
+
+
 </style>
 {% endblock %}
