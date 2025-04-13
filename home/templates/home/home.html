@@ -459,7 +459,7 @@
             <div class="d-flex align-items-center gap-3">
                 <a class="nav-link" href="{% url 'find_a_home' %}">Buy</a>
                 <a class="nav-link" href="{% url 'find_a_home' %}">Rent</a>
-                <a class="nav-link" href="#">Market Insights</a>
+                <a class="nav-link" href="{% url 'market_insights' %}">Market Insights</a>
             </div>
             <a class="navbar-brand mx-auto fw-bold" href="#">ABC</a>
             <div class="d-flex gap-3">
@@ -526,19 +526,25 @@
             <div class="carousel-item active">
                 <div class="row justify-content-center">
                     <div class="col-md-3">
-                        <div class="explore-card border border-dark">
-                            <i class="fas fa-home icon" style="font-size: 32px; color: #fa5302;"></i>
-                            <h4>Find a property for sale</h4>
-                            <p>Find a House, Apartment or Building for sale</p>
-                        </div>
+                        <a href="{% url 'find_a_home' %}?offer_type=Sale" style="text-decoration: none; color: inherit;">
+                            <div class="explore-card border border-dark">
+                                <i class="fas fa-home icon" style="font-size: 32px; color: #fa5302;"></i>
+                                <h4>Find a property for sale</h4>
+                                <p>Find a House, Apartment or Building for sale</p>
+                            </div>
+                        </a>
                     </div>
+
                     <div class="col-md-3">
-                        <div class="explore-card border border-dark">
+                        <a href="{% url 'find_a_home' %}?offer_type=Rent" style="text-decoration: none; color: inherit;">
+                          <div class="explore-card border border-dark">
                             <i class="fas fa-key icon" style="font-size: 32px; color: #f72371;"></i>
                             <h4>Find a property for rent</h4>
                             <p>Find a House, Annexe, Apartment or Building for rent/lease</p>
-                        </div>
+                          </div>
+                            </a>
                     </div>
+
                     <div class="col-md-3">
                         <a href="{% url 'find_a_home' %}?property_type=Apartment" style="text-decoration: none; color: inherit;">
                             <div class="explore-card border border-dark">
@@ -555,25 +561,31 @@
             <div class="carousel-item">
                 <div class="row justify-content-center">
                     <div class="col-md-3">
+                      <a href="{% url 'find_a_home' %}?property_type=Land" style="text-decoration: none; color: inherit;">
                         <div class="explore-card border border-dark">
                             <i class="fas fa-map-marker-alt icon" style="font-size: 32px; color: #2f8524;"></i>
                             <h4>Find a land for sale</h4>
                             <p>Find residential or commercial lands for sale</p>
                         </div>
+                      </a>
                     </div>
                     <div class="col-md-3">
+                        <a href="{% url 'list_property' %}" style="text-decoration: none; color: inherit;">
                         <div class="explore-card border border-dark">
                             <i class="fas fa-bullhorn icon" style="font-size: 32px; color: #007bff;"></i>
                             <h4>Post your ad</h4>
                             <p>Post your property advertisement</p>
                         </div>
+                        </a>
                     </div>
                     <div class="col-md-3">
+                        <a href="{% url 'market_insights' %}" style="text-decoration: none; color: inherit;">
                         <div class="explore-card border border-dark">
                             <i class="fas fa-chart-line icon" style="font-size: 32px; color: #5a3ba1;"></i>
                             <h4>Market insights</h4>
                             <p>Latest property trends, house & land prices</p>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
