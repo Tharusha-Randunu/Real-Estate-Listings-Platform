@@ -1,5 +1,5 @@
-from . import views
 from django.urls import path
+from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -10,9 +10,14 @@ urlpatterns = [
     path('seller-register/', views.seller_register, name='seller_register'),
     path('market-insights/', views.market_insights_page, name='market_insights'),
     path('list/details/', views.list_property_details, name='list_property_details'),
-    path('upload_confirm/', views.upload_and_confirm, name='upload_confirm'),
+    path('upload_confirm/', views.upload_confirm, name='upload_confirm'),
     path('rent-property/details/', views.rent_property_details, name='rent_property_details'),
     path('agent/', views.agent_list, name='agent_list'),
-
 ]
 
+# Media files for development
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
