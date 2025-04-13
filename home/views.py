@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import ConfirmedAd, PropertyFeature, PendingAd
+from .models import ConfirmedAd, PropertyFeature
 from django.conf.urls.static import static
 from django.conf import settings
 from django.shortcuts import render
 import os
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, redirect
+
 
 def home(request):
     latest_ads = ConfirmedAd.objects.order_by('-id')[:10]  # Fetch the latest 10 ads
@@ -159,42 +159,3 @@ def rent_property_details(request):
 def agent_list(request):
     return render(request, 'home/agent.html')
 
-
-def upload_confirm(request):
-    if request.method == 'POST':
-        confirm = request.POST.get('confirm')
-        image = request.FILES.get('property_image')
-
-        if not confirm:
-            return render(request, 'home/upload_confirm.html', {'error': 'You must confirm ownership.'})
-
-        basic_info = request.session.get('basic_info', {})
-        details_info = request.session.get('details_info', {})
-
-        try:
-            ad = PendingAd(
-                city=basic_info.get('city'),
-                street=basic_info.get('street'),
-                latitude=float(basic_info.get('latitude')) if basic_info.get('latitude') else None,
-                longitude=float(basic_info.get('longitude')) if basic_info.get('longitude') else None,
-                bedrooms=int(details_info.get('bedrooms')),
-                bathrooms=int(details_info.get('bathrooms')),
-                floor_area=int(details_info.get('floor_area')),
-                price=details_info.get('price'),
-                price_type=details_info.get('price_type'),
-                title=details_info.get('title'),
-                description=details_info.get('description'),
-                property_image=image
-            )
-            ad.save()
-
-            # Clear session data after save
-            request.session.pop('basic_info', None)
-            request.session.pop('details_info', None)
-
-            return render(request, 'home/upload_confirm.html', {'success': True})
-
-        except (ValueError, TypeError) as e:
-            return render(request, 'home/upload_confirm.html', {'error': f'Data error: {e}'})
-
-    return render(request, 'home/upload_confirm.html')
