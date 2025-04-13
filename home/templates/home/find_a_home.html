@@ -9,109 +9,123 @@
         <h2 class="text-center mb-4 text-white">Find Your Dream Home</h2>
 
         <!-- Filter Section -->
-        <div class="container my-5">
-            <div class="card shadow-lg p-4 rounded-4">
-                <form method="GET" action="{% url 'find_a_home' %}">
-                    <div class="row g-4">
+<div class="container my-5">
+    <div class="card shadow-lg p-4 rounded-4">
+        <form method="GET" action="{% url 'find_a_home' %}">
+            <div class="row g-4">
 
-                        <!-- Offer Type -->
-                        <div class="col-md-3 col-lg-3">
-                            <label for="offer_type" class="form-label">Offer Type</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="bi bi-tags"></i></span>
-                                <select id="offer_type" name="offer_type" class="form-select shadow-sm">
-                                    <option value="">Select Offer Type</option>
-                                    <option value="Sale" {% if offer_type == "Sale" %}selected{% endif %}>Sale</option>
-                                    <option value="Rent" {% if offer_type == "Rent" %}selected{% endif %}>Rent</option>
-                                </select>
-                            </div>
-                        </div>
+                <!-- Offer Type -->
+                <div class="col-md-3 col-lg-3">
+                    <label for="offer_type" class="form-label">Offer Type</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-tags"></i></span>
+                        <select id="offer_type" name="offer_type" class="form-select shadow-sm">
+                            <option value="">Select Offer Type</option>
+                            <option value="Sale" {% if offer_type == "Sale" %}selected{% endif %}>Sale</option>
+                            <option value="Rent" {% if offer_type == "Rent" %}selected{% endif %}>Rent</option>
+                        </select>
+                    </div>
+                </div>
 
-                        <!-- City -->
-                        <div class="col-md-3 col-lg-3">
-                            <label for="city" class="form-label">City</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
-                                <input type="text" id="city" name="city" class="form-control shadow-sm" placeholder="City" value="{{ city }}">
-                            </div>
-                        </div>
+                <!-- City -->
+                <div class="col-md-3 col-lg-3">
+                    <label for="city" class="form-label">City</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                        <input type="text" id="city" name="city" class="form-control shadow-sm" placeholder="City" value="{{ city }}">
+                    </div>
+                </div>
 
-                        <!-- Property Type -->
-                        <div class="col-md-3 col-lg-3">
-                            <label for="property_type" class="form-label">Property Type</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="bi bi-building"></i></span>
-                                <select id="property_type" name="property_type" class="form-select shadow-sm">
-                                    <option value="">Select Type</option>
-                                    <option value="House" {% if property_type == "House" %}selected{% endif %}>House</option>
-                                    <option value="Apartment" {% if property_type == "Apartment" %}selected{% endif %}>Apartment</option>
-                                    <option value="Land" {% if property_type == "Land" %}selected{% endif %}>Land</option>
-                                    <option value="Commercial" {% if property_type == "Commercial" %}selected{% endif %}>Commercial</option>
-                                </select>
-                            </div>
-                        </div>
+                <!-- Property Type -->
+                <div class="col-md-3 col-lg-3">
+                    <label for="property_type" class="form-label">Property Type</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-building"></i></span>
+                        <select id="property_type" name="property_type" class="form-select shadow-sm">
+                            <option value="">Select Type</option>
+                            <option value="House" {% if property_type == "House" %}selected{% endif %}>House</option>
+                            <option value="Apartment" {% if property_type == "Apartment" %}selected{% endif %}>Apartment</option>
+                            <option value="Land" {% if property_type == "Land" %}selected{% endif %}>Land</option>
+                            <option value="Commercial" {% if property_type == "Commercial" %}selected{% endif %}>Commercial</option>
+                        </select>
+                    </div>
+                </div>
 
-                        <!-- Min Price -->
-                        <div class="col-md-3 col-lg-3">
-                            <label for="min_price" class="form-label">Min Price</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Rs.</span>
-                                <input type="number" id="min_price" name="min_price" class="form-control shadow-sm" placeholder="e.g., 1000000" value="{{ min_price }}">
-                            </div>
+                <!-- Min Price -->
+                <div class="col-md-3 col-lg-3">
+                    <label for="min_price" class="form-label">Min Price</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Rs.</span>
+                        <input type="number" id="min_price" name="min_price" class="form-control shadow-sm" placeholder="e.g., 1000000" value="{{ min_price }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Max Price -->
+                <div class="col-md-3 col-lg-3">
+                    <label for="max_price" class="form-label">Max Price</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Rs.</span>
+                        <input type="number" id="max_price" name="max_price" class="form-control shadow-sm" placeholder="e.g., 5000000" value="{{ max_price }}">
+                    </div>
+                </div>
+
+                <!-- Bedrooms -->
+                <div class="col-md-3 col-lg-3">
+                    <label for="bedrooms" class="form-label">Bedrooms</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-house-door"></i></span>
+                        <select id="bedrooms" name="bedrooms" class="form-select shadow-sm">
+                            <option value="">Select Bedrooms</option>
+                            {% for i in bedroom_range %}
+                                <option value="{{ i }}" {% if bedrooms == i|stringformat:"s" %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Bathrooms -->
+                <div class="col-md-3 col-lg-3">
+                    <label for="bathrooms" class="form-label">Bathrooms</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-house-door"></i></span>
+                        <select id="bathrooms" name="bathrooms" class="form-select shadow-sm">
+                            <option value="">Select Bathrooms</option>
+                            {% for i in bathroom_range %}
+                                <option value="{{ i }}" {% if bathrooms == i|stringformat:"s" %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="mt-5">
+                <h5 class="mb-4 fw-semibold">Property Features</h5>
+                <div class="row">
+                    {% for feature in available_features %}
+                    <div class="col-md-3 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input styled-checkbox" type="checkbox" id="feature{{ feature.id }}" name="features" value="{{ feature.id }}" {% if feature.id|stringformat:"s" in selected_features %}checked{% endif %}>
+                            <label class="form-check-label ms-2" for="feature{{ feature.id }}">
+                                {{ feature.name }}
+                            </label>
                         </div>
                     </div>
+                    {% endfor %}
+                </div>
+            </div>
 
-                    <div class="row g-4">
-                        <!-- Max Price -->
-                        <div class="col-md-3 col-lg-3">
-                            <label for="max_price" class="form-label">Max Price</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Rs.</span>
-                                <input type="number" id="max_price" name="max_price" class="form-control shadow-sm" placeholder="e.g., 5000000" value="{{ max_price }}">
-                            </div>
-                        </div>
-
-                        <!-- Bedrooms -->
-                        <div class="col-md-3 col-lg-3">
-                            <label for="bedrooms" class="form-label">Bedrooms</label>
-                            <input type="number" id="bedrooms" name="bedrooms" class="form-control shadow-sm" placeholder="e.g., 3" value="{{ bedrooms }}">
-                        </div>
-
-                        <!-- Bathrooms -->
-                        <div class="col-md-3 col-lg-3">
-                            <label for="bathrooms" class="form-label">Bathrooms</label>
-                            <input type="number" id="bathrooms" name="bathrooms" class="form-control shadow-sm" placeholder="e.g., 2" value="{{ bathrooms }}">
-                        </div>
-                    </div>
-
-                    <!-- Features Section -->
-<div class="mt-5">
-    <h5 class="mb-4 fw-semibold">Property Features</h5>
-    <div class="row">
-        {% for feature in available_features %}
-        <div class="col-md-3 mb-3">
-            <div class="form-check">
-    <input class="form-check-input styled-checkbox" type="checkbox" id="feature{{ feature.id }}" name="features" value="{{ feature.id }}" {% if feature.id|stringformat:"s" in selected_features %}checked{% endif %}>
-    <label class="form-check-label ms-2" for="feature{{ feature.id }}">
-        {{ feature.name }}
-    </label>
-</div>
-
-        </div>
-        {% endfor %}
+            <!-- Submit Button -->
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
     </div>
 </div>
-
-
-                    <!-- Submit Button -->
-                    <div class="mt-4 text-end">
-                        <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
-                            <i class="bi bi-search"></i> Search
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <!-- Property Listings -->
         <div class="row">
@@ -153,6 +167,7 @@
 
     .property-card {
         border: none;
+        height:450px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
         border-radius: 10px;
