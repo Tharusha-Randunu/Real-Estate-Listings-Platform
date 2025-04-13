@@ -60,94 +60,121 @@
     <p>Discover key trends and ROI forecasts in Sri Lanka’s dynamic real estate sector. Gain insights to make smarter investments.</p>
 </section>
 
-<section id="price-meter">
-    <h2>Price Meter</h2>
-    <p>Enter your property details to see how your price compares to market value.</p>
+<section id="price-meter" style="text-align:center;padding:50px 20px;background:#fff;">
+    <h2 style="color:#006400;">Market Value</h2>
+    <p>Enter your property details to see how your price compares to market trends.</p>
 
     <div style="max-width:500px;margin:20px auto;">
-        <label>Property Type:</label>
-        <select id="propertyType" style="width:100%;padding:8px;margin:5px 0;">
+        <select id="propertyType" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
+            <option value="">Select Property Type</option>
             <option value="apartment">Apartment</option>
             <option value="house">House</option>
             <option value="land">Land</option>
         </select>
 
-        <label>Location:</label>
-        <input type="text" id="location" placeholder="e.g. Colombo 7" style="width:100%;padding:8px;margin:5px 0;">
+        <input type="text" id="location" placeholder="Location (e.g. Colombo 7)"
+               style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
 
-        <label>Floor Area (sqft):</label>
-        <input type="number" id="floorArea" placeholder="Enter floor area" style="width:100%;padding:8px;margin:5px 0;">
+        <input type="number" id="floorArea" placeholder="Floor area (sqft)"
+               style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
 
-        <label>Total Price (LKR):</label>
-        <input type="number" id="totalPrice" placeholder="Enter total price" style="width:100%;padding:8px;margin:5px 0;">
+        <input type="number" id="totalPrice" placeholder="Total price (LKR)"
+               style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px;">
 
-        <button onclick="checkMarketValue()" style="width:100%;padding:10px;background:#006400;color:white;border:none;border-radius:5px;margin:10px 0;">Check Now</button>
+        <button onclick="calculateMarketValue()"
+                style="width:100%;padding:12px;background:#008000;color:white;border:none;border-radius:5px;margin-top:10px;font-weight:bold;">
+            Check Now
+        </button>
     </div>
 
-    <div style="max-width:400px; margin:20px auto;">
-        <canvas id="propertyGauge"></canvas>
+    <div style="max-width:450px;margin:40px auto;">
+        <canvas id="marketGauge" width="400" height="200"></canvas>
+        <div id="gaugeLabel" style="margin-top:15px;font-size:18px;font-weight:bold;color:#333;"></div>
     </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-gauges/gauge.min.js"></script>
-
 <script>
-    const gauge = new RadialGauge({
-        renderTo: 'propertyGauge',
-        width: 300,
-        height: 300,
-        units: "Market Value",
-        minValue: 0,
-        maxValue: 100,
-        majorTicks: ["Too Low","Low","OK","High","Too High"],
-        highlights: [
-            { from: 0, to: 20, color: "rgba(200, 50, 50, .75)" },
-            { from: 20, to: 40, color: "rgba(240, 150, 0, .75)" },
-            { from: 40, to: 60, color: "rgba(255, 255, 0, .75)" },
-            { from: 60, to: 80, color: "rgba(100, 255, 100, .75)" },
-            { from: 80, to: 100, color: "rgba(0, 200, 0, .75)" }
-        ],
-        value: 0,
-        animationRule: "elastic",
-        animationDuration: 1500
-    }).draw();
+function drawGauge(percentage) {
+    const canvas = document.getElementById('marketGauge');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
 
-    function checkMarketValue() {
-        let type = document.getElementById('propertyType').value;
-        let location = document.getElementById('location').value.trim().toLowerCase();
-        let area = parseFloat(document.getElementById('floorArea').value);
-        let price = parseFloat(document.getElementById('totalPrice').value);
+    // Clear canvas
+    ctx.clearRect(0, 0, w, h);
 
-        if (!area || !price || !location) {
-            alert("Please enter all fields.");
-            return;
-        }
+    // Background arc (grey guide)
+    ctx.beginPath();
+    ctx.lineWidth = 25;
+    ctx.strokeStyle = '#eee';
+    ctx.arc(w/2, h, w/2 - 20, Math.PI, 2 * Math.PI);
+    ctx.stroke();
 
-        let pricePerSqft = price / area;
+    // Gradient arc
+    let grad = ctx.createLinearGradient(20, 0, w-20, 0);
+    grad.addColorStop(0, '#e53935'); // Red
+    grad.addColorStop(0.25, '#ffb300'); // Orange
+    grad.addColorStop(0.5, '#cddc39'); // Lime
+    grad.addColorStop(0.75, '#7cb342'); // Olive
+    grad.addColorStop(1, '#388e3c'); // Dark Green
 
-        // Mocked market data for testing
-        let expectedMarket = 0;
+    ctx.beginPath();
+    ctx.lineWidth = 25;
+    ctx.strokeStyle = grad;
+    ctx.arc(w/2, h, w/2 - 20, Math.PI, Math.PI + (Math.PI * percentage/100));
+    ctx.stroke();
 
-        if (location.includes('colombo')) {
-            expectedMarket = type === 'apartment' ? 35000 : 30000;
-        } else if (location.includes('kandy')) {
-            expectedMarket = type === 'apartment' ? 18000 : 15000;
-        } else {
-            expectedMarket = 12000;
-        }
+    // Needle
+    let angle = Math.PI + (Math.PI * percentage / 100);
+    let radius = w/2 - 35;
+    let needleX = w/2 + radius * Math.cos(angle);
+    let needleY = h + radius * Math.sin(angle);
 
-        let score = (pricePerSqft / expectedMarket) * 50;
+    ctx.beginPath();
+    ctx.moveTo(w/2, h);
+    ctx.lineTo(needleX, needleY);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#333';
+    ctx.stroke();
 
-        if (score > 100) score = 100;
-        if (score < 0) score = 0;
+    // Needle base
+    ctx.beginPath();
+    ctx.arc(w/2, h, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = '#333';
+    ctx.fill();
+}
 
-        gauge.value = score;
+function calculateMarketValue() {
+    let type = document.getElementById('propertyType').value;
+    let location = document.getElementById('location').value.trim().toLowerCase();
+    let area = parseFloat(document.getElementById('floorArea').value);
+    let price = parseFloat(document.getElementById('totalPrice').value);
+
+    if (!type || !location || !area || !price) {
+        alert("Please fill in all fields.");
+        return;
     }
 
-    window.addEventListener('resize', function() {
-        let size = Math.min(400, window.innerWidth * 0.8);
-        gauge.update({ width: size, height: size });
-    });
+    let pricePerSqft = price / area;
+
+    // Basic sample market range (adjust to your real data later!)
+    let expected = location.includes('colombo') ?
+        (type === 'apartment' ? 35000 : 30000) :
+        (location.includes('kandy') ? 18000 : 12000);
+
+    let percentage = Math.min(Math.max((pricePerSqft / expected) * 50, 0), 100);
+
+    drawGauge(percentage);
+
+    let label = document.getElementById('gaugeLabel');
+    if (percentage < 20) label.textContent = "Too Low";
+    else if (percentage < 40) label.textContent = "Low";
+    else if (percentage < 60) label.textContent = "Fair";
+    else if (percentage < 80) label.textContent = "High";
+    else label.textContent = "Too High";
+}
+
+// Initial empty gauge
+drawGauge(0);
 </script>
 
 
