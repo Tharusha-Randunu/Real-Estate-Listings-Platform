@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 
 def home(request):
-    latest_ads = ConfirmedAd.objects.order_by('-id')[:10]  # Fetch the latest 10 ads
+    latest_ads = ConfirmedAd.objects.order_by('-id')[:4]  # Fetch the latest 10 ads
     return render(request, 'home/home.html', {'latest_ads': latest_ads})
 
 def list_property(request):
@@ -26,7 +26,7 @@ def find_a_home(request):
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
     features = request.GET.getlist('features', [])  # List of selected features
-    offer_type = request.GET.get('offer_type', 'Sale')  # Default to 'Sale' if not specified
+    offer_type = request.GET.get('offer_type',)  # Default to 'Sale' if not specified
 
     # Start with all ads
     ads = ConfirmedAd.objects.all()
