@@ -48,16 +48,36 @@ class ConfirmedAd(models.Model):
     link = models.URLField(null=True, blank=True)
 
 class PendingAd(models.Model):
+    # Fields from rent_property.html
+    user_type = models.CharField(max_length=50, blank=True, null=True) # Owner, Agent, etc.
+    offer_type = models.CharField(max_length=10, default='Rent') # Rent/Sale
+    property_type = models.CharField(max_length=50, blank=True, null=True) # House, Apartment, etc.
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100, blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    bedrooms = models.PositiveIntegerField()
-    bathrooms = models.PositiveIntegerField()
-    floor_area = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=12, decimal_places=2)
-    price_type = models.CharField(max_length=50)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    property_image = models.ImageField(upload_to='property_images/', null=True, blank=True)
+
+    # Fields from rent_property_details.html
+    bedrooms = models.PositiveIntegerField(null=True, blank=True) # Make nullable temporarily if not always required
+    bathrooms = models.PositiveIntegerField(null=True, blank=True)# Make nullable temporarily if not always required
+    floor_area = models.PositiveIntegerField(null=True, blank=True) # Make nullable temporarily if not always required
+    price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True) # Make nullable temporarily
+    price_type = models.CharField(max_length=50, blank=True, null=True)
+    floors = models.PositiveIntegerField(blank=True, null=True)
+    status = models.CharField(max_length=50, blank=True, null=True) # Available Now, etc.
+    age = models.PositiveIntegerField(blank=True, null=True) # Age of Property
+    furnishing = models.CharField(max_length=50, blank=True, null=True) # Fully Furnished, etc.
+    parking = models.BooleanField(default=False) # Parking Available
+    title = models.CharField(max_length=255, blank=True, null=True) # Make nullable temporarily
+    description = models.TextField(blank=True, null=True) # Make nullable temporarily
+    features = models.TextField(blank=True, null=True) # Store selected features (e.g., comma-separated)
+
+    # Fields from upload_confirm.html
+    property_image = models.ImageField(upload_to='pending_property_images/', null=True, blank=True) # Use a different path?
+    confirmed_ownership = models.BooleanField(default=False)
+
+    # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Pending Ad: {self.title} in {self.city}"
