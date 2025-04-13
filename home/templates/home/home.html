@@ -442,7 +442,9 @@
 
 
 
-
+.navbar-transparent {
+            background-color: rgba(255, 255, 255, 0.8);
+            }
 </style>
 
 
@@ -451,6 +453,22 @@
 </head>
 
 <body>
+<!-- Navigation Bar -->
+   <nav class="navbar navbar-expand-lg navbar-light navbar-transparent shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3">
+                <a class="nav-link" href="{% url 'find_a_home' %}">Buy</a>
+                <a class="nav-link" href="{% url 'find_a_home' %}">Rent</a>
+                <a class="nav-link" href="#">Market Insights</a>
+            </div>
+            <a class="navbar-brand mx-auto fw-bold" href="#">ABC</a>
+            <div class="d-flex gap-3">
+                <a class="btn btn-outline-primary" href="{% url 'list_property' %}">Post Your Ad</a>
+                <a class="btn btn-primary" href="#">Login</a>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section (Background Image 60% of Screen) -->
     <header class="hero">
         <div class="overlay bg-container">
