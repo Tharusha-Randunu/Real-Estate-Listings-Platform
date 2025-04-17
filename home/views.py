@@ -140,6 +140,16 @@ def seller_register(request):
         return render(request, 'home/list_property.html')
     return render(request, 'home/seller_register.html')
 
+def rent_register(request):
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        contact = request.POST.get('contact')
+        district = request.POST.get('district')
+        print(f"Name: {full_name}, Email: {email}, Contact: {contact}, District: {district}")
+        return render(request, 'home/rent_property.html')
+    return render(request, 'home/rent_register.html')
+
 def market_insights_page(request):
     return render(request, 'home/market_insights.html')
 
