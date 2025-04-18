@@ -1,0 +1,71 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  /* Add this to your custom CSS file or in a <style> tag in base.html */
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);  /* Add hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;  /* Change color on hover */
+}
+
+</style>
+ <!-- Navigation Bar -->
+    {% include 'home/navbar.html' %}
+
+
+
+<div class="container my-5">
+    <h2 class="text-center fw-bold mb-5">Our Services</h2>
+
+    <!-- Advertising Properties -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-megaphone me-2"></i>Advertise Your Property</h4>
+            <p>Reach thousands of potential buyers or renters by advertising your property on our platform. Our user-friendly submission process and wide audience make it easier than ever to get your property noticed.</p>
+            <a href="{% url 'list_property' %}" class="btn btn-primary rounded-pill">Advertise Now</a>
+        </div>
+    </section>
+
+    <!-- Find Properties -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-house-door me-2"></i>Find Properties</h4>
+            <p>Explore a wide range of houses, apartments, lands, and commercial spaces tailored to your needs. Use our smart filter system to find your dream property in just a few clicks.</p>
+            <a href="{% url 'find_a_home' %}" class="btn btn-success rounded-pill">Browse Properties</a>
+        </div>
+    </section>
+
+    <!-- Market Insights -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-graph-up-arrow me-2"></i>Market Insights</h4>
+            <p>Stay ahead of the curve with up-to-date real estate trends, price movements, and neighborhood insights. Make informed decisions whether you're buying, selling, or investing.</p>
+            <a href="{% url 'market_insights' %}" class="btn btn-info rounded-pill">Explore Insights</a>
+        </div>
+    </section>
+
+    <!-- Find Agents -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-person-lines-fill me-2"></i>Find Trusted Agents</h4>
+            <p>Connect with experienced and verified real estate agents to help you navigate your buying or selling journey. View agent profiles, reviews, and easily get in touch with them.</p>
+            <a href="{% url 'agent' %}" class="btn btn-warning rounded-pill">Find an Agent</a>
+        </div>
+    </section>
+</div>
+{% include 'home/footer.html' %}
+{% endblock %}

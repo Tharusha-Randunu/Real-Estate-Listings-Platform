@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, {{ user.username }}!</h2>
+    <p>Email: {{ user.email }}</p>
+    <p>Name: {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</p>
+    <p>Phone: {{ user_profile.phone_number }}</p>
+
+
+    <h3>Your Posted Ads:</h3>
+    {% if user_ads %}
+        <ul>
+            {% for ad in user_ads %}
+                <li>{{ ad.title }} (Add link to view ad later)</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't posted any ads yet.</p>
+    {% endif %}
+
+    <h3>Profile Actions:</h3>
+    <p><a href="#">Edit Profile</a> (Implement this later)</p>
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+</body>
+</html>

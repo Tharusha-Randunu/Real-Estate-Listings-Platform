@@ -1,4 +1,6 @@
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,15 +8,457 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real Estate Listings</title>
+
     <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+
+
+<style>
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+    height: 50vh;
+    background: url('{% static "home/images/bg.jpg" %}') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: relative;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.hero-subtitle {
+    font-size: 1.75rem;
+    margin-bottom: 30px;
+    font-weight: 500;
+    color: #f8f9fa;
+    opacity: 0.8;
+}
+
+.search-bar {
+    display: flex;
+    width: 70%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 15%;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    border: none;
+    padding: 14px;
+    border-radius: 30px;
+    font-size: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar button {
+    border: none;
+    padding: 12px 20px;
+    margin-left: 10px;
+    border-radius: 30px;
+    background: #007bff;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.search-bar button:hover {
+    background: #0056b3;
+}
+
+/* Cards Section */
+.feature-card {
+    background: #ffffff;
+    padding-top: 15px;
+    padding-bottom: 8px;
+    border-radius: 35px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    margin-bottom: 30px;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card img {
+    padding-top: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 30px;
+    margin-bottom:20px;
+
+}
+
+.feature-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.feature-card p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.feature-card a {
+    font-size: 14px;
+    font-weight: 600;
+    color: #007bff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    margin-left: 30px;
+    margin-right: 30px;
+    border-radius: 15px;
+
+}
+
+.feature-card a:hover {
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero {
+        height: 50vh;
+    }
+
+    .search-bar {
+        width: 80%;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        height: 40vh;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+    }
+
+    .search-bar {
+        width: 90%;
+    }
+
+    .feature-card h3 {
+        font-size: 20px;
+    }
+
+    .feature-card p {
+        font-size: 14px;
+    }
+}
+
+.latest-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distributes content evenly */
+    height: 340px; /* Same card height */
+    padding: 8px;
+}
+
+.latest-img {
+    height: 150px;  /* Adjusted height for better fit */
+    object-fit: cover; /* Ensures images fill properly */
+    border-radius: 5px;
+    padding:3px;
+}
+
+.latest-card .card-body {
+    flex-grow: 1; /* Expands body to use available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 6px;
+}
+
+.latest-card .card-title {
+    font-size: 15px; /* Reduce font size slightly */
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.latest-card .card-text {
+    font-size: 13px; /* Small, but readable */
+    margin-bottom: 4px;
+}
+
+.latest-card .btn-sm {
+    font-size: 13px;
+    padding: 5px 8px;
+    text-align: center;
+    width: 100%; /* Makes button fit card width */
+}
+
+
+.explore-card {
+    width: 100%;
+    height: 250px;
+    padding: 30px;
+    text-align: center;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.explore-card h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.explore-card p {
+    font-size: 14px;
+    color: #555;
+}
+
+.explore-card .icon {
+    font-size: 32px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+/* Small devices (phones, 576px and up) */
+@media (max-width: 576px) {
+    .explore-card {
+        height: 200px; /* Reduced height for smaller screens */
+        padding: 15px; /* Reduced padding */
+    }
+
+    .explore-card h4 {
+        font-size: 14px; /* Slightly smaller font size */
+    }
+
+    .explore-card p {
+        font-size: 12px; /* Smaller font size for better fit */
+    }
+
+    .explore-card .icon {
+        font-size: 24px; /* Smaller icon for better fit */
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 992px) and (min-width: 768px) {
+    .explore-card {
+        height: 250px; /* Adjust height for medium screens */
+        padding: 20px; /* Slightly reduced padding */
+    }
+
+    .explore-card h4 {
+        font-size: 15px; /* Slightly smaller heading for better fit */
+    }
+
+    .explore-card p {
+        font-size: 13px; /* Adjusted paragraph font size */
+    }
+
+    .explore-card .icon {
+        font-size: 28px; /* Slightly smaller icon */
+    }
+}
+/* Hover effect */
+.explore-card:hover {
+    background-color: #f2fbff; /* Light blue color on hover */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+}
+
+
+
+/* Carousel Controller Arrows */
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Circle shape */
+    background-color: #007bff; /* Blue background */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; /* Arrow size */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    z-index: 5; /* Ensure buttons are above the carousel items */
+}
+
+/* Left arrow (previous button) */
+.carousel-control-prev {
+    left: 10px;
+}
+
+/* Right arrow (next button) */
+.carousel-control-next {
+    right: 10px;
+}
+
+/* Hover effect for the arrow buttons */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    cursor: pointer; /* Indicate interactivity */
+}
+
+/* Font Awesome arrow icons */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    font-size: 20px; /* Adjust icon size if needed */
+    color: white;
+}
+
+
+
+.dream-home-section {
+    position: relative;
+     background: url('{% static "home/images/bg2.jpg" %}') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.dream-home-overlay {
+    background: rgba(0, 0, 0, 0.6); /* Dark overlay to enhance text readability */
+    padding: 50px 20px;
+    border-radius: 10px;
+}
+
+.dream-home-section h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.dream-home-section ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.dream-home-section ul li {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.dream-home-section ul li::before {
+    content: "✅";
+    margin-right: 10px;
+}
+
+
+
+.top-cities-section {
+    text-align: center;
+    padding: 60px 20px;
+
+}
+
+.top-cities-section h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.city-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+.city-buttons button {
+    border: 2px solid #007bff;
+    color: #007bff;
+    background: transparent;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.city-buttons button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
 </head>
 
 <body>
+<!-- Navigation Bar -->
+    {% include 'home/navbar.html' %}
+
+
     <!-- Hero Section (Background Image 60% of Screen) -->
     <header class="hero">
-        <div class="overlay">
+        <div class="overlay bg-container">
             <div class="text-center">
                 <h1 class="hero-title">Find Your Dream Home</h1>
                 <p class="hero-subtitle">Buy, Sell, or Rent Properties with Ease</p>
@@ -53,11 +497,197 @@
                     <img src="{% static 'home/images/rent.jpg' %}" alt="Rent">
                     <h3>Rent a Home</h3>
                     <p>Find affordable rental properties.</p>
-                    <a href="{% url 'rent_property' %}" class="btn btn-outline-primary">Find Rentals</a>
+                    <a href="{% url 'rent_register' %}" class="btn btn-outline-primary">Find Rentals</a>
                 </div>
             </div>
         </div>
     </section>
+
+
+<!-- Carousel Section -->
+<div class="my-5" style="background-color: #f0f0f0; padding: 30px;">
+    <h2 class="text-center">What would you like to do?</h2>
+    <div id="exploreCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" style="padding: 30px;">
+            <!-- First Slide -->
+            <div class="carousel-item active">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <a href="{% url 'find_a_home' %}?offer_type=Sale" style="text-decoration: none; color: inherit;">
+                            <div class="explore-card border border-dark">
+                                <i class="fas fa-home icon" style="font-size: 32px; color: #fa5302;"></i>
+                                <h4>Find a property for sale</h4>
+                                <p>Find a House, Apartment or Building for sale</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <a href="{% url 'find_a_home' %}?offer_type=Rent" style="text-decoration: none; color: inherit;">
+                          <div class="explore-card border border-dark">
+                            <i class="fas fa-key icon" style="font-size: 32px; color: #f72371;"></i>
+                            <h4>Find a property for rent</h4>
+                            <p>Find a House, Annexe, Apartment or Building for rent/lease</p>
+                          </div>
+                            </a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <a href="{% url 'find_a_home' %}?property_type=Apartment" style="text-decoration: none; color: inherit;">
+                            <div class="explore-card border border-dark">
+                                <i class="fas fa-building icon" style="font-size: 32px; color: #f7a923;"></i>
+                                <h4>Find new apartments</h4>
+                                <p>Find the best luxury apartments in Sri Lanka</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Slide -->
+            <div class="carousel-item">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                      <a href="{% url 'find_a_home' %}?property_type=Land" style="text-decoration: none; color: inherit;">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-map-marker-alt icon" style="font-size: 32px; color: #2f8524;"></i>
+                            <h4>Find a land for sale</h4>
+                            <p>Find residential or commercial lands for sale</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'list_property' %}" style="text-decoration: none; color: inherit;">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-bullhorn icon" style="font-size: 32px; color: #007bff;"></i>
+                            <h4>Post your ad</h4>
+                            <p>Post your property advertisement</p>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'market_insights' %}" style="text-decoration: none; color: inherit;">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-chart-line icon" style="font-size: 32px; color: #5a3ba1;"></i>
+                            <h4>Market insights</h4>
+                            <p>Latest property trends, house & land prices</p>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Slide -->
+            <div class="carousel-item">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                       <a href="{% url 'our_services' %}" style="text-decoration: none; color: inherit;">
+                         <div class="explore-card border border-dark">
+                            <i class="fas fa-handshake icon" style="font-size: 32px; color: #6e3a21;"></i>
+                            <h4>Our Services</h4>
+                            <p>We provide expert guidance for your real estate transactions</p>
+                        </div>
+                       </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'agent' %}" style="text-decoration: none; color: inherit;">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-user-tie icon" style="font-size: 32px; color: #1f1d1c;"></i>
+                            <h4>Find an Agent</h4>
+                            <p>Get in touch with trusted real estate agents</p>
+                        </div>
+                            </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#exploreCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#exploreCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Latest Listings Section -->
+<section class="latest-listings container my-5">
+    <h2 class="text-center mb-4">Latest Listings</h2>
+    <div class="row" style="padding-top:20px">
+        {% for ad in latest_ads %}
+        <div class="col-md-3"> <!-- Smaller cards -->
+            <div class="card latest-card">  <!-- Applied a new class -->
+                <img src="{{ ad.images.url }}" alt="{{ ad.name }}" class="card-img-top latest-img">
+                <div class="card-body p-2">
+                    <h6 class="card-title">{{ ad.name }}</h6>
+                    <p class="card-text"><strong>Price:</strong> ${{ ad.price }}</p>
+                    <p class="card-text small-text">{{ ad.address }}</p>
+                    <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No recent ads available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="dream-home-section ">
+    <div class="dream-home-overlay">
+        <h2>Your Dream Home is Just a Touch Away</h2>
+        <ul>
+            <li>Search properties anytime anywhere</li>
+            <li>Contact advertisers with just a touch</li>
+            <li>Find properties near you instantly</li>
+            <li>Snap pics and upload your ad in a few minutes</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="top-cities-section container my-5">
+    <h2>Top Cities</h2>
+    <div class="city-buttons">
+        <button>Colombo</button>
+        <button>Gampaha</button>
+        <button>Dehiwala</button>
+        <button>Wattala</button>
+        <button>Nugegoda</button>
+        <button>Kandy</button>
+        <button>Galle</button>
+        <button>Jaffna</button>
+        <button>Kalutara</button>
+        <button>Matara</button>
+        <button>Kurunegala</button>
+        <button>Mount Lavinia</button>
+        <button>Malabe</button>
+        <button>Piliyandala</button>
+        <button>Maharagama</button>
+        <button>Battaramulla</button>
+        <button>Rajagiriya</button>
+        <button>Negombo</button>
+        <button>Pannipitiya</button>
+        <button>Kotte</button>
+        <button>Homagama</button>
+        <button>Kottawa</button>
+        <button>Kadawatha</button>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+ <script src="{% static 'home/js/script.js' %}"></script>
+{% include 'home/footer.html' %}
 </body>
 
 </html>
