@@ -8,6 +8,7 @@ urlpatterns = [
     path('property/<int:ad_id>/', views.property_detail, name='property_detail'),
     path('rent-property/', views.rent_property, name='rent_property'),
     path('seller-register/', views.seller_register, name='seller_register'),
+    path('rent-register/', views.rent_register, name='rent_register'),
     path('market-insights/', views.market_insights_page, name='market_insights'),
     path('list/details/', views.list_property_details, name='list_property_details'),
     path('upload_confirm/', views.upload_confirm, name='upload_confirm'),
