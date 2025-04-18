@@ -153,7 +153,7 @@ def rent_register(request):
 def market_insights_page(request):
     return render(request, 'home/market_insights.html')
 
-def agent_list(request):
+def agent(request):
     return render(request, 'home/agent.html')
 
 def list_property_details(request):
