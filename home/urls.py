@@ -14,6 +14,7 @@ urlpatterns = [
     path('upload_confirm/', views.upload_confirm, name='upload_confirm'),
     path('rent-property/details/', views.rent_property_details, name='rent_property_details'),
     path('agent/', views.agent, name='agent'),
+path('our-services/', views.our_services, name='our_services'),
 ]
 
 # Media files for development

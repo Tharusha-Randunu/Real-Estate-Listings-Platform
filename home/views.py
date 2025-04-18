@@ -402,3 +402,6 @@ def list_property_details(request):
     ]
      # Add session handling here if this becomes part of a multi-step flow
      return render(request, 'home/list_property_details.html', {'features': features})
+
+def our_services(request):
+    return render(request, 'home/our_services.html')
