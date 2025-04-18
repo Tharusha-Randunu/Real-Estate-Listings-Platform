@@ -46,6 +46,7 @@ def safe_decimal(value, default=None):
     except (InvalidOperation, TypeError): # InvalidOperation used here too!
         return default
 
+
 def home(request):
     latest_ads = ConfirmedAd.objects.order_by('-id')[:4]
     return render(request, 'home/home.html', {'latest_ads': latest_ads})
@@ -144,6 +145,7 @@ def seller_register(request):
         return render(request, 'home/list_property.html')
     return render(request, 'home/seller_register.html')
 
+
 def rent_register(request):
     if request.method == 'POST':
         full_name = request.POST.get('full_name')
@@ -153,6 +155,7 @@ def rent_register(request):
         print(f"Name: {full_name}, Email: {email}, Contact: {contact}, District: {district}")
         return render(request, 'home/rent_property.html')
     return render(request, 'home/rent_register.html')
+
 
 def market_insights_page(request):
     return render(request, 'home/market_insights.html')
