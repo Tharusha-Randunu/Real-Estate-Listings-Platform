@@ -1,0 +1,27 @@
+<!-- Navigation Bar -->
+   <nav class="navbar navbar-expand-lg navbar-light navbar-transparent shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3">
+                <a class="nav-link" href="{% url 'find_a_home' %}?offer_type=Sale">Buy</a>
+                <a class="nav-link" href="{% url 'find_a_home' %}?offer_type=Rent">Rent</a>
+                <a class="nav-link" href="{% url 'market_insights' %}">Market Insights</a>
+                <a class="nav-link" href="{% url 'our_services' %}">Our Services</a>
+            </div>
+            <a class="navbar-brand mx-auto fw-bold" href="{% url 'home' %}">LandMark</a>
+            <div class="d-flex gap-3">
+                <a class="btn btn-outline-primary" href="{% url 'list_property' %}">Post Your Ad</a>
+                <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+                <a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+            </div>
+        </div>
+    </nav>
+
+
+<style>
+
+
+    .navbar-transparent {
+            background-color: rgba(255, 255, 255, 0.8);
+            }
+
+</style>

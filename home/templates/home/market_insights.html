@@ -1,81 +1,562 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Market Insights</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; }
-        nav { background: #008000; padding: 10px; position: sticky; top: 0; z-index: 999; }
-        nav a {
-            color: white; margin-right: 15px; text-decoration: none; font-weight: bold;
-        }
-        section { padding: 40px 20px; border-bottom: 1px solid #ccc; }
-        h2 { color: #333; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Market Insights - Sri Lanka Real Estate</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      color: #222;
+    }
+
+    section {
+      padding: 60px 20px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    #overview {
+  background: url("/static/home/images/bg3.jpg") no-repeat center center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 80vh; /* Makes it fill full screen height */
+  width: 100%;
+  color: #fff;
+  text-shadow: 0 12px 15px rgba(0, 0, 0, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 15px;
+      padding-bottom: 25px;
+
+    }
+
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 15px;
+      padding-bottom: 25px;
+    }
+
+    p {
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+      font-size: 17px;
+      text-shadow: 0 5px 5px rgba(0, 0, 0, 1);
+    }
+
+    .chart-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    #price-meter {
+      background-color: #f2f2f2; /* ash */
+    }
+
+    #house-index {
+      background-color: #ffffff;
+    }
+
+    #land-index {
+      background-color: #f5fafc;
+    }
+
+    .form-gauge-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    form {
+      text-align: left;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      max-width: 320px;
+      width: 100%;
+    }
+
+    form input,
+    form select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    form button {
+      width: 100%;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      margin-top: 12px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #gaugeContainer {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+
+    #pricePerSqft {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 26px;
+      }
+    }
+
+
+
+.explore-card {
+    width: 100%;
+    height: 250px;
+    padding: 30px;
+    text-align: center;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.explore-card h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.explore-card p {
+    font-size: 14px;
+    color: #555;
+    text-shadow: 0 0 0;
+}
+
+.explore-card .icon {
+    font-size: 32px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+/* Small devices (phones, 576px and up) */
+@media (max-width: 576px) {
+    .explore-card {
+        height: 200px; /* Reduced height for smaller screens */
+        padding: 15px; /* Reduced padding */
+    }
+
+    .explore-card h4 {
+        font-size: 14px; /* Slightly smaller font size */
+    }
+
+    .explore-card p {
+        font-size: 12px; /* Smaller font size for better fit */
+    }
+
+    .explore-card .icon {
+        font-size: 24px; /* Smaller icon for better fit */
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 992px) and (min-width: 768px) {
+    .explore-card {
+        height: 250px; /* Adjust height for medium screens */
+        padding: 20px; /* Slightly reduced padding */
+    }
+
+    .explore-card h4 {
+        font-size: 15px; /* Slightly smaller heading for better fit */
+    }
+
+    .explore-card p {
+        font-size: 13px; /* Adjusted paragraph font size */
+    }
+
+    .explore-card .icon {
+        font-size: 28px; /* Slightly smaller icon */
+    }
+}
+/* Hover effect */
+.explore-card:hover {
+    background-color: #f2fbff; /* Light blue color on hover */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+}
+/* Carousel Controller Arrows */
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Circle shape */
+    background-color: #007bff; /* Blue background */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; /* Arrow size */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    z-index: 5; /* Ensure buttons are above the carousel items */
+}
+
+/* Left arrow (previous button) */
+.carousel-control-prev {
+    left: 10px;
+}
+
+/* Right arrow (next button) */
+.carousel-control-next {
+    right: 10px;
+}
+
+/* Hover effect for the arrow buttons */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    cursor: pointer; /* Indicate interactivity */
+}
+
+/* Font Awesome arrow icons */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    font-size: 20px; /* Adjust icon size if needed */
+    color: white;
+}
+
+
+  </style>
 </head>
 <body>
-
-<nav>
-    <a href="#overview">Market Insights</a>
-    <a href="#price-meter">Price Meter</a>
-    <a href="#buying-guide">Buying Guide</a>
-    <a href="#foreign-buyers">Foreign Buyers</a>
-    <a href="#capital-gains">Capital Gains Tax</a>
-    <a href="#house-index">House Price Index</a>
-    <a href="#land-index">Land Price Index</a>
-    <a href="#membership">Membership</a>
-    <a href="#outlook">Market Outlook</a>
-    <a href="#news">News & Guides</a>
-</nav>
+ <!-- Navigation Bar -->
+    {% include 'home/navbar.html' %}
 
 <section id="overview">
-    <h2>Market Insights Overview</h2>
-    <p>Explore comprehensive insights into Sri Lanka's real estate market trends, ROI estimation, and more.</p>
+  <h1>Market Insights Overview</h1>
+  <p>Discover key trends and ROI forecasts in Sri Lanka’s dynamic real estate sector. Get data-driven insights into property value and market growth.</p>
 </section>
 
 <section id="price-meter">
-    <h2>Price Meter</h2>
-    <p>Estimate property prices in top cities. Compare and evaluate investment opportunities easily.</p>
-</section>
+  <h2>Market Value Estimator</h2>
+  <div class="form-gauge-wrapper">
+    <form id="marketForm">
+      <label for="propertyType">Select Property Type</label>
+      <select id="propertyType">
+        <option>House</option>
+        <option>Land</option>
+      </select>
+      <input type="text" id="location" placeholder="Location (e.g., Colombo 7)">
+      <input type="number" id="area" placeholder="Floor area (sqft)">
+      <input type="number" id="price" placeholder="Total price (LKR)">
+      <button type="button" onclick="calculateValue()">Check Now</button>
+    </form>
 
-<section id="buying-guide">
-    <h2>Property Buying Guide</h2>
-    <p>A complete step-by-step walkthrough of how to purchase property in Sri Lanka legally and securely.</p>
-</section>
-
-<section id="foreign-buyers">
-    <h2>Foreign Buyers' Guide</h2>
-    <p>Information and legal guidelines for non-citizens wishing to invest in Sri Lanka's property market.</p>
-</section>
-
-<section id="capital-gains">
-    <h2>Capital Gains Tax</h2>
-    <p>Understand the CGT structure, recent updates, and how it affects your property transactions.</p>
+    <div id="gaugeContainer">
+      <canvas id="gaugeChart"></canvas>
+      <div id="pricePerSqft"></div>
+    </div>
+  </div>
 </section>
 
 <section id="house-index">
-    <h2>Sri Lanka House Price Index</h2>
-    <p>Monitor the rise and fall of house prices across major urban and suburban regions.</p>
+  <h2>House Price Index</h2>
+  <p>Track housing price trends across major regions in Sri Lanka.</p>
+  <div class="chart-container">
+    <canvas id="houseChart"></canvas>
+  </div>
 </section>
 
 <section id="land-index">
-    <h2>Sri Lanka Land Price Index</h2>
-    <p>Analyze land value changes in different provinces and cities, quarterly and yearly.</p>
+  <h2>Land Price Index</h2>
+  <p>Analyze land price fluctuations from 2018 to 2023 across national regions.</p>
+  <div class="chart-container">
+    <canvas id="landChart"></canvas>
+  </div>
 </section>
 
-<section id="membership">
-    <h2>Membership Benefits</h2>
-    <p>Become a member to unlock exclusive features, analytics tools, and advertising opportunities.</p>
-</section>
 
-<section id="outlook">
-    <h2>Market Outlook Report</h2>
-    <p>Access the latest annual report analyzing residential and commercial market performance.</p>
-</section>
+<!-- Carousel Section -->
+<div class="my-5" style="background-color: #f0f0f0; padding: 30px;">
+    <h2 class="text-center">What would you like to do?</h2>
+    <div id="exploreCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" style="padding: 30px;">
+            <!-- First Slide -->
+            <div class="carousel-item active">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <a href="{% url 'find_a_home' %}?offer_type=Sale" style="text-decoration: none; color: inherit;">
+                            <div class="explore-card border border-dark">
+                                <i class="fas fa-home icon" style="font-size: 32px; color: #fa5302;"></i>
+                                <h4>Find a property for sale</h4>
+                                <p>Find a House, Apartment or Building for sale</p>
+                            </div>
+                        </a>
+                    </div>
 
-<section id="news">
-    <h2>News & Guides</h2>
-    <p>Stay updated with expert opinions, latest policy changes, and real estate news in Sri Lanka.</p>
-</section>
+                    <div class="col-md-3">
+                        <a href="{% url 'find_a_home' %}?offer_type=Rent" style="text-decoration: none; color: inherit;">
+                          <div class="explore-card border border-dark">
+                            <i class="fas fa-key icon" style="font-size: 32px; color: #f72371;"></i>
+                            <h4>Find a property for rent</h4>
+                            <p>Find a House, Annexe, Apartment or Building for rent/lease</p>
+                          </div>
+                            </a>
+                    </div>
 
+                    <div class="col-md-3">
+                        <a href="{% url 'find_a_home' %}?property_type=Apartment" style="text-decoration: none; color: inherit;">
+                            <div class="explore-card border border-dark">
+                                <i class="fas fa-building icon" style="font-size: 32px; color: #f7a923;"></i>
+                                <h4>Find new apartments</h4>
+                                <p>Find the best luxury apartments in Sri Lanka</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Slide -->
+            <div class="carousel-item">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                      <a href="{% url 'find_a_home' %}?property_type=Land" style="text-decoration: none; color: inherit;">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-map-marker-alt icon" style="font-size: 32px; color: #2f8524;"></i>
+                            <h4>Find a land for sale</h4>
+                            <p>Find residential or commercial lands for sale</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'list_property' %}" style="text-decoration: none; color: inherit;">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-bullhorn icon" style="font-size: 32px; color: #007bff;"></i>
+                            <h4>Post your ad</h4>
+                            <p>Post your property advertisement</p>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'market_insights' %}" style="text-decoration: none; color: inherit;">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-chart-line icon" style="font-size: 32px; color: #5a3ba1;"></i>
+                            <h4>Market insights</h4>
+                            <p>Latest property trends, house & land prices</p>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Slide -->
+            <div class="carousel-item">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-handshake icon" style="font-size: 32px; color: #6e3a21;"></i>
+                            <h4>Get assistance with buying & selling</h4>
+                            <p>Expert guidance for your real estate transactions</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="explore-card border border-dark">
+                            <i class="fas fa-user-tie icon" style="font-size: 32px; color: #1f1d1c;"></i>
+                            <h4>Find an Agent</h4>
+                            <p>Get in touch with trusted real estate agents</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#exploreCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#exploreCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+
+
+<script>
+  let gaugeChart;
+
+  function calculateValue() {
+    const area = parseFloat(document.getElementById('area').value);
+    const price = parseFloat(document.getElementById('price').value);
+
+    if (!area || !price || area <= 0) {
+      alert('Please enter valid numbers for area and price.');
+      return;
+    }
+
+    const value = price / area;
+    document.getElementById('pricePerSqft').innerText = `LKR ${value.toFixed(2)} / sqft`;
+
+    const percentage = Math.min((value / 10000) * 100, 100);
+
+    if (gaugeChart) {
+      gaugeChart.data.datasets[0].data = [percentage, 100 - percentage];
+      gaugeChart.update();
+    } else {
+      const ctx = document.getElementById('gaugeChart').getContext('2d');
+      gaugeChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Value', 'Remaining'],
+          datasets: [{
+            data: [percentage, 100 - percentage],
+            backgroundColor: ['#007bff', '#e0e0e0'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '80%',
+          plugins: {
+            legend: { display: false },
+          },
+          rotation: -90,
+          circumference: 180,
+        }
+      });
+    }
+  }
+
+  async function fetchHousePriceData() {
+    return {
+      labels: ['2022 Q1', '2022 Q2', '2022 Q3', '2023 Q1', '2023 Q2', '2024 Q1'],
+      datasets: [
+        {
+          label: 'Urban Region',
+          data: [100, 110, 130, 150, 160, 170],
+          borderColor: '#1e88e5',
+          tension: 0.4
+        },
+        {
+          label: 'Suburban Region',
+          data: [100, 105, 120, 135, 145, 150],
+          borderColor: '#43a047',
+          tension: 0.4
+        }
+      ]
+    };
+  }
+
+  async function fetchLandPriceData() {
+    return {
+      labels: ['2022 Q1', '2022 Q2', '2022 Q3', '2023 Q1', '2023 Q2', '2024 Q1'],
+      datasets: [
+        {
+          label: 'Colombo',
+          data: [100, 120, 150, 180, 200, 210],
+          borderColor: '#d32f2f',
+          tension: 0.4
+        },
+        {
+          label: 'Kandy',
+          data: [100, 115, 135, 150, 160, 170],
+          borderColor: '#388e3c',
+          tension: 0.4
+        }
+      ]
+    };
+  }
+
+  async function renderCharts() {
+    const houseData = await fetchHousePriceData();
+    const landData = await fetchLandPriceData();
+
+    const houseCtx = document.getElementById('houseChart').getContext('2d');
+    new Chart(houseCtx, {
+      type: 'line',
+      data: {
+        labels: houseData.labels,
+        datasets: houseData.datasets
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'House Price Index (Real-time)',
+            font: { size: 18 }
+          },
+          legend: { position: 'bottom' }
+        },
+        responsive: true
+      }
+    });
+
+    const landCtx = document.getElementById('landChart').getContext('2d');
+    new Chart(landCtx, {
+      type: 'line',
+      data: {
+        labels: landData.labels,
+        datasets: landData.datasets
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Land Price Index (Real-time)',
+            font: { size: 18 }
+          },
+          legend: { position: 'bottom' }
+        },
+        responsive: true
+      }
+    });
+  }
+
+  renderCharts();
+</script>
+ <script src="{% static 'home/js/script.js' %}"></script>
+{% include 'home/footer.html' %}
 </body>
 </html>
