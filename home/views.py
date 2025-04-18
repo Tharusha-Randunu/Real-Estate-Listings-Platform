@@ -165,8 +165,42 @@ def list_property_details(request):
     ]
     return render(request, 'home/list_property_details.html', {'features': features})
 
+# --- Step 0: Collect Registration Info ---
+def rent_register(request):
+    if request.method == 'POST':
+        registration_info = {
+            'full_name': request.POST.get('full_name'),
+            'email': request.POST.get('email'),
+            'contact': request.POST.get('contact'),
+            'district': request.POST.get('district'),
+        }
+
+        # Basic validation: Check if any field is empty
+        if not all(registration_info.values()):
+             # You might want to add a message using django.contrib.messages
+             # messages.error(request, 'All registration fields are required.')
+             return render(request, 'home/rent_register.html', {'error': 'All fields are required.'})
+
+        # Store registration info in session
+        request.session['rent_registration_info'] = registration_info
+        print("Saved registration info to session:", registration_info) # Debugging
+
+        # Redirect to the next step (rent_property)
+        return redirect('rent_property') # Use the URL name defined in your urls.py
+
+    # If GET request, just show the registration form
+    return render(request, 'home/rent_register.html')
+
+
 # --- Step 1: Collect Basic Info ---
 def rent_property(request):
+    # --- Add check: Ensure registration step was completed ---
+    if 'rent_registration_info' not in request.session:
+        print("Registration info missing, redirecting to rent_register") # Debugging
+        # messages.error(request, 'Please complete the registration step first.') # Optional feedback
+        return redirect('rent_register') # Redirect to the first step
+    # --- End check ---
+
     if request.method == 'POST':
         # Extract data from POST request
         basic_info = {
@@ -187,15 +221,21 @@ def rent_property(request):
     # If GET request, just show the form
     return render(request, 'home/rent_property.html')
 
+
 # --- Step 2: Collect Property Details ---
 def rent_property_details(request):
-    # Define features here or get from DB if dynamic
     features = [
         "AC Rooms", "Indoor Garden", "Swimming Pool", "Waterfront/Riverside", "Beachfront",
         "Gated Community", "Rooftop Garden", "Lawn Garden", "Luxury Specification", "Brand New",
         "24 Hours Security", "Maid's Room", "Maid's Toilet", "Hot Water", "Attached Toilets",
         "Infinity Pool", "Garage"
     ]
+
+    # Check if basic info exists from step 1 (implicitly checks step 0 due to rent_property check)
+    if 'rent_basic_info' not in request.session:
+         print("Basic info missing, redirecting to rent_property") # Debugging
+         # messages.error(request, 'Please complete the previous property details step.') # Optional feedback
+         return redirect('rent_property')
 
     if request.method == 'POST':
         # Extract data from POST request
@@ -209,7 +249,8 @@ def rent_property_details(request):
             'status': request.POST.get('status'),
             'age': request.POST.get('age'),
             'furnishing': request.POST.get('furnishing'),
-            'parking': request.POST.get('parking') == 'true', # Checkbox value
+            # Correctly handle checkbox boolean value
+            'parking': request.POST.get('parking') == 'true' or request.POST.get('parking') == 'on',
             'title': request.POST.get('title'),
             'description': request.POST.get('description'),
             'features_list': request.POST.get('features_list'), # Comma-separated string
@@ -221,29 +262,38 @@ def rent_property_details(request):
         return redirect('upload_confirm') # Redirect using URL name
 
     # If GET request, show the form
-    # Check if basic info exists from step 1, otherwise redirect back
-    if 'rent_basic_info' not in request.session:
-         print("Basic info missing, redirecting to rent_property") # Debugging
-         # Optionally add a message: from django.contrib import messages; messages.error(request, 'Please start from step 1.')
-         return redirect('rent_property')
-
     return render(request, 'home/rent_property_details.html', {'features': features})
 
 
 # --- Step 3: Upload Image and Confirm ---
 def upload_confirm(request):
     if request.method == 'POST':
-        confirm = request.POST.get('confirm') == 'true' # Checkbox value
+        confirm = request.POST.get('confirm') == 'true' or request.POST.get('confirm') == 'on'
         image = request.FILES.get('property_image')
 
-        # Retrieve data from session
+        # Retrieve data from ALL previous steps in session
+        registration_info = request.session.get('rent_registration_info') # <-- Get registration data
         basic_info = request.session.get('rent_basic_info')
         details_info = request.session.get('rent_details_info')
 
         # --- Validation ---
         error_msg = None
-        if not basic_info or not details_info:
-            error_msg = 'Session expired or data missing. Please restart the ad submission.'
+        # Check if all required session data exists
+        if not registration_info:
+            error_msg = 'Registration data missing. Please start from the beginning.'
+            # Redirect to start immediately if registration info is gone
+            # messages.error(request, error_msg) # Optional feedback
+            return redirect('rent_register')
+        elif not basic_info:
+             error_msg = 'Property location data missing. Please go back to the property details step.'
+             # Redirect to step 1
+             # messages.error(request, error_msg) # Optional feedback
+             return redirect('rent_property')
+        elif not details_info:
+             error_msg = 'Property features data missing. Please go back to the features step.'
+             # Redirect to step 2
+             # messages.error(request, error_msg) # Optional feedback
+             return redirect('rent_property_details')
         elif not confirm:
             error_msg = 'You must confirm ownership/authorization.'
         elif not image:
@@ -251,7 +301,7 @@ def upload_confirm(request):
 
         if error_msg:
              print("Error during submission:", error_msg) # Debugging
-             # Don't clear session here so user might retry if applicable
+             # Render the confirm page again with the error
              return render(request, 'home/upload_confirm.html', {'error': error_msg})
         # --- End Validation ---
 
@@ -259,7 +309,13 @@ def upload_confirm(request):
         try:
             # --- Create PendingAd instance ---
             ad = PendingAd(
-                # From basic_info
+                # From registration_info (Step 0)
+                registered_name=registration_info.get('full_name'),      # <-- Use registration data
+                registered_email=registration_info.get('email'),         # <-- Use registration data
+                registered_contact=registration_info.get('contact'),     # <-- Use registration data
+                registered_district=registration_info.get('district'),   # <-- Use registration data
+
+                # From basic_info (Step 1)
                 user_type=basic_info.get('user_type'),
                 offer_type=basic_info.get('offer_type', 'Rent'),
                 property_type=basic_info.get('property_type'),
@@ -268,7 +324,7 @@ def upload_confirm(request):
                 latitude=safe_float(basic_info.get('latitude')),
                 longitude=safe_float(basic_info.get('longitude')),
 
-                # From details_info
+                # From details_info (Step 2)
                 bedrooms=safe_int(details_info.get('bedrooms')),
                 bathrooms=safe_int(details_info.get('bathrooms')),
                 floor_area=safe_int(details_info.get('floor_area')),
@@ -278,17 +334,17 @@ def upload_confirm(request):
                 status=details_info.get('status'),
                 age=safe_int(details_info.get('age')),
                 furnishing=details_info.get('furnishing'),
-                parking=details_info.get('parking', False),
+                parking=details_info.get('parking', False), # Already boolean from step 2
                 title=details_info.get('title'),
                 description=details_info.get('description'),
                 features=details_info.get('features_list'), # Save comma-separated list
 
-                # From this form
+                # From this form (Step 3)
                 confirmed_ownership=confirm,
                 # Image handled below
             )
 
-            # Save the image
+            # Save the image using FileSystemStorage
             fs = FileSystemStorage()
             filename = fs.save(image.name, image)
             ad.property_image = filename # Save the path relative to MEDIA_ROOT
@@ -296,7 +352,8 @@ def upload_confirm(request):
 
             print("Successfully saved PendingAd:", ad.id, ad.title) # Debugging
 
-            # Clear session data after successful submission
+            # Clear ALL session data for this flow after successful submission
+            request.session.pop('rent_registration_info', None) # <-- Clear registration data
             request.session.pop('rent_basic_info', None)
             request.session.pop('rent_details_info', None)
 
@@ -316,15 +373,23 @@ def upload_confirm(request):
              return render(request, 'home/upload_confirm.html', {'error': 'An unexpected error occurred. Please try again later.'})
 
 
-    # If GET request, show the form
-    # Check if previous steps' data exists in session
-    if 'rent_basic_info' not in request.session or 'rent_details_info' not in request.session:
-        print("Session data missing on GET, redirecting to rent_property") # Debugging
-        # Optionally add a message
+    # --- If GET request, show the form ---
+    # Check if ALL previous steps' data exists in session before rendering the confirmation page
+    if 'rent_registration_info' not in request.session:
+        print("Session data (registration) missing on GET, redirecting to rent_register")
+        # messages.error(request, 'Please start the process from the beginning.') # Optional
+        return redirect('rent_register')
+    elif 'rent_basic_info' not in request.session:
+        print("Session data (basic) missing on GET, redirecting to rent_property")
+        # messages.error(request, 'Please complete the property location step.') # Optional
         return redirect('rent_property')
+    elif 'rent_details_info' not in request.session:
+        print("Session data (details) missing on GET, redirecting to rent_property_details")
+        # messages.error(request, 'Please complete the property features step.') # Optional
+        return redirect('rent_property_details')
 
+    # Only render the confirmation page if all previous steps' data is present
     return render(request, 'home/upload_confirm.html')
-
 
 # --- Ensure list_property_details also provides features ---
 # (This view seems unused in the rent flow now, but update for consistency if used elsewhere)

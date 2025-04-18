@@ -60,9 +60,12 @@ class PendingAdAdmin(admin.ModelAdmin):
                     furnishing_status=pending_ad.furnishing or 'Unfurnished', # Map furnishing, provide default
                     # --- Fields requiring manual input or defaults ---
                     land_area=0.0, # Default - Needs manual update later if important
-                    seller_name="Pending Review", # Placeholder - Update manually
-                    seller_tel="Pending Review",  # Placeholder - Update manually
-                    seller_email="pending@review.com", # Placeholder - Update manually
+                    seller_name=pending_ad.registered_name or "Pending Review",
+                    # Use registered name as initial seller name
+                    seller_tel=pending_ad.registered_contact or "Pending Review",
+                    # Use registered contact as initial seller tel
+                    seller_email=pending_ad.registered_email or "pending@review.com",
+                    # Use registered email as initial seller email
                     # link=None # Default is blank/null
                 )
 

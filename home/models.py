@@ -48,6 +48,13 @@ class ConfirmedAd(models.Model):
     link = models.URLField(null=True, blank=True)
 
 class PendingAd(models.Model):
+    # --- Fields from rent_register.html ---
+    registered_name = models.CharField(max_length=255, default='') # Added default
+    registered_email = models.EmailField(default='')             # Added default
+    registered_contact = models.CharField(max_length=20, default='') # Added default
+    registered_district = models.CharField(max_length=100, default='') # Added default
+
+
     # Fields from rent_property.html
     user_type = models.CharField(max_length=50, blank=True, null=True) # Owner, Agent, etc.
     offer_type = models.CharField(max_length=10, default='Rent') # Rent/Sale
