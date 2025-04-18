@@ -458,17 +458,19 @@
 
     <!-- Hero Section (Background Image 60% of Screen) -->
     <header class="hero">
-        <div class="overlay bg-container">
-            <div class="text-center">
-                <h1 class="hero-title">Find Your Dream Home</h1>
-                <p class="hero-subtitle">Buy, Sell, or Rent Properties with Ease</p>
+    <div class="overlay bg-container">
+        <div class="text-center">
+            <h1 class="hero-title">Find Your Dream Home</h1>
+            <p class="hero-subtitle">Buy, Sell, or Rent Properties with Ease</p>
+            <form method="get" action="{% url 'find_a_home' %}">
                 <div class="search-bar">
-                    <input type="text" class="form-control" placeholder="Enter city or location">
-                    <button class="btn btn-primary">Search</button>
+                    <input type="text" name="city" class="form-control" placeholder="Enter city or location">
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </div>
-            </div>
+            </form>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Cards Section (Below the Background) -->
     <section class="features container my-5 text-center">
