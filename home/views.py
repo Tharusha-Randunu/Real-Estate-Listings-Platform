@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .forms import RegistrationForm, LoginForm
+from django.shortcuts import get_object_or_404
 
 # --- Helper function to safely convert to float ---
 def safe_float(value, default=None):
