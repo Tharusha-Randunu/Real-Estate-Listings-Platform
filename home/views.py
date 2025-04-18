@@ -437,7 +437,7 @@ def user_login(request):
 @login_required
 def dashboard(request):
     user_ads = [] # Replace with your logic to get user's ads
-    user_profile = request.user
+    user_profile = request.user.profile
     context = {
         'user_ads': user_ads,
         'user_profile': user_profile,
