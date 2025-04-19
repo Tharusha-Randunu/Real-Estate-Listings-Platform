@@ -451,3 +451,7 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return redirect('home') # Make sure you have a URL named 'home'
+
+def redirect(request):
+    return render(request, 'home/redirect.html')
+

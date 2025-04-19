@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LandMark - List a Property</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .auth-box {
+      background: #fff;
+      padding: 40px 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .subtext {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 12px;
+    }
+
+    .btn-login {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .btn-login:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-register {
+      background-color: #f8f9fa;
+      color: #007bff;
+      border: 2px solid #007bff;
+    }
+
+    .btn-register:hover {
+      background-color: #e9f3ff;
+    }
+
+    @media screen and (max-width: 500px) {
+      .auth-box {
+        margin: 0 20px;
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-box">
+    <div class="logo">LandMark</div>
+    <div class="subtext">
+      You need to log in to list a property.<br>
+      If you’re new here, register as a LandMark user to get started.
+    </div>
+    <a href="{% url 'login' %}"><button class="btn btn-login">Login</button></a>
+    <a href="{% url 'register' %}"><button class="btn btn-register">Register</button></a>
+  </div>
+
+</body>
+</html>
