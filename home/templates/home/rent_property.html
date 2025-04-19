@@ -66,7 +66,7 @@
 
             <div class="section">
                 <h4 class="text-center">I am</h4>
-                <input type="hidden" name="user_type" id="user_type_input" required> {# Hidden input #}
+                <input type="hidden" name="user_type" id="user_type_input" required>
                 <div class="btn-choice-group">
                     <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'user_type_input')">Owner</button>
                     <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'user_type_input')">Agent</button>
@@ -77,17 +77,16 @@
 
             <div class="section">
                 <h4 class="text-center">Offer Type</h4>
-                <input type="hidden" name="offer_type" id="offer_type_input" value="Rent" required> {# Hidden input, pre-filled for Rent #}
+                <input type="hidden" name="offer_type" id="offer_type_input" value="Rent" required>
                 <div class="btn-choice-group">
                     <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'offer_type_input')">Sale</button>
-                    {# Mark Rent as active by default since this is the rent flow #}
                     <button type="button" class="btn btn-primary btn-choice active-choice" onclick="selectChoice(this, 'offer_type_input')">Rent</button>
                 </div>
             </div>
 
             <div class="section">
                 <h4 class="text-center">Property Type</h4>
-                <input type="hidden" name="property_type" id="property_type_input" required> {# Hidden input #}
+                <input type="hidden" name="property_type" id="property_type_input" required>
                 <div class="btn-choice-group">
                     <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'property_type_input')">House</button>
                     <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'property_type_input')">Apartment</button>
@@ -106,43 +105,36 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="city" class="form-label">City / Town <span class="text-danger">*</span></label>
-                        {# Added name attribute #}
                         <input type="text" class="form-control" id="city" name="city" placeholder="E.g. Piliyandala" required>
                     </div>
                     <div class="col-md-6">
                         <label for="street" class="form-label">Street</label>
-                         {# Added name attribute #}
                         <input type="text" class="form-control" id="street" name="street" placeholder="E.g. Park Road">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="latitude" class="form-label">Latitude</label>
-                         {# Added name attribute #}
-                        <input type="text" class="form-control" id="latitude" name="latitude" placeholder="eg. 6.8723">
+                        <label for="latitude" class="form-label">Latitude <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="latitude" name="latitude" placeholder="eg. 6.8723" required>
                     </div>
                     <div class="col-md-4">
-                        <label for="longitude" class="form-label">Longitude</label>
-                         {# Added name attribute #}
-                        <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 73.5869">
+                        <label for="longitude" class="form-label">Longitude <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 73.5869" required>
                     </div>
                     <div class="col-md-4 d-flex align-items-end">
-                        {# Keep this button as type="button" as it likely triggers JS #}
                         <button class="btn btn-outline-secondary w-100" type="button" id="get_location_btn">📍 Get Current Location</button>
                     </div>
                 </div>
             </div>
 
             <div class="text-center">
-                {# Changed <a> to <button type="submit"> #}
                 <button type="submit" class="btn btn-success px-5 py-2">Next</button>
             </div>
-        </form> {# End form #}
+        </form>
     </div>
 
     <script>
-        // Updated function to handle button selection AND update hidden input
         function selectChoice(button, hiddenInputId) {
             const hiddenInput = document.getElementById(hiddenInputId);
             if (!hiddenInput) {
@@ -154,32 +146,43 @@
             let valueToSet = '';
 
             for (let btn of buttonGroup) {
-                // Only consider buttons for selection logic
                 if (btn.tagName === 'BUTTON') {
-                     if (btn === button) {
+                    if (btn === button) {
                         btn.classList.add('active-choice');
-                        btn.classList.remove('btn-outline-primary'); // Make it look selected
+                        btn.classList.remove('btn-outline-primary');
                         btn.classList.add('btn-primary');
-                        valueToSet = btn.textContent.trim(); // Get text content as value
+                        valueToSet = btn.textContent.trim();
                     } else {
                         btn.classList.remove('active-choice');
-                        btn.classList.remove('btn-primary'); // Ensure others look unselected
+                        btn.classList.remove('btn-primary');
                         btn.classList.add('btn-outline-primary');
                     }
                 }
             }
-             // Update the hidden input's value
-             hiddenInput.value = valueToSet;
-             console.log("Set " + hiddenInputId + " to: " + valueToSet); // For debugging
+
+            hiddenInput.value = valueToSet;
+            console.log("Set " + hiddenInputId + " to: " + valueToSet);
         }
 
-        // Optional: Add JS for 'Get Current Location' button if needed
-        // document.getElementById('get_location_btn').addEventListener('click', () => { ... });
-
-        // Initialize default selection for Offer Type if needed (already set in hidden input)
-        // const rentButton = Array.from(document.querySelectorAll('.btn-choice')).find(btn => btn.textContent.trim() === 'Rent');
-        // if(rentButton) selectChoice(rentButton, 'offer_type_input');
-
+        // Get current location and update fields
+        document.getElementById('get_location_btn').addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const lat = position.coords.latitude.toFixed(6);
+                        const lon = position.coords.longitude.toFixed(6);
+                        document.getElementById('latitude').value = lat;
+                        document.getElementById('longitude').value = lon;
+                    },
+                    error => {
+                        alert('Unable to retrieve your location. Please allow location access.');
+                        console.error(error);
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
     </script>
 </body>
 </html>
