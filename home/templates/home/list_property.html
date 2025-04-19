@@ -117,15 +117,15 @@
 
         <div class="row">
             <div class="col-md-4">
-                <label for="latitude" class="form-label">Latitude</label>
-                <input type="text" class="form-control" id="latitude" placeholder="eg. 6.8723">
+                <label for="latitude" class="form-label">Latitude <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="latitude" placeholder="eg. 6.8723" required>
             </div>
             <div class="col-md-4">
-                <label for="longitude" class="form-label">Longitude</label>
-                <input type="text" class="form-control" id="longitude" placeholder="eg. 73.5869">
+                <label for="longitude" class="form-label">Longitude <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="longitude" placeholder="eg. 73.5869" required>
             </div>
             <div class="col-md-4 d-flex align-items-end">
-                <button class="btn btn-outline-secondary w-100" type="button">📍 Get Current Location</button>
+                <button class="btn btn-outline-secondary w-100" type="button" id="getLocationBtn">📍 Get Current Location</button>
             </div>
         </div>
     </div>
@@ -172,6 +172,26 @@
         input.addEventListener('input', validateForm);
     });
 
+    // Geolocation button
+    document.getElementById('getLocationBtn').addEventListener('click', () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    document.getElementById('latitude').value = lat.toFixed(6);
+                    document.getElementById('longitude').value = lon.toFixed(6);
+                    validateForm();
+                },
+                error => {
+                    alert('Unable to retrieve your location. Please allow location access.');
+                    console.error(error);
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser.');
+        }
+    });
 </script>
 </body>
 </html>

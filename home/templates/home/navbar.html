@@ -10,7 +10,8 @@
             <a class="navbar-brand mx-auto fw-bold" href="{% url 'home' %}">LandMark</a>
             <div class="d-flex gap-3">
                 <a class="btn btn-outline-primary" href="{% url 'list_property' %}">Post Your Ad</a>
-                <a class="btn btn-primary" href="#">Login</a>
+                <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+                <a class="btn btn-primary" href="{% url 'register' %}">Register</a>
             </div>
         </div>
     </nav>

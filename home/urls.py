@@ -14,7 +14,12 @@ urlpatterns = [
     path('upload_confirm/', views.upload_confirm, name='upload_confirm'),
     path('rent-property/details/', views.rent_property_details, name='rent_property_details'),
     path('agent/', views.agent, name='agent'),
-path('our-services/', views.our_services, name='our_services'),
+    path('our-services/', views.our_services, name='our_services'),
+    path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+
 ]
 
 # Media files for development

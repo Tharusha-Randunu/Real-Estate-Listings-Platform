@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Q
@@ -6,11 +6,16 @@ from django.core.files.storage import FileSystemStorage
 import os
 import mimetypes
 from decimal import Decimal
-from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import ConfirmedAd, PropertyFeature, PendingAd
-from django.shortcuts import render, redirect
 from decimal import Decimal, InvalidOperation
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from .forms import RegistrationForm, LoginForm
+from django.shortcuts import get_object_or_404
 
 # --- Helper function to safely convert to float ---
 def safe_float(value, default=None):
@@ -41,6 +46,7 @@ def safe_decimal(value, default=None):
         return Decimal(value)
     except (InvalidOperation, TypeError): # InvalidOperation used here too!
         return default
+
 
 def home(request):
     latest_ads = ConfirmedAd.objects.order_by('-id')[:4]
@@ -140,6 +146,7 @@ def seller_register(request):
         return render(request, 'home/list_property.html')
     return render(request, 'home/seller_register.html')
 
+
 def rent_register(request):
     if request.method == 'POST':
         full_name = request.POST.get('full_name')
@@ -149,6 +156,7 @@ def rent_register(request):
         print(f"Name: {full_name}, Email: {email}, Contact: {contact}, District: {district}")
         return render(request, 'home/rent_property.html')
     return render(request, 'home/rent_register.html')
+
 
 def market_insights_page(request):
     return render(request, 'home/market_insights.html')
@@ -405,3 +413,41 @@ def list_property_details(request):
 
 def our_services(request):
     return render(request, 'home/our_services.html')
+
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = RegistrationForm()
+    return render(request, 'home/register.html', {'form': form}) # Directly in the 'home' folder
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = LoginForm()
+    return render(request, 'home/login.html', {'form': form}) # Directly in the 'home' folder
+
+@login_required
+def dashboard(request):
+    user_ads = [] # Replace with your logic to get user's ads
+    user_profile = request.user.profile
+    context = {
+        'user_ads': user_ads,
+        'user_profile': user_profile,
+    }
+    return render(request, 'home/dashboard/dashboard.html', context) # In the 'home/dashboard' folder
+
+def user_logout(request):
+    logout(request)
+    return redirect('home') # Make sure you have a URL named 'home'
