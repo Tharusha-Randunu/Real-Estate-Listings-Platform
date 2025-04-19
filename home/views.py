@@ -405,6 +405,9 @@ def upload_confirm(request):
 
 # --- Ensure list_property_details also provides features ---
 # (This view seems unused in the rent flow now, but update for consistency if used elsewhere)
+
+
+
 def list_property_details(request):
      features = [
         "AC Rooms", "Indoor Garden", "Swimming Pool", "Waterfront/Riverside", "Beachfront",
@@ -414,6 +417,9 @@ def list_property_details(request):
     ]
      # Add session handling here if this becomes part of a multi-step flow
      return render(request, 'home/list_property_details.html', {'features': features})
+
+
+
 
 def our_services(request):
     return render(request, 'home/our_services.html')
