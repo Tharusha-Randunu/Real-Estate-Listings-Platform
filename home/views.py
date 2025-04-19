@@ -202,11 +202,15 @@ def rent_register(request):
 
 # --- Step 1: Collect Basic Info ---
 def rent_property(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/?next=/rent-property/')
+
+
     # --- Add check: Ensure registration step was completed ---
-    if 'rent_registration_info' not in request.session:
-        print("Registration info missing, redirecting to rent_register") # Debugging
+    #if 'rent_registration_info' not in request.session:
+      #  print("Registration info missing, redirecting to rent_register") # Debugging
         # messages.error(request, 'Please complete the registration step first.') # Optional feedback
-        return redirect('rent_register') # Redirect to the first step
+      #  return redirect('rent_register') # Redirect to the first step
     # --- End check ---
 
     if request.method == 'POST':
