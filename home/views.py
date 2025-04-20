@@ -202,11 +202,15 @@ def rent_register(request):
 
 # --- Step 1: Collect Basic Info ---
 def rent_property(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/?next=/rent-property/')
+
+
     # --- Add check: Ensure registration step was completed ---
-    if 'rent_registration_info' not in request.session:
-        print("Registration info missing, redirecting to rent_register") # Debugging
+    #if 'rent_registration_info' not in request.session:
+      #  print("Registration info missing, redirecting to rent_register") # Debugging
         # messages.error(request, 'Please complete the registration step first.') # Optional feedback
-        return redirect('rent_register') # Redirect to the first step
+      #  return redirect('rent_register') # Redirect to the first step
     # --- End check ---
 
     if request.method == 'POST':
@@ -401,6 +405,9 @@ def upload_confirm(request):
 
 # --- Ensure list_property_details also provides features ---
 # (This view seems unused in the rent flow now, but update for consistency if used elsewhere)
+
+
+
 def list_property_details(request):
      features = [
         "AC Rooms", "Indoor Garden", "Swimming Pool", "Waterfront/Riverside", "Beachfront",
@@ -410,6 +417,9 @@ def list_property_details(request):
     ]
      # Add session handling here if this becomes part of a multi-step flow
      return render(request, 'home/list_property_details.html', {'features': features})
+
+
+
 
 def our_services(request):
     return render(request, 'home/our_services.html')

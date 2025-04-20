@@ -1,28 +1,84 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Dashboard</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .dashboard-card {
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #0d6efd;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, {{ user.username }}!</h2>
-    <p>Email: {{ user.email }}</p>
-    <p>Name: {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</p>
-    <p>Phone: {{ user_profile.phone_number }}</p>
+<div class="container my-5">
+    <div class="dashboard-card mx-auto text-center" style="max-width: 800px;">
+
+        <!-- Profile Image -->
+        {% load static %}
+
+{% if user_profile.profile_picture %}
+    <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" width="150" height="150" style="border-radius: 50%;">
+{% else %}
+
+    <img src="{% static 'home/images/default-user.png' %}" alt="Default Picture" width="150" height="150" style="border-radius: 50%;">
+{% endif %}
 
 
-    <h3>Your Posted Ads:</h3>
-    {% if user_ads %}
-        <ul>
-            {% for ad in user_ads %}
-                <li>{{ ad.title }} (Add link to view ad later)</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You haven't posted any ads yet.</p>
-    {% endif %}
 
-    <h3>Profile Actions:</h3>
-    <p><a href="#">Edit Profile</a> (Implement this later)</p>
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+
+        <h2 class="mb-4">Welcome, {{ user.username }}!</h2>
+
+        <div class="mb-4 text-start">
+            <h5>Profile Information</h5>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Name:</strong> {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</p>
+            <p><strong>Phone:</strong> {{ user_profile.phone_number }}</p>
+        </div>
+
+        <div class="mb-4 text-start">
+            <h5>Your Posted Ads</h5>
+            {% if user_ads %}
+                <ul class="list-group">
+                    {% for ad in user_ads %}
+                        <li class="list-group-item">
+                            {{ ad.title }}
+                            <a href="#" class="float-end text-decoration-none">View</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    You haven't posted any ads yet.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-4">
+            <h5>Actions</h5>
+            <a href="#" class="btn btn-outline-primary me-2">Edit Profile</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger">Log Out</a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
