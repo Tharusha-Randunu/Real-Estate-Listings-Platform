@@ -1,15 +1,112 @@
-<!-- home/register.html -->
-<form method="post">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    {{ form.username.label_tag }} {{ form.username }}
-    {{ form.email.label_tag }} {{ form.email }}
-    {{ form.first_name.label_tag }} {{ form.first_name }}
-    {{ form.last_name.label_tag }} {{ form.last_name }}
-    {{ form.phone_number.label_tag }} {{ form.phone_number }}
-    {{ form.password1.label_tag }} {{ form.password1 }}
-    {{ form.password2.label_tag }} {{ form.password2 }}
+        .login-container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
 
-    <button type="submit">Register</button>
-</form>
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 93%;
+            padding: 10px 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            {{ form.username.label_tag }} {{ form.username }}
+            {{ form.email.label_tag }} {{ form.email }}
+            {{ form.first_name.label_tag }} {{ form.first_name }}
+            {{ form.last_name.label_tag }} {{ form.last_name }}
+            {{ form.phone_number.label_tag }} {{ form.phone_number }}
+            {{ form.password1.label_tag }} {{ form.password1 }}
+            {{ form.password2.label_tag }} {{ form.password2 }}
+
+            <button type="submit">Register</button>
+        </form>
+        <div class="register-link">
+            <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+        </div>
+    </div>
+</body>
+</html>
