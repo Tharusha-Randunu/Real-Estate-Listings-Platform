@@ -12,11 +12,26 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        .dashboard-wrapper {
+            display: flex;
+            gap: 2rem;
+            max-width: 1500px;
+            margin: auto;
+        }
+
         .dashboard-card {
             border-radius: 1rem;
             padding: 3rem 2rem;
             background-color: #ffffff;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .left-column {
+            flex: 0 0 30%;
+        }
+
+        .right-column {
+            flex: 0 0 70%;
         }
 
         .profile-pic {
@@ -54,194 +69,152 @@
         }
 
         .explore-card {
-    width: 100%;
-    height: 250px;
-    padding: 30px;
-    text-align: center;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+            width: 100%;
+            height: 250px;
+            padding: 30px;
+            text-align: center;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-.explore-card h4 {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 10px 0;
-}
+        .explore-card h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
 
-.explore-card p {
-    font-size: 14px;
-    color: #555;
-}
+        .explore-card p {
+            font-size: 14px;
+            color: #555;
+        }
 
-.explore-card .icon {
-    font-size: 32px;
-    color: #007bff;
-    margin-bottom: 10px;
-}
+        .explore-card .icon {
+            font-size: 32px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
 
-/* Small devices (phones, 576px and up) */
-@media (max-width: 576px) {
-    .explore-card {
-        height: 200px; /* Reduced height for smaller screens */
-        padding: 15px; /* Reduced padding */
-    }
+        @media (max-width: 768px) {
+            .dashboard-wrapper {
+                flex-direction: column;
+            }
 
-    .explore-card h4 {
-        font-size: 14px; /* Slightly smaller font size */
-    }
+            .left-column, .right-column {
+                flex: 100%;
+            }
+        }
 
-    .explore-card p {
-        font-size: 12px; /* Smaller font size for better fit */
-    }
-
-    .explore-card .icon {
-        font-size: 24px; /* Smaller icon for better fit */
-    }
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (max-width: 992px) and (min-width: 768px) {
-    .explore-card {
-        height: 250px; /* Adjust height for medium screens */
-        padding: 20px; /* Slightly reduced padding */
-    }
-
-    .explore-card h4 {
-        font-size: 15px; /* Slightly smaller heading for better fit */
-    }
-
-    .explore-card p {
-        font-size: 13px; /* Adjusted paragraph font size */
-    }
-
-    .explore-card .icon {
-        font-size: 28px; /* Slightly smaller icon */
-    }
-}
-/* Hover effect */
-.explore-card:hover {
-    background-color: #f2fbff; /* Light blue color on hover */
-    cursor: pointer; /* Change cursor to indicate it's clickable */
-}
+        .explore-card:hover {
+            background-color: #f2fbff;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <div class="container my-5">
-    <div class="dashboard-card mx-auto text-center" style="max-width: 1500px;">
+    <div class="dashboard-wrapper">
 
-        <!-- Profile Image -->
-        {% if user_profile.profile_picture %}
-            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
-        {% else %}
-            <img src="{% static 'home/images/default-user.png' %}" alt="Default Picture" class="profile-pic">
-        {% endif %}
-
-        <h2 class="mb-3">Welcome, {{ user.username }}!</h2>
-
-        <!-- Profile Information -->
-        <div class="mb-4 text-start">
-            <div class="section-title">Profile Information</div>
-            <p class="info-item"><strong>Email:</strong> {{ user.email }}</p>
-            <p class="info-item"><strong>Name:</strong> {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</p>
-            <p class="info-item"><strong>Phone:</strong> {{ user_profile.phone_number }}</p>
-        </div>
-
-        <!-- Posted Ads -->
-        <div class="mb-4 text-start">
-            <div class="section-title">Your Posted Ads</div>
-            {% if user_ads %}
-                <ul class="list-group">
-                    {% for ad in user_ads %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ ad.title }}
-                            <a href="#" class="btn btn-sm btn-outline-primary">View</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+        <!-- Left Column -->
+        <div class="dashboard-card left-column text-center">
+            {% if user_profile.profile_picture %}
+                <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
             {% else %}
-                <div class="alert alert-warning mt-3" role="alert">
-                    You haven't posted any ads yet.
-                </div>
+                <img src="{% static 'home/images/default-user.png' %}" alt="Default Picture" class="profile-pic">
             {% endif %}
-        </div>
-        <!-- Explore Options -->
-<div class="mt-5">
-    <div class="section-title text-start">Explore Options</div>
-    <div class="row mt-4 justify-content-center">
-        <!-- Rent a Property -->
-        <div class="col-md-4 mb-4">
-            <a href="{% url 'rent_property' %}" class="text-decoration-none">
-                <div class="explore-card">
-                    <div class="icon">🏠</div>
-                    <h4>Rent a Property</h4>
-                    <p>Post your home or apartment for rent.</p>
-                </div>
-            </a>
-        </div>
 
-        <!-- List Your Property -->
-        <div class="col-md-4 mb-4">
-            <a href="{% url 'list_property' %}" class="text-decoration-none">
-                <div class="explore-card">
-                    <div class="icon">📤</div>
-                    <h4>Sell Your Property</h4>
-                    <p>Post your home or apartment for sale.</p>
-                </div>
-            </a>
-        </div>
+            <h4 class="mb-3">Welcome, {{ user.username }}!</h4>
 
+            <!-- Profile Information -->
+            <div class="text-start">
+                <div class="section-title">Profile Information</div>
+                <p class="info-item"><strong>Email:</strong> {{ user.email }}</p>
+                <p class="info-item"><strong>Name:</strong> {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</p>
+                <p class="info-item"><strong>Phone:</strong> {{ user_profile.phone_number }}</p>
+            </div>
 
-        <!-- Find a home -->
-        <div class="col-md-4 mb-4">
-            <a href="{% url 'find_a_home' %}" class="text-decoration-none">
-                <div class="explore-card">
-                    <div class="icon">🔍</div>
-                    <h4>Find Property</h4>
-                    <p>Find the perfect place for your family.</p>
-                </div>
-            </a>
-        </div>
-
-
-        <!-- Market Insights -->
-        <div class="col-md-4 mb-4">
-            <a href="{% url 'market_insights' %}" class="text-decoration-none">
-                <div class="explore-card">
-                    <div class="icon">📊</div>
-                    <h4>Market Insights</h4>
-                    <p>Stay informed with current market trends and pricing.</p>
-                </div>
-            </a>
-        </div>
-
-        <!-- Home -->
-        <div class="col-md-4 mb-4">
-            <a href="{% url 'home' %}" class="text-decoration-none">
-                <div class="explore-card">
-                    <div class="icon">🏘️</div>
-                    <h4>Go to Home Page</h4>
-                    <p>Got to home page and manage your journey.</p>
-                </div>
-            </a>
-        </div>
-
-
-
-    </div>
-        </div>
-
-
-</div>
-
-
-
-        <!-- Actions -->
-        <div class="mt-4">
-           <!-- <div class="section-title text-center">Actions</div>-->
-            <div class="d-flex justify-content-center gap-3">
+            <!-- Actions -->
+            <div class="mt-4 d-flex justify-content-center gap-2">
                 <a href="#" class="btn btn-outline-primary">Edit Profile</a>
                 <a href="{% url 'logout' %}" class="btn btn-outline-danger">Log Out</a>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="dashboard-card right-column">
+            <!-- Posted Ads -->
+            <div class="mb-4">
+                <div class="section-title">Your Posted Ads</div>
+                {% if user_ads %}
+                    <ul class="list-group">
+                        {% for ad in user_ads %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ ad.title }}
+                                <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="alert alert-warning mt-3" role="alert">
+                        You haven't posted any ads yet.
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Explore Options -->
+            <div>
+                <div class="section-title">Explore Options</div>
+                <div class="row mt-4">
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a href="{% url 'rent_property' %}" class="text-decoration-none">
+                            <div class="explore-card">
+                                <div class="icon">🏠</div>
+                                <h4>Rent a Property</h4>
+                                <p>Post your home or apartment for rent.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a href="{% url 'list_property' %}" class="text-decoration-none">
+                            <div class="explore-card">
+                                <div class="icon">📤</div>
+                                <h4>Sell Your Property</h4>
+                                <p>Post your home or apartment for sale.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a href="{% url 'find_a_home' %}" class="text-decoration-none">
+                            <div class="explore-card">
+                                <div class="icon">🔍</div>
+                                <h4>Find Property</h4>
+                                <p>Find the perfect place for your family.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a href="{% url 'market_insights' %}" class="text-decoration-none">
+                            <div class="explore-card">
+                                <div class="icon">📊</div>
+                                <h4>Market Insights</h4>
+                                <p>Stay informed with current market trends and pricing.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a href="{% url 'home' %}" class="text-decoration-none">
+                            <div class="explore-card">
+                                <div class="icon">🏘️</div>
+                                <h4>Go to Home Page</h4>
+                                <p>Go to home page and manage your journey.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
