@@ -49,7 +49,7 @@ class ConfirmedAd(models.Model):
     link = models.URLField(null=True, blank=True)
 
 class PendingAd(models.Model):
-    # --- Fields from rent_register.html ---
+
     registered_name = models.CharField(max_length=255, default='') # Added default
     registered_email = models.EmailField(default='')             # Added default
     registered_contact = models.CharField(max_length=20, default='') # Added default
