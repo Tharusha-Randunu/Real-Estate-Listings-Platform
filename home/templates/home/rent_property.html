@@ -14,30 +14,7 @@
             position: relative;
         }
 
-        .floating-icon {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0;
-            animation: float 40s infinite linear;
-            user-select: none;
-        }
 
-        @keyframes float {
-            0% {
-                transform: translateY(110vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-10vh) rotate(360deg);
-                opacity: 0.5;
-            }
-        }
 
         .form-section {
             background: rgba(255, 255, 255, 0.75);
@@ -78,15 +55,32 @@
         }
 
         /* Floating emojis with varied delays and positions (skipping center) */
-        .floating-icon:nth-child(1) { left: 5%; animation-delay: 0s; }
-        .floating-icon:nth-child(2) { left: 15%; animation-delay: 6s; }
-        .floating-icon:nth-child(3) { left: 25%; animation-delay: 12s; }
-        .floating-icon:nth-child(4) { left: 35%; animation-delay: 18s; }
-        /* Skipping left: 45% and 55% */
-        .floating-icon:nth-child(5) { left: 65%; animation-delay: 36s; }
-        .floating-icon:nth-child(6) { left: 75%; animation-delay: 42s; }
-        .floating-icon:nth-child(7) { left: 85%; animation-delay: 48s; }
-        .floating-icon:nth-child(8) { left: 95%; animation-delay: 54s; }
+        /* Floating emoji styles */
+        .floating-emoji {
+            position: fixed;
+            z-index: 0;
+            font-size: 2rem;
+            opacity: 0;
+            animation: floatUp 12s linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
 
         @media (max-width: 768px) {
             h1 {
@@ -97,14 +91,7 @@
 </head>
 <body>
     <!-- Floating background emojis (removed 🛏️ and 🌇 to avoid clashing with heading) -->
-    <div class="floating-icon">🏠</div>
-    <div class="floating-icon">🔑</div>
-    <div class="floating-icon">📍</div>
-    <div class="floating-icon">🏢</div>
-    <div class="floating-icon">🧭</div>
-    <div class="floating-icon">📦</div>
-    <div class="floating-icon">🏘️</div>
-    <div class="floating-icon">🚪</div>
+    <div id="emoji-container"></div>
 
     <div class="container my-5">
         <h1 class="text-center">Find a Rental Property - Step 1</h1>
@@ -206,6 +193,26 @@
                 alert('Geolocation not supported by your browser.');
             }
         });
+        // Floating emoji script
+        const emojis = ['🏠', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑'];
+        const emojiContainer = document.getElementById('emoji-container');
+
+        function createEmoji() {
+            const emoji = document.createElement('div');
+            emoji.classList.add('floating-emoji');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = `${Math.random() * 100}vw`;
+            emoji.style.fontSize = `${1 + Math.random() * 2}rem`;
+            emoji.style.animationDuration = `${20 + Math.random() * 2}s`; // slower float
+            emojiContainer.appendChild(emoji);
+
+            setTimeout(() => emoji.remove(), 18000); // remove after max animation
+        }
+
+        // Delay emoji float start
+        setTimeout(() => {
+            setInterval(createEmoji, 1200);
+        }, 1500);
     </script>
 </body>
 </html>
