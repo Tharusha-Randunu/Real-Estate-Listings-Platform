@@ -1,22 +1,20 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 import os
 import mimetypes
-from decimal import Decimal
 from django.http import HttpResponse
 from .models import ConfirmedAd, PropertyFeature, PendingAd
 from decimal import Decimal, InvalidOperation
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .forms import RegistrationForm, LoginForm
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
 
 # --- Helper function to safely convert to float ---
 def safe_float(value, default=None):
@@ -471,3 +469,19 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return redirect('home') # Make sure you have a URL named 'home'
+
+
+@login_required
+def dashboard(request):
+    user_ads = ConfirmedAd.objects.filter(seller_email=request.user.email).order_by('-created_at')
+
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
+    context = {
+        'user_ads': user_ads,
+        'user_profile': user_profile,
+    }
+    return render(request, 'home/dashboard/dashboard.html', context)
