@@ -18,6 +18,7 @@ from .models import UserProfile
 from .forms import EditProfileForm
 
 
+
 # --- Helper function to safely convert to float ---
 def safe_float(value, default=None):
     if value is None or value == '':
@@ -467,7 +468,7 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)  # <-- include request.FILES
         if form.is_valid():
-            user = form.save()
+            user, profile = form.save()
             login(request, user)
             return redirect('dashboard')
     else:
