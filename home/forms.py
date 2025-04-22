@@ -4,30 +4,27 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 
 class RegistrationForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional')
-    phone_number = forms.CharField(max_length=20, required=False, help_text='Optional')
-    profile_picture = forms.ImageField(required=False, help_text='Optional: Upload your profile picture')
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
+    phone_number = forms.CharField(max_length=20, required=False)
+    profile_picture = forms.ImageField(required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email", "first_name", "last_name", "phone_number", "profile_picture", "password1", "password2")
+        fields = ('username', 'email', 'first_name', 'last_name')
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.first_name = self.cleaned_data.get("first_name")
-        user.last_name = self.cleaned_data.get("last_name")
-        user.email = self.cleaned_data.get("email")
-
+        user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
         if commit:
             user.save()
-            phone_number = self.cleaned_data.get("phone_number")
-            profile_picture = self.cleaned_data.get("profile_picture")
-            UserProfile.objects.create(
-                user=user,
-                phone_number=phone_number,
-                profile_picture=profile_picture
-            )
+            profile = UserProfile.objects.create(user=user,
+                                                phone_number=self.cleaned_data['phone_number'],
+                                                profile_picture=self.cleaned_data['profile_picture'])
+            return user, profile  # Return both user and profile
         return user
 
 class LoginForm(AuthenticationForm):
