@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
+from .models import ConfirmedAd
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -43,3 +44,29 @@ class EditProfileForm(forms.ModelForm):
         if commit:
             user_profile.save()
         return user_profile
+
+
+
+
+class ConfirmedAdForm(forms.ModelForm):
+    class Meta:
+        model = ConfirmedAd
+        fields = [
+            'name',
+            'address',
+            'price',
+            'details',
+            'property_type',
+            'offer_type',
+            'bedrooms',
+            'bathrooms',
+            'land_area',
+            'floor_area',
+            'floors',
+            'age_of_building',
+            'status',
+            'parking',
+            'property_features',
+            'furnishing_status',
+            'link',
+        ]

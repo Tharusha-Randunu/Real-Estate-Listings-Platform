@@ -188,6 +188,8 @@ height:100%;
                         <p class="card-text">{{ ad.address }}</p>
                         <p class="card-text price"><strong>Rs. {{ ad.price }}</strong></p>
                         <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View Details</a>
+                        <a href="{% url 'edit_ad' ad.id %}" class="btn btn-sm btn-warning mt-2" style="background:#c29421">Edit ad</a>
+
                     </div>
                 </div>
             </div>

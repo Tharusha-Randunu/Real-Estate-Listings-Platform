@@ -16,6 +16,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from .forms import EditProfileForm
+from .forms import ConfirmedAdForm
 
 
 
@@ -531,3 +532,25 @@ def edit_profile(request):
         form = EditProfileForm(instance=user_profile)
 
     return render(request, 'home/edit_profile.html', {'form': form})
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import ConfirmedAd
+from .forms import ConfirmedAdForm
+
+def edit_ad(request, ad_id):
+    print(f"Received ad_id: {ad_id}")  # Debugging line
+
+    ad = get_object_or_404(ConfirmedAd, id=ad_id)
+
+    if request.method == 'POST':
+        form = ConfirmedAdForm(request.POST, request.FILES, instance=ad)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')  # or wherever you go after saving
+    else:
+        form = ConfirmedAdForm(instance=ad)
+
+    return render(request, 'home/edit_ad.html', {'form': form})

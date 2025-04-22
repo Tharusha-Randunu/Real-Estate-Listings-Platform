@@ -18,7 +18,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
-
+    path('edit-ad/<int:ad_id>/', views.edit_ad, name='edit_ad'),
 ]
 
 # Media files for development
