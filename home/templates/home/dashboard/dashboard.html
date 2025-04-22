@@ -15,7 +15,7 @@
         .dashboard-wrapper {
             display: flex;
             gap: 2rem;
-            max-width: 1500px;
+            max-width: 85%;
             margin: auto;
         }
 
@@ -108,11 +108,39 @@
         .explore-card:hover {
             background-color: #f2fbff;
             cursor: pointer;
+
         }
+
+        .btn-sm {
+    font-size: 14px;
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    transition: background-color 0.3s ease;
+    width:100%;
+}
+
+.btn-sm:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+.property-card{
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+height:100%;
+}
+
+.property-card:hover{
+        transform: translateY(-1px);
+
+        }
+
     </style>
 </head>
 <body>
-<div class="container my-5">
+<div class="container-fluid my-5 px-4">
     <div class="dashboard-wrapper">
 
         <!-- Left Column -->
@@ -155,11 +183,11 @@
                     {% else %}
                         <img src="{% static 'home/images/default.jpg' %}" alt="Default Image" class="card-img-top">
                     {% endif %}
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">{{ ad.name }}</h5>
                         <p class="card-text">{{ ad.address }}</p>
                         <p class="card-text price"><strong>Rs. {{ ad.price }}</strong></p>
-                        <a href="#" class="btn btn-outline-primary btn-sm">View</a>
+                        <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View Details</a>
                     </div>
                 </div>
             </div>
@@ -174,7 +202,7 @@
             <!-- Explore Options -->
             <div>
                 <div class="section-title">Explore Options</div>
-                <div class="row mt-4">
+                <div class="row mt-4 justify-content-center">
                     <div class="col-md-6 col-lg-4 mb-4">
                         <a href="{% url 'rent_property' %}" class="text-decoration-none">
                             <div class="explore-card">
