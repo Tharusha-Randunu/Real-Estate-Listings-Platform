@@ -75,6 +75,28 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+
+.view-details-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.view-details-btn:hover {
+    background-color: #007bff;
+    color:white;
+    transform: translateY(-2px);
+}
+
+
+
+
 </style>
 
 <!-- Floating emojis -->
@@ -210,7 +232,7 @@
                     <!-- Submit Button -->
                     <div class="mt-4 text-end">
                         <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
-                            <i class="bi bi-search"></i> Search
+                            <i class="bi bi-search"></i> Add Filters
                         </button>
                     </div>
                 </form>
@@ -232,7 +254,7 @@
                         <h5 class="card-title">{{ ad.name }}</h5>
                         <p class="card-text">{{ ad.address }}</p>
                         <p class="card-text price"><strong>Rs. {{ ad.price }}</strong></p>
-                        <a href="{% url 'property_detail' ad.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                        <a href="{% url 'property_detail' ad.id %}" class="btn view-details-btn">View Details</a>
                     </div>
                 </div>
             </div>
