@@ -11,22 +11,38 @@ class RegistrationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email", "first_name", "last_name", "password1", "password2", "profile_picture")
+        fields = ("username", "email", "first_name", "last_name", "phone_number", "profile_picture", "password1", "password2")
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.first_name = self.cleaned_data.get("first_name")
         user.last_name = self.cleaned_data.get("last_name")
+        user.email = self.cleaned_data.get("email")
+
         if commit:
             user.save()
-            # Save phone number to UserProfile
             phone_number = self.cleaned_data.get("phone_number")
-            # Create UserProfile and save the profile picture if it's provided
-            profile = UserProfile.objects.create(user=user, phone_number=phone_number)
-            if self.cleaned_data.get("profile_picture"):
-                profile.profile_picture = self.cleaned_data.get("profile_picture")
-                profile.save()
+            profile_picture = self.cleaned_data.get("profile_picture")
+            UserProfile.objects.create(
+                user=user,
+                phone_number=phone_number,
+                profile_picture=profile_picture
+            )
         return user
 
 class LoginForm(AuthenticationForm):
     pass
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['phone_number', 'profile_picture']
+
+    phone_number = forms.CharField(max_length=20, required=False, help_text="Optional")
+    profile_picture = forms.ImageField(required=False, help_text="Optional: Upload a new profile picture")
+
+    def save(self, commit=True):
+        user_profile = super().save(commit=False)
+        if commit:
+            user_profile.save()
+        return user_profile

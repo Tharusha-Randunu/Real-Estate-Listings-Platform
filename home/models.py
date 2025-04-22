@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.utils import timezone
 
 class PropertyFeature(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -47,6 +49,9 @@ class ConfirmedAd(models.Model):
     seller_email = models.EmailField()
     images = models.ImageField(upload_to='property_images/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
 class PendingAd(models.Model):
 

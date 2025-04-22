@@ -1,23 +1,21 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 import os
 import mimetypes
-from decimal import Decimal
 from django.http import HttpResponse
 from .models import ConfirmedAd, PropertyFeature, PendingAd
 from decimal import Decimal, InvalidOperation
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .forms import RegistrationForm, LoginForm
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+from .forms import EditProfileForm
 # --- Helper function to safely convert to float ---
 def safe_float(value, default=None):
     if value is None or value == '':
@@ -438,14 +436,15 @@ def our_services(request):
 
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST, request.FILES)  # <-- include request.FILES
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('dashboard')
     else:
         form = RegistrationForm()
-    return render(request, 'home/register.html', {'form': form}) # Directly in the 'home' folder
+    return render(request, 'home/register.html', {'form': form})
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -471,3 +470,34 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return redirect('home') # Make sure you have a URL named 'home'
+
+
+@login_required
+def dashboard(request):
+    user_ads = ConfirmedAd.objects.filter(seller_email=request.user.email).order_by('-created_at')
+
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
+    context = {
+        'user_ads': user_ads,
+        'user_profile': user_profile,
+    }
+    return render(request, 'home/dashboard/dashboard.html', context)
+
+@login_required
+def edit_profile(request):
+    # Get the user's profile (assuming a one-to-one relationship between User and UserProfile)
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()  # Save the form data
+            return redirect('dashboard')  # Redirect to the dashboard or any page you prefer
+    else:
+        form = EditProfileForm(instance=user_profile)
+
+    return render(request, 'home/edit_profile.html', {'form': form})
