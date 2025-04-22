@@ -202,44 +202,63 @@
 .latest-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distributes content evenly */
-    height: 340px; /* Same card height */
-    padding: 8px;
+    justify-content: flex-start;
+    height: 370px;
+    background: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.latest-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .latest-img {
-    height: 150px;  /* Adjusted height for better fit */
-    object-fit: cover; /* Ensures images fill properly */
-    border-radius: 5px;
-    padding:3px;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
 }
 
 .latest-card .card-body {
-    flex-grow: 1; /* Expands body to use available space */
+    padding: 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 6px;
+    flex-grow: 1;
 }
 
 .latest-card .card-title {
-    font-size: 15px; /* Reduce font size slightly */
-    font-weight: bold;
-    margin-bottom: 2px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
 }
 
 .latest-card .card-text {
-    font-size: 13px; /* Small, but readable */
-    margin-bottom: 4px;
+    font-size: 14px;
+    color: #666;
+    flex-grow: 1;
+    margin-bottom: 12px;
 }
 
 .latest-card .btn-sm {
-    font-size: 13px;
-    padding: 5px 8px;
-    text-align: center;
-    width: 100%; /* Makes button fit card width */
+    font-size: 14px;
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    transition: background-color 0.3s ease;
 }
 
+.latest-card .btn-sm:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
 
 .explore-card {
     width: 100%;
@@ -408,12 +427,16 @@
 }
 
 .top-cities-section h2 {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 20px;
+
+    margin-top:-35px
+}
+.top-city-h2{
+
 }
 
+
 .city-buttons {
+    margin-top:60px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -626,9 +649,9 @@
                 <img src="{{ ad.images.url }}" alt="{{ ad.name }}" class="card-img-top latest-img">
                 <div class="card-body p-2">
                     <h6 class="card-title">{{ ad.name }}</h6>
-                    <p class="card-text"><strong>Price:</strong> ${{ ad.price }}</p>
                     <p class="card-text small-text">{{ ad.address }}</p>
-                    <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View</a>
+                    <p class="card-title" ><strong>Price:</strong> ${{ ad.price }}</p>
+                    <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View Details</a>
                 </div>
             </div>
         </div>
@@ -652,33 +675,34 @@
 
 
 <section class="top-cities-section container my-5">
-    <h2>Top Cities</h2>
+    <div class="top-city-h2"><h2 class="text-center mb-4">Top Cities</h2><div>
     <div class="city-buttons">
-        <button>Colombo</button>
-        <button>Gampaha</button>
-        <button>Dehiwala</button>
-        <button>Wattala</button>
-        <button>Nugegoda</button>
-        <button>Kandy</button>
-        <button>Galle</button>
-        <button>Jaffna</button>
-        <button>Kalutara</button>
-        <button>Matara</button>
-        <button>Kurunegala</button>
-        <button>Mount Lavinia</button>
-        <button>Malabe</button>
-        <button>Piliyandala</button>
-        <button>Maharagama</button>
-        <button>Battaramulla</button>
-        <button>Rajagiriya</button>
-        <button>Negombo</button>
-        <button>Pannipitiya</button>
-        <button>Kotte</button>
-        <button>Homagama</button>
-        <button>Kottawa</button>
-        <button>Kadawatha</button>
+        <a href="{% url 'find_a_home' %}?city=Colombo"><button>Colombo</button></a>
+        <a href="{% url 'find_a_home' %}?city=Gampaha"><button>Gampaha</button></a>
+        <a href="{% url 'find_a_home' %}?city=Dehiwala"><button>Dehiwala</button></a>
+        <a href="{% url 'find_a_home' %}?city=Wattala"><button>Wattala</button></a>
+        <a href="{% url 'find_a_home' %}?city=Nugegoda"><button>Nugegoda</button></a>
+        <a href="{% url 'find_a_home' %}?city=Kandy"><button>Kandy</button></a>
+        <a href="{% url 'find_a_home' %}?city=Galle"><button>Galle</button></a>
+        <a href="{% url 'find_a_home' %}?city=Jaffna"><button>Jaffna</button></a>
+        <a href="{% url 'find_a_home' %}?city=Kalutara"><button>Kalutara</button></a>
+        <a href="{% url 'find_a_home' %}?city=Matara"><button>Matara</button></a>
+        <a href="{% url 'find_a_home' %}?city=Kurunegala"><button>Kurunegala</button></a>
+        <a href="{% url 'find_a_home' %}?city=Mount Lavinia"><button>Mount Lavinia</button></a>
+        <a href="{% url 'find_a_home' %}?city=Malabe"><button>Malabe</button></a>
+        <a href="{% url 'find_a_home' %}?city=Piliyandala"><button>Piliyandala</button></a>
+        <a href="{% url 'find_a_home' %}?city=Maharagama"><button>Maharagama</button></a>
+        <a href="{% url 'find_a_home' %}?city=Battaramulla"><button>Battaramulla</button></a>
+        <a href="{% url 'find_a_home' %}?city=Rajagiriya"><button>Rajagiriya</button></a>
+        <a href="{% url 'find_a_home' %}?city=Negombo"><button>Negombo</button></a>
+        <a href="{% url 'find_a_home' %}?city=Pannipitiya"><button>Pannipitiya</button></a>
+        <a href="{% url 'find_a_home' %}?city=Kotte"><button>Kotte</button></a>
+        <a href="{% url 'find_a_home' %}?city=Homagama"><button>Homagama</button></a>
+        <a href="{% url 'find_a_home' %}?city=Kottawa"><button>Kottawa</button></a>
+        <a href="{% url 'find_a_home' %}?city=Kadawatha"><button>Kadawatha</button></a>
     </div>
 </section>
+
 
 
 
