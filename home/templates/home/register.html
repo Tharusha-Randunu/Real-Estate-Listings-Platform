@@ -90,7 +90,8 @@
 <body>
     <div class="login-container">
         <h2>Register</h2>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
+
             {% csrf_token %}
             {{ form.non_field_errors }}
 
@@ -99,6 +100,7 @@
             {{ form.first_name.label_tag }} {{ form.first_name }}
             {{ form.last_name.label_tag }} {{ form.last_name }}
             {{ form.phone_number.label_tag }} {{ form.phone_number }}
+            {{ form.profile_picture.label_tag }} {{ form.profile_picture }}
             {{ form.password1.label_tag }} {{ form.password1 }}
             {{ form.password2.label_tag }} {{ form.password2 }}
 
