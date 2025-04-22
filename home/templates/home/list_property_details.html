@@ -4,42 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Property Details</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #fdfdfd;
-            min-height: 100vh;
-            overflow-x: hidden;
+            background-color: #f8f9fa;
+            color: #000;
             position: relative;
+            overflow-x: hidden;
         }
 
-        h1 {
-            color: #333;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        h4 {
-            color: #000000;
-            font-weight: bold;
-            margin-bottom: 20px;
+        h1, h4 {
+            font-weight: 600;
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.95);
+            background: #fff;
             padding: 30px;
             margin-bottom: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 2;
-        }
-
-        label {
-            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .btn-feature {
@@ -58,23 +42,24 @@
             justify-content: start;
         }
 
-        /* Floating emoji style */
-        .emoji-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+        .price-row .form-select {
+            max-width: 200px;
         }
 
+        @media (max-width: 768px) {
+            .price-row .form-select {
+                max-width: 100%;
+            }
+        }
+
+        /* Floating emoji styles */
         .floating-emoji {
-            position: absolute;
+            position: fixed;
+            z-index: 0;
             font-size: 2rem;
             opacity: 0;
-            animation: floatUp 20s linear infinite;
+            animation: floatUp 12s linear forwards;
+            pointer-events: none;
         }
 
         @keyframes floatUp {
@@ -90,143 +75,165 @@
             }
             100% {
                 transform: translateY(-120vh);
-                opacity: 0.5;
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Floating Emojis Container -->
+    <div id="emoji-container"></div>
 
-<!-- Floating emojis -->
-<div class="emoji-container">
-    <div class="floating-emoji" style="left: 5%; animation-delay: 0s;">🏠</div>
-    <div class="floating-emoji" style="left: 15%; animation-delay: 3s;">🌇</div>
-    <div class="floating-emoji" style="left: 25%; animation-delay: 1.5s;">🏢</div>
-    <div class="floating-emoji" style="left: 35%; animation-delay: 4s;">🏘️</div>
-    <div class="floating-emoji" style="left: 45%; animation-delay: 2.5s;">🌆</div>
-    <div class="floating-emoji" style="left: 55%; animation-delay: 5s;">🏡</div>
-    <div class="floating-emoji" style="left: 65%; animation-delay: 1s;">🗺️</div>
-    <div class="floating-emoji" style="left: 75%; animation-delay: 3.5s;">🧭</div>
-    <div class="floating-emoji" style="left: 85%; animation-delay: 6s;">🌍</div>
-    <div class="floating-emoji" style="left: 95%; animation-delay: 2s;">🔑</div>
-</div>
+    <div class="container my-5 position-relative">
+        <h1 class="text-center mb-5">Property Information - Step 2</h1>
 
-<div class="container my-5">
-    <h1>Property Information</h1>
+        <form method="post" action="{% url 'list_property_details' %}"> {% csrf_token %}
+            <div class="section">
+                <h4 class="text-center">Basic Details</h4>
+                <div class="row mb-3">
+                    <div class="col-md-4 mb-3">
+                        <label for="bedrooms" class="form-label">Bedrooms <span class="text-danger">*</span></label>
+                        <select id="bedrooms" name="bedrooms" class="form-select" required>
+                            <option value="" selected disabled>Select...</option>
+                            {% for i in "12345" %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                            <option value="6">6+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="bathrooms" class="form-label">Bathrooms <span class="text-danger">*</span></label>
+                        <select id="bathrooms" name="bathrooms" class="form-select" required>
+                            <option value="" selected disabled>Select...</option>
+                            {% for i in "12345" %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                            <option value="6">6+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="floor_area" class="form-label">Floor Area (sq ft) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="floor_area" name="floor_area" placeholder="e.g. 1200" required min="1">
+                    </div>
+                </div>
+            </div>
 
-    <!-- Basic Details -->
-    <div class="section">
-        <h4 class="text-center">Basic Details</h4>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="bedrooms" class="form-label">Bedrooms <span class="text-danger">*</span></label>
-                <select id="bedrooms" class="form-select" required>
-                    {% for i in "12345" %}
-                        <option value="{{ i }}">{{ i }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="bathrooms" class="form-label">Bathrooms <span class="text-danger">*</span></label>
-                <select id="bathrooms" class="form-select" required>
-                    {% for i in "12345" %}
-                        <option value="{{ i }}">{{ i }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="floor_area" class="form-label">Floor Area (sq ft) <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" id="floor_area" placeholder="e.g. 1200" required>
-            </div>
+<div class="section">
+    <h4 class="text-center">Price Details</h4>
+    <div class="row mb-3 price-row">
+        <div class="col-md-6 mb-3">
+            <label for="price" class="form-label">Expected Price (Rs) <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="e.g. 75000" required min="0">
         </div>
-    </div>
-
-    <!-- Price Details -->
-    <div class="section">
-        <h4 class="text-center">Price Details</h4>
-        <label for="price" class="form-label">Expected Selling Price (Rs) <span class="text-danger">*</span></label>
-        <input type="number" class="form-control" id="price" placeholder="e.g. 15000000" required>
-    </div>
-
-    <!-- Property Specifics -->
-    <div class="section">
-        <h4 class="text-center">Property Specifics</h4>
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <label for="floors" class="form-label">No. of Floors</label>
-                <select id="floors" class="form-select">
-                    {% for i in "12345" %}
-                        <option value="{{ i }}">{{ i }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-                <select id="status" class="form-select" required>
-                    <option>Available Now</option>
-                    <option>Available Soon</option>
-                    <option>Offer Received</option>
-                    <option>Price Reduced</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="age" class="form-label">Age of Property (Years)</label>
-                <input type="number" class="form-control" id="age" placeholder="e.g. 5" required>
-            </div>
-            <div class="col-md-3">
-                <label for="furnishing" class="form-label">Furnishing Status</label>
-                <select id="furnishing" class="form-select">
-                    <option>Fully Furnished</option>
-                    <option>Semi Furnished</option>
-                    <option>Unfurnished</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-check mt-3">
-            <input class="form-check-input" type="checkbox" id="parking">
-            <label class="form-check-label" for="parking">
-                Parking Available
-            </label>
-        </div>
-    </div>
-
-    <!-- Ad Details -->
-    <div class="section">
-        <h4 class="text-center">Ad Details</h4>
-        <div class="mb-3">
-            <label for="title" class="form-label">Ad Title <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="title" placeholder="e.g. Apartment for Sale in Moratuwa" required>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Ad Description <span class="text-danger">*</span></label>
-            <textarea class="form-control" id="description" rows="5" placeholder="Describe your property..." required></textarea>
-        </div>
-    </div>
-
-    <!-- Features -->
-    <div class="section">
-        <h4 class="text-center">Property Features</h4>
-        <div class="features-group">
-            {% for feature in features %}
-                <button type="button" class="btn btn-outline-primary btn-feature">{{ feature }}</button>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- Submit -->
-    <div class="text-center">
-        <a href="{% url 'upload_confirm' %}" class="btn btn-success px-5 py-2">Next</a>
     </div>
 </div>
+            <div class="section">
+                <h4 class="text-center">Property Specifics</h4>
+                <div class="row mb-3">
+                    <div class="col-md-3 mb-3">
+                        <label for="floors" class="form-label">No. of Floors</label>
+                        <select id="floors" name="floors" class="form-select">
+                            <option value="" selected>Select (Optional)...</option>
+                            {% for i in "12345" %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                            <option value="6">6+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                        <select id="status" name="status" class="form-select" required>
+                            <option>Available Now</option>
+                            <option>Available Soon</option>
+                            <option>Offer Received</option>
+                            <option>Price Reduced</option>
+                            <option>Let Agreed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="age" class="form-label">Age of Property (Years)</label>
+                        <input type="number" class="form-control" id="age" name="age" placeholder="e.g. 5" min="0">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="furnishing" class="form-label">Furnishing Status</label>
+                        <select id="furnishing" name="furnishing" class="form-select">
+                            <option>Fully Furnished</option>
+                            <option>Semi Furnished</option>
+                            <option>Unfurnished</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" id="parking" name="parking" value="true">
+                    <label class="form-check-label" for="parking">Parking Available</label>
+                </div>
+            </div>
 
-<script>
-    // Toggle feature selection
-    document.querySelectorAll('.btn-feature').forEach(button => {
-        button.addEventListener('click', () => {
+            <div class="section">
+                <h4 class="text-center">Ad Details</h4>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Ad Title <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Apartment for Rent in Borella" required maxlength="255">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Ad Description <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Describe your property..." required></textarea>
+                </div>
+            </div>
+
+            <div class="section">
+                <h4 class="text-center">Property Features</h4>
+                <input type="hidden" name="features_list" id="features_list_input">
+                <div class="features-group">
+                    {% for feature in features %}
+                        <button type="button" class="btn btn-outline-primary btn-feature" onclick="toggleFeature(this, '{{ feature }}')">{{ feature }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success px-5 py-2">Next</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const selectedFeatures = new Set();
+        const featuresInput = document.getElementById('features_list_input');
+
+        function toggleFeature(button, featureName) {
             button.classList.toggle('active');
-        });
-    });
-</script>
+            button.classList.toggle('btn-outline-primary');
+            button.classList.toggle('btn-primary');
 
+            if (button.classList.contains('active')) {
+                selectedFeatures.add(featureName);
+            } else {
+                selectedFeatures.delete(featureName);
+            }
+            featuresInput.value = Array.from(selectedFeatures).join(',');
+        }
+
+        // Floating emoji script
+        const emojis = ['🏠', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑'];
+        const emojiContainer = document.getElementById('emoji-container');
+
+        function createEmoji() {
+            const emoji = document.createElement('div');
+            emoji.classList.add('floating-emoji');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = `${Math.random() * 100}vw`;
+            emoji.style.fontSize = `${1 + Math.random() * 2}rem`;
+            emoji.style.animationDuration = `${20 + Math.random() * 2}s`; // slower float
+            emojiContainer.appendChild(emoji);
+
+            setTimeout(() => emoji.remove(), 18000); // remove after max animation
+        }
+
+        // Delay emoji float start
+        setTimeout(() => {
+            setInterval(createEmoji, 1200);
+        }, 1500);
+    </script>
 </body>
 </html>
