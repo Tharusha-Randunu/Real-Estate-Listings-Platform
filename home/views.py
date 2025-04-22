@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
-
+from .forms import EditProfileForm
 # --- Helper function to safely convert to float ---
 def safe_float(value, default=None):
     if value is None or value == '':
@@ -485,3 +485,18 @@ def dashboard(request):
         'user_profile': user_profile,
     }
     return render(request, 'home/dashboard/dashboard.html', context)
+
+@login_required
+def edit_profile(request):
+    # Get the user's profile (assuming a one-to-one relationship between User and UserProfile)
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()  # Save the form data
+            return redirect('dashboard')  # Redirect to the dashboard or any page you prefer
+    else:
+        form = EditProfileForm(instance=user_profile)
+
+    return render(request, 'home/edit_profile.html', {'form': form})
