@@ -436,14 +436,15 @@ def our_services(request):
 
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST, request.FILES)  # <-- include request.FILES
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('dashboard')
     else:
         form = RegistrationForm()
-    return render(request, 'home/register.html', {'form': form}) # Directly in the 'home' folder
+    return render(request, 'home/register.html', {'form': form})
+
 
 def user_login(request):
     if request.method == 'POST':
