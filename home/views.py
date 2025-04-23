@@ -1,4 +1,3 @@
-
 from django.conf import settings
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
@@ -556,3 +555,23 @@ def edit_ad(request, ad_id):
 
     return render(request, 'home/edit_ad.html', {'form': form})
 
+
+
+def delete_ad(request, ad_id):
+    print("Delete view triggered")
+    ad = get_object_or_404(ConfirmedAd, id=ad_id)
+
+    # Optional: restrict to owner
+    if request.user.email != ad.seller_email:
+        messages.error(request, "You don't have permission to delete this ad.")
+        return redirect('dashboard')
+
+    ad.delete()
+    messages.success(request, "Advertisement deleted successfully.")
+    return redirect('dashboard')
+
+
+
+
+def help_page(request):
+    return render(request, 'home/help.html')

@@ -6,6 +6,8 @@
     <title>Dashboard</title>
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             background: linear-gradient(to right, #f8f9fa, #e9ecef);
@@ -139,8 +141,19 @@ height:100%;
 
     </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <body>
 <div class="container-fluid my-5 px-4">
+    {% if messages %}
+      <div class="container mt-3">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
     <div class="dashboard-wrapper">
 
         <!-- Left Column -->
@@ -169,38 +182,62 @@ height:100%;
         </div>
 
         <!-- Right Column -->
-        <div class="dashboard-card right-column">
-            <!-- Posted Ads -->
-<div class="mb-4">
-    <div class="section-title">Your Posted Ads</div>
-    {% if user_ads %}
-        <div class="row">
-            {% for ad in user_ads %}
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <div class="card property-card">
-                    {% if ad.images %}
-                        <img src="{{ ad.images.url }}" alt="Property Image" class="card-img-top">
-                    {% else %}
-                        <img src="{% static 'home/images/default.jpg' %}" alt="Default Image" class="card-img-top">
-                    {% endif %}
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <h5 class="card-title">{{ ad.name }}</h5>
-                        <p class="card-text">{{ ad.address }}</p>
-                        <p class="card-text price"><strong>Rs. {{ ad.price }}</strong></p>
-                        <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View Details</a>
-                        <a href="{% url 'edit_ad' ad.id %}" class="btn btn-sm btn-warning mt-2" style="background:#c29421">Edit ad</a>
-
+   <div class="dashboard-card right-column">
+    <!-- Posted Ads -->
+    <div class="mb-4">
+        <div class="section-title">Your Posted Ads</div>
+        {% if user_ads %}
+            <div class="row">
+                {% for ad in user_ads %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card property-card">
+                        {% if ad.images %}
+                            <img src="{{ ad.images.url }}" alt="Property Image" class="card-img-top">
+                        {% else %}
+                            <img src="{% static 'home/images/default.jpg' %}" alt="Default Image" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <h5 class="card-title">{{ ad.name }}</h5>
+                            <p class="card-text">{{ ad.address }}</p>
+                            <p class="card-text price"><strong>Rs. {{ ad.price }}</strong></p>
+                            <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View Details</a>
+                            <a href="{% url 'edit_ad' ad.id %}" class="btn btn-sm btn-warning mt-2" style="background:#c29421">Edit ad</a>
+                            <!-- Delete Button triggers modal -->
+                            <button type="button" class="btn btn-sm btn-danger mt-2" style="background:#f54542" data-bs-toggle="modal" data-bs-target="#deleteModal{{ ad.id }}">
+                                Delete Ad
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteModal{{ ad.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ ad.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="deleteModalLabel{{ ad.id }}">Confirm Deletion</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete the ad: <strong>{{ ad.name }}</strong>?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="{% url 'delete_ad' ad.id %}" class="btn btn-danger">Yes, Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="alert alert-warning mt-3" role="alert">
-            You haven't posted any ads yet.
-        </div>
-    {% endif %}
-</div>
+        {% else %}
+            <div class="alert alert-warning mt-3" role="alert">
+                You haven't posted any ads yet.
+            </div>
+        {% endif %}
+    </div>
+
+
             <!-- Explore Options -->
             <div>
                 <div class="section-title">Explore Options</div>
