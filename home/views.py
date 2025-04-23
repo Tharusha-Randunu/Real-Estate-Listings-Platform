@@ -412,7 +412,7 @@ def upload_confirm(request):
                 features=details_info.get('features_list'),
 
                 # From this form
-                confirmed_ownership=confirm,
+
                 # Image handled below
             )
 

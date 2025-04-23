@@ -662,9 +662,9 @@
         {% for ad in latest_ads %}
         <div class="col-md-3"> <!-- Smaller cards -->
             <div class="card latest-card">  <!-- Applied a new class -->
-                <img src="{{ ad.images.url }}" alt="{{ ad.name }}" class="card-img-top latest-img">
+                <img src="{{ ad.images.url }}" alt="{{ ad.title }}" class="card-img-top latest-img">
                 <div class="card-body p-2">
-                    <h6 class="card-title">{{ ad.name }}</h6>
+                    <h6 class="card-title">{{ ad.title }}</h6>
                     <p class="card-text small-text">{{ ad.address }}</p>
                     <p class="card-title" ><strong>Price:</strong> ${{ ad.price }}</p>
                     <a href="{% url 'property_detail' ad.id %}" class="btn btn-sm btn-primary">View Details</a>

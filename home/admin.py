@@ -7,13 +7,19 @@ import os
 from django.conf import settings
 
 # Register the simple models first
-admin.site.register(ConfirmedAd)
+
+class ConfirmedAdAdmin(admin.ModelAdmin):
+    list_display = ('title', 'city', 'property_type', 'offer_type', 'created_at')
+    list_filter = ('city', 'property_type', 'offer_type', 'created_at')
+    search_fields = ('title', 'city', 'description', 'street')
+
+admin.site.register(ConfirmedAd,ConfirmedAdAdmin)
 admin.site.register(PropertyFeature)
 
 # --- Custom Admin for PendingAd ---
 class PendingAdAdmin(admin.ModelAdmin):
-    list_display = ('title', 'city', 'property_type', 'offer_type', 'created_at', 'confirmed_ownership')
-    list_filter = ('city', 'property_type', 'offer_type', 'created_at', 'confirmed_ownership')
+    list_display = ('title', 'city', 'property_type', 'offer_type', 'created_at' )
+    list_filter = ('city', 'property_type', 'offer_type', 'created_at')
     search_fields = ('title', 'city', 'description', 'street')
     actions = ['approve_and_move_ads'] # Add the custom action here
 
@@ -44,22 +50,28 @@ class PendingAdAdmin(admin.ModelAdmin):
 
                 # Create the ConfirmedAd instance
                 confirmed_ad = ConfirmedAd(
-                    name=pending_ad.title or "Untitled Ad", # Use title for name
+                    title=pending_ad.title or "Untitled Ad",  # Use title for name
+                    description=pending_ad.description or "No description provided.",
                     address=address,
-                    price=pending_ad.price or 0.00, # Provide default if nullable
+                    city=pending_ad.city,
+                    street=pending_ad.street,
+                    latitude=pending_ad.latitude,
+                    longitude=pending_ad.longitude,
+                    price=pending_ad.price or 0.00,  # Provide default if nullable
+                    price_type=pending_ad.price_type,
                     details=details_text.strip(),
                     property_type=pending_ad.property_type,
                     offer_type=pending_ad.offer_type,
-                    bedrooms=pending_ad.bedrooms or 0, # Provide default if nullable
-                    bathrooms=pending_ad.bathrooms or 0, # Provide default if nullable
-                    floor_area=pending_ad.floor_area or 0.0, # Provide default if nullable
-                    floors=pending_ad.floors or 0, # Provide default if nullable
-                    age_of_building=pending_ad.age or 0, # Use age field, provide default
-                    status=pending_ad.status or 'Unknown', # Provide default
+                    bedrooms=pending_ad.bedrooms or 0,  # Provide default if nullable
+                    bathrooms=pending_ad.bathrooms or 0,  # Provide default if nullable
+                    floor_area=pending_ad.floor_area or 0.0,  # Provide default if nullable
+                    floors=pending_ad.floors or 0,  # Provide default if nullable
+                    age_of_building=pending_ad.age or 0,  # Use age field, provide default
+                    status=pending_ad.status or 'Unknown',  # Provide default
                     parking=pending_ad.parking,
-                    furnishing_status=pending_ad.furnishing or 'Unfurnished', # Map furnishing, provide default
+                    furnishing_status=pending_ad.furnishing or 'Unfurnished',  # Map furnishing, provide default
                     # --- Fields requiring manual input or defaults ---
-                    land_area=0.0, # Default - Needs manual update later if important
+                    land_area=0.0,  # Default - Needs manual update later if important
                     seller_name=pending_ad.registered_name or "Pending Review",
                     # Use registered name as initial seller name
                     seller_tel=pending_ad.registered_contact or "Pending Review",
