@@ -576,3 +576,21 @@ def delete_ad(request, ad_id):
 
 def help_page(request):
     return render(request, 'home/help.html')
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            # Keep the user logged in after password change
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Your password has been successfully updated.')
+            return redirect('dashboard')  # Redirect to the dashboard or any page you prefer
+        else:
+            messages.error(request, 'There was an error with your password change. Please check your input.')
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+    return render(request, 'home/change_password.html', {'form': form})

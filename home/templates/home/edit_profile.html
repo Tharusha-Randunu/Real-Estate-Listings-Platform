@@ -10,6 +10,9 @@
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-primary">Save Your Changes</button>
             </form>
+
+            <!-- Add a button to go to the change password page -->
+            <a href="{% url 'change_password' %}" class="btn btn-primary btn-danger" style="margin-top: 20px;">Change Password</a>
         </div>
     </div>
 </div>
