@@ -29,10 +29,16 @@ class ConfirmedAd(models.Model):
         ('Unfurnished', 'Unfurnished'),
     ]
 
-    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True,null=True)
+    details = models.TextField(blank=True,null=True)
     address = models.TextField()
+    city = models.CharField(max_length=100,blank=True,null=True)
+    street = models.CharField(max_length=100,blank=True,null=True)
+    latitude = models.FloatField(blank=True,null=True)
+    longitude = models.FloatField(blank=True,null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2)
-    details = models.TextField()
+    price_type = models.CharField(max_length=50,blank=True,null=True)
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPES)
     offer_type = models.CharField(max_length=10, choices=OFFER_TYPES)
     bedrooms = models.IntegerField()
@@ -50,7 +56,6 @@ class ConfirmedAd(models.Model):
     seller_email = models.EmailField()
     images = models.ImageField(upload_to='property_images/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
