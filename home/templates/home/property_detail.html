@@ -3,49 +3,71 @@
 {% block title %}Property Details{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
-                    <h2 class="text-center">{{ ad.name }}</h2>
-                </div>
-                <div class="card-body">
-                    <div class="text-center mb-3">
-                        <img src="{{ ad.images.url }}" alt="Property Image" class="img-fluid rounded">
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-tag"></i> Price:</strong> Rs. {{ ad.price }}</p>
-                            <p><strong><i class="fas fa-map-marker-alt"></i> Location:</strong> {{ ad.address }}</p>
-                            <p><strong><i class="fas fa-home"></i> Property Type:</strong> {{ ad.property_type }}</p>
-                            <p><strong><i class="fas fa-bed"></i> Bedrooms:</strong> {{ ad.bedrooms }}</p>
-                            <p><strong><i class="fas fa-bath"></i> Bathrooms:</strong> {{ ad.bathrooms }}</p>
-                            <p><strong><i class="fas fa-expand"></i> Land Area:</strong> {{ ad.land_area }} sq. ft.</p>
-                            <p><strong><i class="fas fa-ruler-combined"></i> Floor Area:</strong> {{ ad.floor_area }} sq. ft.</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-parking"></i> Parking:</strong> {{ ad.parking }}</p>
-                            <p><strong><i class="fas fa-building"></i> Floors:</strong> {{ ad.floors }}</p>
-                            <p><strong><i class="fas fa-history"></i> Age of Building:</strong> {{ ad.age_of_building }}</p>
-                            <p><strong><i class="fas fa-couch"></i> Furnishing Status:</strong> {{ ad.furnishing_status }}</p>
-                            <p><strong><i class="fas fa-info-circle"></i> Status:</strong> {{ ad.status }}</p>
-                            <p><strong><i class="fas fa-star"></i> Features:</strong> {{ ad.property_features }}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <h5 class="text-center text-primary"><i class="fas fa-user"></i> Seller Information</h5>
-                    <p><strong><i class="fas fa-user"></i> Name:</strong> {{ ad.seller_name }}</p>
-                    <p><strong><i class="fas fa-phone"></i> Tel:</strong> {{ ad.seller_tel }}</p>
-                    <p><strong><i class="fas fa-envelope"></i> Email:</strong> <a href="mailto:{{ ad.seller_email }}">{{ ad.seller_email }}</a></p>
-                    <p><strong><i class="fas fa-link"></i> More Images:</strong> <a href="{{ ad.link }}" target="_blank">View Here</a></p>
-                </div>
+<div class="container py-5">
+
+    <!-- Full-width Blue Box Property Title -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="bg-primary text-white text-center py-3 rounded-3 shadow-sm">
+                <h3 class="mb-0">{{ ad.name }}</h3>
             </div>
         </div>
     </div>
+
+    <!-- Main Content Grid -->
+    <div class="row g-4">
+
+        <!-- Left Column (Picture + Property Details) -->
+        <div class="col-md-8">
+            <!-- Picture Section -->
+            <div class="card shadow-sm mb-4">
+                <img src="{{ ad.images.url }}" alt="Property Image" class="card-img-top rounded" style="object-fit: cover; height: 400px;">
+            </div>
+
+            <!-- Property Info Section -->
+            <div class="card shadow-sm p-3">
+                <h5 class="text-primary mb-3">Property Details</h5>
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">💰 Price: Rs. {{ ad.price }}</li>
+                            <li class="list-group-item">📍 Location: {{ ad.address }}</li>
+                            <li class="list-group-item">🏡 Type: {{ ad.property_type }}</li>
+                            <li class="list-group-item">🛏 Bedrooms: {{ ad.bedrooms }}</li>
+                            <li class="list-group-item">🛁 Bathrooms: {{ ad.bathrooms }}</li>
+                            <li class="list-group-item">✨ Features: {{ ad.property_features }}</li>
+                        </ul>
+                    </div>
+                    <!-- Second Column -->
+                    <div class="col-md-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">📐 Floor Area: {{ ad.floor_area }} sq.ft</li>
+                            <li class="list-group-item">🌿 Land Area: {{ ad.land_area }} sq.ft</li>
+                            <li class="list-group-item">🚗 Parking: {{ ad.parking }}</li>
+                            <li class="list-group-item">🏢 Floors: {{ ad.floors }}</li>
+                            <li class="list-group-item">🛋 Furnishing: {{ ad.furnishing_status }}</li>
+                            <li class="list-group-item">📌 Status: <span class="badge bg-primary">{{ ad.status }}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column (Seller Info) -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 p-3">
+                <h5 class="text-primary mb-3">Seller Information</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">🙋 Name: {{ ad.seller_name }}</li>
+                    <li class="list-group-item">📞 Phone: {{ ad.seller_tel }}</li>
+                    <li class="list-group-item">📧 Email: <a href="mailto:{{ ad.seller_email }}">{{ ad.seller_email }}</a></li>
+                    <li class="list-group-item">📎 More Images: <a href="{{ ad.link }}" target="_blank">Click Here</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
 </div>
-
-<!-- Add FontAwesome for icons -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
 {% endblock %}
