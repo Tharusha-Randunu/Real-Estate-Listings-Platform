@@ -1,0 +1,251 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}help{% endblock %}
+
+{% block content %}
+
+
+
+
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #212529;
+      line-height: 1.7;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.85;
+    }
+    .toc {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 10px;
+      margin-top: 40px;
+    }
+    .toc h4 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .toc ul {
+    list-style-type: circle
+      padding-left: 0;
+    }
+    .toc ul li {
+    list-style-type: circle
+      list-style: none;
+      margin-bottom: 10px;
+    }
+    .toc a {
+      text-decoration: none;
+      color: #003366;
+      font-weight: 500;
+    }
+    .toc a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 60px 0;
+      border-bottom: 1px solid #e1e1e1;
+    }
+    section:last-of-type {
+      border-bottom: none;
+    }
+    section h2 {
+      font-size: 2rem;
+      color: #003366;
+      margin-bottom: 20px;
+    }
+    section h4 {
+      font-weight: 600;
+      margin-top: 30px;
+      color: #212529;
+    }
+    footer {
+      background-color: #003366;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 60px;
+    }
+
+
+
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Help Center</h1>
+    <p>Find answers to common questions about property listings, accounts, and buying or selling through LandMark.</p>
+  </div>
+</header>
+
+<div class="container toc mt-5">
+  <h4>Quick Access</h4>
+  <ul>
+    <li><a href="#posting">Posting Property Ads</a>
+      <ul>
+        <li><a href="#1">How do I post my property on LandMark?</a></li>
+        <li><a href="#2">How do I add images to my ad?</a></li>
+        <li><a href="#3">How do I find geo data for my ad?</a></li>
+        <li><a href="#4">Can I sell or rent through LandMark directly?</a></li>
+      </ul>
+    </li>
+    <li><a href="#manage">Managing Your Ads</a>
+      <ul>
+        <li><a href="#5">How do I edit or delete my property listing?</a></li>
+        <li><a href="#6">How do I find my Ad?</a></li>
+      </ul>
+    </li>
+    <li><a href="#contact">Contact & Support</a>
+      <ul>
+        <li><a href="#7">How can I reach your support team?</a></li>
+      </ul>
+    </li>
+    <li><a href="#buying">Buying in Sri Lanka</a>
+      <ul>
+        <li><a href="#8">Where can I get market insights?</a></li>
+        <li><a href="#9">Can I get help from a professional agent?</a></li>
+      </ul>
+    </li>
+    <li><a href="#profile">Profile Settings</a>
+      <ul>
+        <li><a href="#10">How do I update my profile photo?</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<section id="posting">
+  <div class="container">
+    <h2>Posting Property Ads</h2>
+
+    <h4 id="1'">How do I post my property on LandMark?</h4>
+    <p>
+      To post a property, you first need to <strong>create an account</strong> or <strong>log in</strong>. Once you're logged in, click on <em>"Post an Ad"</em> at the top navigation bar. You'll be guided through the process:
+    </p>
+    <ul>
+      <li>Select whether you're selling, renting, or leasing.</li>
+      <li>Provide detailed property information (location, type, price, size, etc.).</li>
+      <li>Upload high-quality images that best represent your property.</li>
+      <li>Optionally add a map location, property features, and a compelling description.</li>
+      <li>Review your ad and click "Submit". Your listing will be reviewed before being published.</li>
+    </ul>
+    <p>Once approved, your property will be visible to thousands of interested buyers or renters.</p>
+
+    <h4 id="2'">How do I add images to my ad?</h4>
+    <p>
+      After filling in property details, the image upload section will appear. You can:
+      <ul>
+        <li>Click "Add Images" to browse and upload from your device.</li>
+        <li>Drag and drop multiple files directly into the upload area.</li>
+        <li>Ensure each image is clear, well-lit, and represents key areas of the property (exterior, bedrooms, kitchen, etc.).</li>
+      </ul>
+      You can reorder images by dragging them after upload.
+    </p>
+
+    <h4 id="3">How do I find geo data for my ad?</h4>
+    <p>
+      Use our "Get Location" tool in the form, or alternatively visit
+      <a href="https://www.gorissen.info/Pierre/maps/googleMapLocation.php">this geo location tool</a> to retrieve precise latitude and longitude for your property. Input those values into the relevant fields before submitting your ad.
+    </p>
+
+    <h4 id="4">Can I sell or rent through LandMark directly?</h4>
+    <p>
+      We are a listing platform and do not directly sell or rent properties. However, we connect you to a vast audience and offer tools to track interest. If you require professional agent services, we can recommend trusted partners through our <strong><a href="{% url 'agent' %}">Find an Agent</a></strong> service.
+    </p>
+  </div>
+</section>
+
+<section id="manage">
+  <div class="container">
+    <h2>Managing Your Ads</h2>
+
+    <h4 id="5">How do I edit or delete my property listing?</h4>
+    <p>
+      Login to your dashboard. Under the "My Posted Ads" section:
+      <ul>
+        <li>Click the 'Edit Ad' button to edit the ad details, images, or price.</li>
+        <li>To delete an ad, click the 'Delete Ad' button. A confirmation prompt will appear to avoid accidental deletion.</li>
+      </ul>
+    </p>
+
+    <h4 id="6">How do I find my Ad?</h4>
+    <p>
+      Login to your dashboard. Under the "My Posted Ads" section you will find all the Ads you have posted.
+    </p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <h2>Contact & Support</h2>
+
+    <h4 id="7">How can I reach your support team?</h4>
+    <p>
+      Our team is ready to help via:
+      <ul>
+        <li><strong>Email:</strong> support@lankapropertyweb.com</li>
+        <li><strong>Phone:</strong> +94 11 123 4567 (Mon–Fri, 9am–6pm)</li>
+        <li><strong>Live Chat:</strong> Available on our homepage for real-time assistance.</li>
+      </ul>
+      We aim to respond to all queries within 24 hours.
+    </p>
+  </div>
+</section>
+
+<section id="buying">
+  <div class="container">
+    <h2>Buying Property in Sri Lanka</h2>
+
+    <h4 id="8">Where can I get market insights?</h4>
+    <p>
+      Visit our <strong><a href="{% url 'market_insights' %}">Market Insights</a></strong> page, which includes:
+      <ul>
+        <li>Market Value Estimator</li>
+        <li>House Price Index</li>
+        <li>Land Price Index</li>
+      </ul>
+      We use real-time user data and verified listings to create accurate market snapshots.
+    </p>
+
+    <h4 id="9">Can I get help from a professional agent?</h4>
+    <p>
+      Yes! If you're new to property investment or relocation, we recommend working with a trusted agent. Visit our <strong><a href="{% url 'agent' %}">Find an Agent</a></strong> page to browse licensed professionals, filtered by location, property type, and experience.
+    </p>
+  </div>
+</section>
+
+<section id="profile">
+  <div class="container">
+    <h2>Profile Settings</h2>
+
+    <h4 id="10">How do I update my profile photo?</h4>
+    <p>
+      Go to your Dashboard > Edit Profile. You can:
+      <ul>
+        <li>Click on change profile picture.</li>
+        <li>Upload a new image (JPG or PNG, up to 5MB).</li>
+        <li>Save changes.</li>
+      </ul>
+    </p>
+  </div>
+</section>
+
+{% include 'home/footer.html' %}
+{% endblock %}

@@ -1,12 +1,82 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
-  <div class="container mt-5">
+  <style>
+    body {
+        background: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .edit-container {
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        max-width: 500px;
+        margin: 50px auto;
+    }
+
+    .edit-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px 12px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 15px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .errorlist {
+        color: red;
+        font-size: 13px;
+        margin: 5px 0;
+    }
+  </style>
+
+  <div class="edit-container">
     <h2>Edit Advertisement</h2>
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      {{ form.non_field_errors }}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button type="submit">Save Changes</button>
     </form>
   </div>
 {% endblock %}
