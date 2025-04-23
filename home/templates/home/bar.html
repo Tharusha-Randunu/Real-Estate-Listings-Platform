@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}RealEstatePro{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-white shadow-md px-4 py-3">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <a href="{% url 'home' %}" class="text-xl font-bold text-blue-600">RealEstatePro</a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex space-x-6 items-center">
+        <a href="{% url 'find_a_home' %}" class="flex items-center hover:text-blue-600 transition">find_a_home</a>
+        <a href="{% url 'rent_property' %}" class="flex items-center hover:text-blue-600 transition">rent_property</a>
+        <a href="{% url 'market_insights' %}" class="flex items-center hover:text-blue-600 transition">Market Insights</a>
+        <a href="{% url 'post_ad' %}" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Post Your Ad</a>
+        <a href="{% url 'login' %}" class="hover:text-blue-600">Login</a>
+        <a href="{% url 'register' %}" class="hover:text-blue-600">Register</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="menuToggle" class="text-gray-700 focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"
+               d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden mt-3 space-y-2 px-4">
+      <a href="{% url 'find_a_home' %}" class="hover:text-blue-600">find_a_home</a>
+      <a href="{% url 'rent_property' %}" class="hover:text-blue-600">Rent</a>
+      <a href="{% url 'market_insights' %}" class="hover:text-blue-600">Market Insights</a>
+      <a href="{% url 'list_property' %}" class="hover:text-blue-600">Post Your Ad</a>
+      <a href="{% url 'login' %}" class="hover:text-blue-600">Login</a>
+      <a href="{% url 'register' %}" class="hover:text-blue-600">Register</a>
+    </div>
+  </nav>
+
+  <!-- JavaScript toggle for mobile menu -->
+  <script>
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("mobileMenu").classList.toggle("hidden");
+    });
+  </script>
+
+  <!-- Main Page Content -->
+  <div class="container mx-auto px-4 py-6">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+</body>
+</html>

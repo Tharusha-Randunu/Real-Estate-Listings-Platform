@@ -1,27 +1,38 @@
-<!-- Navigation Bar -->
-   <nav class="navbar navbar-expand-lg navbar-light navbar-transparent shadow-sm">
-        <div class="container">
-            <div class="d-flex align-items-center gap-3">
-                <a class="nav-link" href="{% url 'find_a_home' %}?offer_type=Sale">Buy</a>
-                <a class="nav-link" href="{% url 'find_a_home' %}?offer_type=Rent">Rent</a>
-                <a class="nav-link" href="{% url 'market_insights' %}">Market Insights</a>
-                <a class="nav-link" href="{% url 'our_services' %}">Our Services</a>
-            </div>
-            <a class="navbar-brand mx-auto fw-bold" href="{% url 'home' %}">LandMark</a>
-            <div class="d-flex gap-3">
-                <a class="btn btn-outline-primary" href="{% url 'list_property' %}">Post Your Ad</a>
-                <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
-                <a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+<!-- templates/home/navbar.html -->
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-transparent shadow-sm">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}" style="font-weight: bold;">LandMark</a>
+
+        <!-- Toggle button for small screens -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible navbar content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'find_a_home' %}?offer_type=Sale">Buy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'find_a_home' %}?offer_type=Rent">Rent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'market_insights' %}">Market Insights</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'our_services' %}">Our Services</a>
+                </li>
+            </ul>
+
+            <!-- Button group with proper spacing -->
+            <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+                <a class="btn btn-outline-primary mx-1" href="{% url 'list_property' %}">Post Your Ad</a>
+                <a class="btn btn-primary mx-1" href="{% url 'login' %}">Login</a>
+                <a class="btn btn-primary mx-1" href="{% url 'register' %}">Register</a>
             </div>
         </div>
-    </nav>
-
-
-<style>
-
-
-    .navbar-transparent {
-            background-color: rgba(255, 255, 255, 0.8);
-            }
-
-</style>
+    </div>
+</nav>

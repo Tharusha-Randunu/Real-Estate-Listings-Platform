@@ -1,3 +1,4 @@
+
 from django.conf import settings
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
@@ -554,3 +555,4 @@ def edit_ad(request, ad_id):
         form = ConfirmedAdForm(instance=ad)
 
     return render(request, 'home/edit_ad.html', {'form': form})
+
