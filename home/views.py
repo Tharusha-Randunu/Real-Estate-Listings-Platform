@@ -17,7 +17,8 @@ from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from .forms import EditProfileForm
 from .forms import ConfirmedAdForm
-
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
 # --- Helper function to safely convert to float ---
