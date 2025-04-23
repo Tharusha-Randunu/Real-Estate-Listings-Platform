@@ -20,7 +20,7 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('edit-ad/<int:ad_id>/', views.edit_ad, name='edit_ad'),
     path('delete-ad/<int:ad_id>/', views.delete_ad, name='delete_ad'),
-
+    path('help/', views.help_page, name='help'),
 
 
 ]

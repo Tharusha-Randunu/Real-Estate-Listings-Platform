@@ -185,7 +185,7 @@ height:100%;
    <div class="dashboard-card right-column">
     <!-- Posted Ads -->
     <div class="mb-4">
-        <div class="section-title">Your Posted Ads</div>
+        <div class="section-title">My Posted Ads</div>
         {% if user_ads %}
             <div class="row">
                 {% for ad in user_ads %}
@@ -288,6 +288,15 @@ height:100%;
                                 <div class="icon">🏘️</div>
                                 <h4>Go to Home Page</h4>
                                 <p>Go to home page and manage your journey.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a href="{% url 'help' %}" class="text-decoration-none">
+                            <div class="explore-card">
+                                <div class="icon">😓</div>
+                                <h4>Need Help ?</h4>
+                                <p>Go to help page and find answers for your questions.</p>
                             </div>
                         </a>
                     </div>
