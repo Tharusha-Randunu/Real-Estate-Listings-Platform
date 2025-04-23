@@ -3,6 +3,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
 from .models import ConfirmedAd
+from django.contrib.auth.forms import PasswordChangeForm
+
+
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -46,7 +49,10 @@ class EditProfileForm(forms.ModelForm):
         return user_profile
 
 
-
+class PasswordChangeFormCustom(PasswordChangeForm):
+    old_password = forms.CharField(max_length=100, widget=forms.PasswordInput, required=True, label="Old Password")
+    new_password1 = forms.CharField(max_length=100, widget=forms.PasswordInput, required=True, label="New Password")
+    new_password2 = forms.CharField(max_length=100, widget=forms.PasswordInput, required=True, label="Confirm New Password")
 
 class ConfirmedAdForm(forms.ModelForm):
     class Meta:
