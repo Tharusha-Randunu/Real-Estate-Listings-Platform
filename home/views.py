@@ -234,7 +234,12 @@ def find_a_home(request):
 
 def property_detail(request, ad_id):
     ad = get_object_or_404(ConfirmedAd, id=ad_id)
-    return render(request, 'home/property_detail.html', {'ad': ad})
+    try:
+        seller_profile = UserProfile.objects.get(user__email=ad.seller_email)
+        seller_profile_pic = seller_profile.profile_picture.url if seller_profile.profile_picture else None
+    except UserProfile.DoesNotExist:
+        seller_profile_pic = None
+    return render(request, 'home/property_detail.html', {'ad': ad, 'seller_profile_pic': seller_profile_pic})
 
 def serve_image(request, path):
     media_path = os.path.join(settings.MEDIA_ROOT, path)
