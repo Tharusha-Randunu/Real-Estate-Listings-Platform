@@ -19,6 +19,7 @@ from .forms import EditProfileForm
 from .forms import ConfirmedAdForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from .forms import PasswordChangeFormCustom
 
 
 # --- Helper function to safely convert to float ---
@@ -586,7 +587,7 @@ def help_page(request):
 @login_required
 def change_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(user=request.user, data=request.POST)
+        form = PasswordChangeFormCustom(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             # Keep the user logged in after password change
@@ -596,6 +597,6 @@ def change_password(request):
         else:
             messages.error(request, 'There was an error with your password change. Please check your input.')
     else:
-        form = PasswordChangeForm(user=request.user)
+        form = PasswordChangeFormCustom(user=request.user)
 
     return render(request, 'home/change_password.html', {'form': form})
