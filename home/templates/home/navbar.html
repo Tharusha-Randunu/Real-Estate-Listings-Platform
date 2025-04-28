@@ -1,18 +1,16 @@
-<!-- templates/home/navbar.html -->
+{% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light navbar-transparent shadow-sm">
-    <div class="container-fluid px-4">
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}" style="font-weight: bold;">LandMark</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">LandMark</a>
 
-        <!-- Toggle button for small screens -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
             aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Collapsible navbar content -->
         <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'find_a_home' %}?offer_type=Sale">Buy</a>
                 </li>
@@ -26,13 +24,37 @@
                     <a class="nav-link" href="{% url 'our_services' %}">Our Services</a>
                 </li>
             </ul>
+        </div>
 
-            <!-- Button group with proper spacing -->
-            <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
-                <a class="btn btn-outline-primary mx-1" href="{% url 'list_property' %}">Post Your Ad</a>
+        <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+            <a class="btn btn-outline-primary mx-1" href="{% url 'list_property' %}">Post Your Ad</a>
+
+            {% if user.is_authenticated %}
+                <div class="nav-item dropdown mx-1">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.userprofile.profile_picture and user.userprofile.profile_picture.url %}
+                            <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'home/images/default-user.png' %}" alt="Default Profile Picture" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                        {% endif %}
+                        {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
+                        <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                                {% csrf_token %}
+                            </form>
+                            <a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                       </li>
+                    </ul>
+                </div>
+
+            {% else %}
                 <a class="btn btn-primary mx-1" href="{% url 'login' %}">Login</a>
                 <a class="btn btn-primary mx-1" href="{% url 'register' %}">Register</a>
-            </div>
+            {% endif %}
         </div>
     </div>
 </nav>

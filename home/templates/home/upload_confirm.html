@@ -1,9 +1,8 @@
 {% extends 'home/base.html' %}
 {% load static %}
-
 {% block title %}Upload and Confirm{% endblock %}
-
 {% block content %}
+
 <style>
     body {
         font-family: 'Poppins', sans-serif;
@@ -176,4 +175,6 @@
         setInterval(createEmoji, 1200);
     }, 1500);
 </script>
+
+{% include 'home/footer.html' %}
 {% endblock %}
