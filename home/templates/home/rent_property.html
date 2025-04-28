@@ -13,6 +13,8 @@
     <h1 class="text-center">Find a Rental Property - Step 1</h1>
 
     <form method="post" action="{% url 'rent_property' %}"> {% csrf_token %}
+
+        <!-- USER TYPE SELECTION -->
         <div class="form-section mb-4">
             <h4 class="text-center">I am</h4>
             <input type="hidden" name="user_type" id="user_type_input" required>
@@ -24,6 +26,7 @@
             </div>
         </div>
 
+        <!-- OFFER TYPE -->
         <div class="form-section mb-4">
             <h4 class="text-center">Offer Type</h4>
             <input type="hidden" name="offer_type" id="offer_type_input" value="Rent" required>
@@ -32,6 +35,7 @@
             </div>
         </div>
 
+        <!-- PROPERTY TYPE SELECTION -->
         <div class="form-section mb-4">
             <h4 class="text-center">Property Type</h4>
             <input type="hidden" name="property_type" id="property_type_input" required>
@@ -48,6 +52,7 @@
             </div>
         </div>
 
+        <!-- LOCATION INPUT SECTION -->
         <div class="form-section mb-4">
             <h4 class="text-center">Location and Map</h4>
             <div class="row mb-3">
@@ -76,6 +81,7 @@
             </div>
         </div>
 
+        <!-- SUBMIT BUTTON -->
         <div class="text-center">
             <button type="submit" class="btn btn-success px-5 py-2">Next</button>
         </div>
@@ -83,7 +89,6 @@
 </div>
 
 <!-- END OF RENT PROPERTY CONTENT -->
-
 <style>
     body {
         font-family: 'Poppins', sans-serif;
@@ -131,6 +136,7 @@
         box-shadow: 0 0 15px #28a74566;
     }
 
+    /* EMOJI ANIMATION STYLES */
     .floating-emoji {
         position: fixed;
         z-index: 0;
@@ -165,6 +171,8 @@
 </style>
 
 <script>
+    // SELECT BUTTON CHOICE LOGIC
+    // Handles toggling active class and setting hidden input
     function selectChoice(button, hiddenInputId) {
         const hiddenInput = document.getElementById(hiddenInputId);
         const buttons = button.closest('.btn-choice-group').children;
@@ -177,6 +185,8 @@
         hiddenInput.value = button.textContent.trim();
     }
 
+    // GEOLOCATION HANDLER
+    // Uses browser geolocation to auto-fill coordinates
     document.getElementById('get_location_btn').addEventListener('click', () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -191,6 +201,8 @@
         }
     });
 
+    // EMOJI SPAWNER
+    // Creates floating emoji elements randomly
     const emojis = ['🏠', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑'];
     const emojiContainer = document.getElementById('emoji-container');
 
@@ -205,6 +217,7 @@
         setTimeout(() => emoji.remove(), 18000);
     }
 
+    // Start floating emojis after short delay
     setTimeout(() => {
         setInterval(createEmoji, 1200);
     }, 1500);

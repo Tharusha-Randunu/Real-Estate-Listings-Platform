@@ -660,8 +660,8 @@
     <h2 class="text-center mb-4">Latest Listings</h2>
     <div class="row" style="padding-top:20px">
         {% for ad in latest_ads %}
-        <div class="col-md-3"> <!-- Smaller cards -->
-            <div class="card latest-card">  <!-- Applied a new class -->
+        <div class="col-md-3">
+            <div class="card latest-card">
                 <img src="{{ ad.images.url }}" alt="{{ ad.name }}" class="card-img-top latest-img">
                 <div class="card-body p-2">
                     <h6 class="card-title">{{ ad.name }}</h6>

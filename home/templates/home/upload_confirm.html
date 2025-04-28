@@ -5,6 +5,7 @@
 
 {% block content %}
 <style>
+    /* General styles */
     body {
         font-family: 'Poppins', sans-serif;
         background: #fdfdfd;
@@ -13,6 +14,7 @@
         position: relative;
     }
 
+    /* Heading */
     h1 {
         color: #333;
         font-weight: 700;
@@ -20,6 +22,7 @@
         text-align: center;
     }
 
+    /* Form and success message box */
     .form-section {
         background: rgba(255, 255, 255, 0.95);
         padding: 30px 40px;
@@ -30,6 +33,7 @@
         z-index: 10;
     }
 
+    /* Labels and buttons */
     .form-title {
         font-weight: 700;
         font-size: 1.2rem;
@@ -45,6 +49,7 @@
         border-radius: 25px;
     }
 
+    /* Success message container */
     .success-container {
         min-height: 100vh;
         display: flex;
@@ -81,6 +86,7 @@
         z-index: 10;
     }
 
+    /* Floating emojis */
     .floating-emoji {
         position: fixed;
         z-index: 1;
@@ -108,6 +114,7 @@
         }
     }
 
+    /* Responsive */
     @media (max-width: 768px) {
         h1 {
             font-size: 1.75rem;
@@ -119,23 +126,28 @@
 <div id="emoji-container"></div>
 
 {% if success %}
+    <!-- Success message -->
     <div class="success-container">
         <div class="success-box">
             <p>✅<br>Submitted Successfully! Your ad is pending review.</p>
         </div>
     </div>
 {% else %}
+
+<!-- Form to upload image and confirm ownership -->
     <div class="container my-5">
         <h1>Finalize Your Listing - Step 3</h1>
 
         <form action="{% url 'upload_confirm' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
+            <!-- Upload photo section -->
             <div class="form-section">
                 <div class="form-title">Upload a Photo of Your Property <span class="text-danger">*</span></div>
                 <input type="file" name="property_image" accept="image/*" class="form-control" required>
             </div>
 
+            <!-- Confirm ownership section -->
             <div class="form-section">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="confirm" name="confirm" value="true" required>
@@ -145,10 +157,12 @@
                 </div>
             </div>
 
+            <!-- Show error if any -->
             {% if error %}
                 <div class="alert alert-danger">{{ error }}</div>
             {% endif %}
 
+            <!-- Submit button -->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary px-5 py-2">Submit Listing</button>
             </div>
@@ -157,6 +171,7 @@
 {% endif %}
 
 <script>
+    <!-- Floating emoji animation script -->
     const emojis = ['🏠', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑'];
     const emojiContainer = document.getElementById('emoji-container');
 
@@ -172,6 +187,7 @@
         setTimeout(() => emoji.remove(), 18000);
     }
 
+    // Start floating emojis after delay
     setTimeout(() => {
         setInterval(createEmoji, 1200);
     }, 1500);
