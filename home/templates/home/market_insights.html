@@ -1,4 +1,6 @@
+{% extends "home/base.html" %}
 {% load static %}
+{% block content %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -277,8 +279,7 @@
     </style>
 </head>
 <body>
-<!-- Navigation Bar -->
-{% include 'home/navbar.html' %}
+
 
 <!-- Market Insights Overview -->
 <section id="overview">
@@ -567,6 +568,8 @@
   renderCharts();
 </script>
 <script src="{% static 'home/js/script.js' %}"></script>
-{% include 'home/footer.html' %}
 </body>
 </html>
+
+{% include 'home/footer.html' %}
+{% endblock %}

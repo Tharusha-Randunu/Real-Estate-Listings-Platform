@@ -1,6 +1,7 @@
-{% extends 'home/base.html' %}
-
+{% extends "home/base.html" %}
+{% load static %}
 {% block content %}
+
 <div class="card-container">
     <div class="card">
         <div class="card-body">
@@ -160,4 +161,6 @@
         }
     }
 </style>
+
+{% include 'home/footer.html' %}
 {% endblock %}

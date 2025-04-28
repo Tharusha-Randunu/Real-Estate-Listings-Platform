@@ -1,8 +1,6 @@
-{% extends 'home/base.html' %}
+{% extends "home/base.html" %}
 {% load static %}
-
 {% block title %}List Your Property{% endblock %}
-
 {% block content %}
 <style>
     body {
@@ -205,4 +203,7 @@
         setInterval(createEmoji, 1200);
     }, 1500);
 </script>
+
+{% include 'home/footer.html' %}
 {% endblock %}
+
