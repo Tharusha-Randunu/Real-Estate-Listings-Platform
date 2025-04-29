@@ -108,3 +108,21 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class HousePriceIndex(models.Model):
+    region = models.CharField(max_length=100)
+    quarter = models.CharField(max_length=10)  # e.g., '2022 Q1'
+    price_index = models.FloatField()
+
+    def __str__(self):
+        return f"{self.region} - {self.quarter}"
+
+
+class LandPriceIndex(models.Model):
+    city = models.CharField(max_length=100)
+    quarter = models.CharField(max_length=10)
+    price_index = models.FloatField()
+
+    def __str__(self):
+        return f"{self.city} - {self.quarter}"

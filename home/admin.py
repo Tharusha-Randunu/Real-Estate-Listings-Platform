@@ -5,6 +5,8 @@ from .models import PendingAd, ConfirmedAd, PropertyFeature
 from django.core.files.base import ContentFile # Needed for image handling if paths differ
 import os
 from django.conf import settings
+from django.contrib import admin
+from .models import HousePriceIndex, LandPriceIndex
 
 # Register the simple models first
 
@@ -141,3 +143,7 @@ class PendingAdAdmin(admin.ModelAdmin):
 
 # Register the PendingAd model with the custom admin class
 admin.site.register(PendingAd, PendingAdAdmin)
+
+
+admin.site.register(HousePriceIndex)
+admin.site.register(LandPriceIndex)
