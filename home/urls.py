@@ -21,7 +21,9 @@ urlpatterns = [
     path('edit-ad/<int:ad_id>/', views.edit_ad, name='edit_ad'),
     path('delete-ad/<int:ad_id>/', views.delete_ad, name='delete_ad'),
     path('help/', views.help_page, name='help'),
-path('change-password/', views.change_password, name='change_password'), 
+    path('change-password/', views.change_password, name='change_password'),
+    path('api/house-price-data/', views.house_price_data, name='house-price-data'),
+    path('api/land-price-data/', views.land_price_data, name='land-price-data'),
 
 ]
 

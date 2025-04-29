@@ -477,47 +477,15 @@
       });
     }
   }
-  /* Fetch dummy house price index data */
   async function fetchHousePriceData() {
-    return {
-      labels: ['2022 Q1', '2022 Q2', '2022 Q3', '2023 Q1', '2023 Q2', '2024 Q1'],
-      datasets: [
-        {
-          label: 'Urban Region',
-          data: [100, 110, 130, 150, 160, 170],
-          borderColor: '#1e88e5',
-          tension: 0.4
-        },
-        {
-          label: 'Suburban Region',
-          data: [100, 105, 120, 135, 145, 150],
-          borderColor: '#43a047',
-          tension: 0.4
-        }
-      ]
-    };
-  }
+  const response = await fetch('/api/house-price-data/');
+  return await response.json();
+}
 
-  /* Fetch dummy land price index data */
-  async function fetchLandPriceData() {
-    return {
-      labels: ['2022 Q1', '2022 Q2', '2022 Q3', '2023 Q1', '2023 Q2', '2024 Q1'],
-      datasets: [
-        {
-          label: 'Colombo',
-          data: [100, 120, 150, 180, 200, 210],
-          borderColor: '#d32f2f',
-          tension: 0.4
-        },
-        {
-          label: 'Kandy',
-          data: [100, 115, 135, 150, 160, 170],
-          borderColor: '#388e3c',
-          tension: 0.4
-        }
-      ]
-    };
-  }
+async function fetchLandPriceData() {
+  const response = await fetch('/api/land-price-data/');
+  return await response.json();
+}
 
   /* Render the line charts for house and land prices */
   async function renderCharts() {

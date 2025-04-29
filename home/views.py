@@ -20,6 +20,9 @@ from .forms import ConfirmedAdForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from .forms import PasswordChangeFormCustom
+from django.http import JsonResponse
+from .models import HousePriceIndex, LandPriceIndex
+from collections import defaultdict
 
 
 # --- Helper function to safely convert to float ---
@@ -600,3 +603,48 @@ def change_password(request):
         form = PasswordChangeFormCustom(user=request.user)
 
     return render(request, 'home/change_password.html', {'form': form})
+
+
+
+def house_price_data(request):
+    data = HousePriceIndex.objects.all().order_by('quarter')
+    chart_data = defaultdict(list)
+    labels = sorted(set(data.values_list('quarter', flat=True)))
+
+    for record in data:
+        chart_data[record.region].append((record.quarter, record.price_index))
+
+    datasets = []
+    colors = ['#1e88e5', '#43a047', '#ff5722', '#6a1b9a']  # extend as needed
+    for i, (region, values) in enumerate(chart_data.items()):
+        values_dict = dict(values)
+        datasets.append({
+            'label': region,
+            'data': [values_dict.get(q, None) for q in labels],
+            'borderColor': colors[i % len(colors)],
+            'tension': 0.4
+        })
+
+    return JsonResponse({'labels': labels, 'datasets': datasets})
+
+
+def land_price_data(request):
+    data = LandPriceIndex.objects.all().order_by('quarter')
+    chart_data = defaultdict(list)
+    labels = sorted(set(data.values_list('quarter', flat=True)))
+
+    for record in data:
+        chart_data[record.city].append((record.quarter, record.price_index))
+
+    datasets = []
+    colors = ['#d32f2f', '#388e3c', '#fbc02d', '#1976d2']  # extend as needed
+    for i, (city, values) in enumerate(chart_data.items()):
+        values_dict = dict(values)
+        datasets.append({
+            'label': city,
+            'data': [values_dict.get(q, None) for q in labels],
+            'borderColor': colors[i % len(colors)],
+            'tension': 0.4
+        })
+
+    return JsonResponse({'labels': labels, 'datasets': datasets})
