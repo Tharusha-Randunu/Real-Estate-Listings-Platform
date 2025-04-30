@@ -70,6 +70,52 @@
         margin: 0;
     }
 
+    .image-preview-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .image-preview-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
+    }
+
+    .image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .remove-btn {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: rgba(255, 0, 0, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 14px;
+        cursor: pointer;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+    }
+
+    .image-count {
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #555;
+    }
+
     .text-center {
         position: relative;
         z-index: 10;
@@ -91,26 +137,14 @@
     }
 
     @keyframes floatUp {
-        0% {
-            transform: translateY(100vh);
-            opacity: 0;
-        }
-        10% {
-            opacity: 0.4;
-        }
-        90% {
-            opacity: 0.4;
-        }
-        100% {
-            transform: translateY(-120vh);
-            opacity: 0;
-        }
+        0% { transform: translateY(100vh); opacity: 0; }
+        10% { opacity: 0.4; }
+        90% { opacity: 0.4; }
+        100% { transform: translateY(-120vh); opacity: 0; }
     }
 
     @media (max-width: 768px) {
-        h1 {
-            font-size: 1.75rem;
-        }
+        h1 { font-size: 1.75rem; }
     }
 </style>
 
@@ -131,8 +165,11 @@
             {% csrf_token %}
 
             <div class="form-section">
-                <div class="form-title">Upload a Photo of Your Property <span class="text-danger">*</span></div>
-                <input type="file" name="property_image" accept="image/*" class="form-control" required>
+                <div class="form-title">Upload Photos of Your Property (up to 5) <span class="text-danger">*</span></div>
+                <input type="file" id="property_images" accept="image/*" class="form-control" multiple onchange="handleImageUpload(this)">
+                <small class="form-text text-muted">You can upload up to 5 images.</small>
+                <div class="image-preview-container" id="imagePreviewContainer"></div>
+                <div class="image-count" id="imageCount">Uploaded: 0 / 5 images</div>
             </div>
 
             <div class="form-section">
@@ -167,13 +204,62 @@
         emoji.style.fontSize = `${1 + Math.random() * 2}rem`;
         emoji.style.animationDuration = `${20 + Math.random() * 2}s`;
         emojiContainer.appendChild(emoji);
-
         setTimeout(() => emoji.remove(), 18000);
     }
 
     setTimeout(() => {
         setInterval(createEmoji, 1200);
     }, 1500);
+
+    const maxImages = 5;
+    let selectedImages = [];
+
+    function handleImageUpload(input) {
+        const newFiles = Array.from(input.files);
+
+        if ((selectedImages.length + newFiles.length) > maxImages) {
+            alert("You can upload a maximum of 5 images.");
+            input.value = "";
+            return;
+        }
+
+        selectedImages = [...selectedImages, ...newFiles];
+        input.value = "";
+        updateImagePreview();
+    }
+
+    function updateImagePreview() {
+        const container = document.getElementById("imagePreviewContainer");
+        const countDisplay = document.getElementById("imageCount");
+        container.innerHTML = "";
+
+        selectedImages.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const wrapper = document.createElement("div");
+                wrapper.classList.add("image-preview-wrapper");
+
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.classList.add("image-preview");
+
+                const removeBtn = document.createElement("button");
+                removeBtn.classList.add("remove-btn");
+                removeBtn.innerHTML = "&times;";
+                removeBtn.onclick = function() {
+                    selectedImages.splice(index, 1);
+                    updateImagePreview();
+                };
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+                container.appendChild(wrapper);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        countDisplay.textContent = `Uploaded: ${selectedImages.length} / ${maxImages} images`;
+    }
 </script>
 
 {% include 'home/footer.html' %}

@@ -351,7 +351,7 @@ def rent_property_details(request):
 def upload_confirm(request):
     if request.method == 'POST':
         confirm = request.POST.get('confirm') == 'true' or request.POST.get('confirm') == 'on'
-        image = request.FILES.get('property_image')
+        image = request.FILES.get('property_images')
         error_msg = None
         registration_info = None
         basic_info = None
