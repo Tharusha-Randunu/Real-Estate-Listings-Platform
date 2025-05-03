@@ -24,12 +24,13 @@
                     <a class="nav-link" href="{% url 'our_services' %}">Our Services</a>
                 </li>
             </ul>
-        </div>
+
 
         <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
             <a class="btn btn-outline-primary mx-1" href="{% url 'list_property' %}">Post Your Ad</a>
 
             {% if user.is_authenticated %}
+
                 <div class="nav-item dropdown mx-1">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% if user.userprofile.profile_picture and user.userprofile.profile_picture.url %}
@@ -56,5 +57,6 @@
                 <a class="btn btn-primary mx-1" href="{% url 'register' %}">Register</a>
             {% endif %}
         </div>
+            </div>
     </div>
 </nav>
