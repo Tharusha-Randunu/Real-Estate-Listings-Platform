@@ -15,9 +15,54 @@
     <div class="row g-4">
 
         <div class="col-md-8">
-            <div class="card shadow-sm mb-4">
-                <img src="{{ ad.images.url }}" alt="Property Image" class="card-img-top rounded" style="object-fit: cover; height: 400px;">
+
+{# --- Image Carousel Start --- #}
+<div class="card shadow-sm mb-4">
+    {% if ad.images.all %}
+        <div id="propertyImageCarousel" class="carousel slide" data-bs-ride="carousel">
+            {# Indicators #}
+            {% if ad.images.all|length > 1 %}
+            <div class="carousel-indicators">
+                {% for img_obj in ad.images.all %}
+                    <button type="button" data-bs-target="#propertyImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
             </div>
+            {% endif %}
+
+            {# Slides #}
+            <div class="carousel-inner rounded">
+                {% for img_obj in ad.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ img_obj.image.url }}" class="d-block w-100" alt="Property image {{ forloop.counter }}" style="object-fit: cover; height: 450px;">
+                    </div>
+                {% endfor %}
+            </div>
+
+            {# Controls #}
+            {% if ad.images.all|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#propertyImageCarousel" data-bs-slide="prev"
+                    style="opacity: 0; transition: opacity 0.15s ease; background: none; border: none;"
+                    onmouseover="this.style.opacity='0.5';" onmouseout="this.style.opacity='0';">
+                <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 50%; padding: 0.5rem;"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#propertyImageCarousel" data-bs-slide="next"
+                    style="opacity: 0; transition: opacity 0.15s ease; background: none; border: none;"
+                    onmouseover="this.style.opacity='0.5';" onmouseout="this.style.opacity='0';">
+                <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 50%; padding: 0.5rem;"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            {% endif %}
+        </div>
+    {% else %}
+        {# Placeholder if no images exist #}
+        <div class="text-center p-5 bg-light rounded">
+            <i class="fas fa-image fa-3x text-muted"></i>
+             <p class="mt-2 text-muted">No images available for this property.</p>
+        </div>
+    {% endif %}
+</div>
+{# --- Image Carousel End --- #}
 
             <div class="card shadow-sm p-3 mb-4">
                 <h5 class="text-primary mb-3">Property Details</h5>

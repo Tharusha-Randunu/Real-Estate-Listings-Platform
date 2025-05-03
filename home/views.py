@@ -4,7 +4,7 @@ from django.core.files.storage import FileSystemStorage
 import os
 import mimetypes
 from django.http import HttpResponse
-from .models import ConfirmedAd, PropertyFeature, PendingAd
+from .models import ConfirmedAd, PropertyFeature, PendingAd, PendingAdImage, ConfirmedAdImage
 from decimal import Decimal, InvalidOperation
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -189,11 +189,11 @@ def find_a_home(request):
     if bathrooms:
         bathrooms = int(bathrooms)
 
-    # Start with all ads
-    ads = ConfirmedAd.objects.all()
+    # Start with all ads and prefetch related images
+    ads = ConfirmedAd.objects.all().prefetch_related('images')
 
     if query:
-        ads = ads.filter(Q(name__icontains=query) | Q(details__icontains=query))
+        ads = ads.filter(Q(title__icontains=query) | Q(description__icontains=query))
     if city:
         ads = ads.filter(address__icontains=city)
     if property_type:
@@ -233,11 +233,10 @@ def find_a_home(request):
         'available_features': available_features,
         'selected_features': features,
         'offer_type': offer_type,
-
     })
 
 def property_detail(request, ad_id):
-    ad = get_object_or_404(ConfirmedAd, id=ad_id)
+    ad = get_object_or_404(ConfirmedAd.objects.prefetch_related('images'), id=ad_id)
     try:
         seller_profile = UserProfile.objects.get(user__email=ad.seller_email)
         seller_profile_pic = seller_profile.profile_picture.url if seller_profile.profile_picture else None
@@ -344,14 +343,11 @@ def rent_property_details(request):
 
     return render(request, 'home/rent_property_details.html', {'features': features})
 
-
-
-# --- Step 3: Upload Image and Confirm ---
 @login_required(login_url='/login/') # Protect this step
 def upload_confirm(request):
     if request.method == 'POST':
         confirm = request.POST.get('confirm') == 'true' or request.POST.get('confirm') == 'on'
-        image = request.FILES.get('property_images')
+        images = request.FILES.getlist('property_images')
         error_msg = None
         registration_info = None
         basic_info = None
@@ -378,8 +374,10 @@ def upload_confirm(request):
             error_msg = 'Required information is missing. Please go back and complete all steps.'
         elif not confirm:
             error_msg = 'You must confirm ownership/authorization.'
-        elif not image:
-            error_msg = 'Please upload a property image.'
+        elif not images:
+            error_msg = 'Please upload at least one property image.'
+        elif len(images) > 5:
+            error_msg = 'You can upload a maximum of 5 images.'
 
         if error_msg:
             print("Error during submission:", error_msg)
@@ -419,19 +417,23 @@ def upload_confirm(request):
                 title=details_info.get('title'),
                 description=details_info.get('description'),
                 features=details_info.get('features_list'),
-
-                # From this form
-
-                # Image handled below
+                confirmed_ownership=confirm, # Ensure this is saved
             )
-
-            # Save the image
-            fs = FileSystemStorage()
-            filename = fs.save(image.name, image)
-            ad.property_image = filename
+            # Save the main ad FIRST to get an ID
             ad.save()
 
+            # --- Save Multiple Images ---
+            fs = FileSystemStorage() # Or use default storage
+            saved_image_urls = []
+            for img_file in images:
+                # You might want to sanitize filename here before saving
+                filename = fs.save(img_file.name, img_file)
+                # Create the related image record
+                PendingAdImage.objects.create(pending_ad=ad, image=filename)
+                saved_image_urls.append(fs.url(filename)) # Store URL if needed
+
             print(f"Successfully saved PendingAd (Offer Type: {offer_type}):", ad.id, ad.title)
+            print(f"Saved {len(saved_image_urls)} images.")
 
             # Clear session data based on the flow
             if offer_type == 'Rent':
@@ -445,10 +447,7 @@ def upload_confirm(request):
 
             messages.success(request, f"Your ad '{ad.title}' for {offer_type} has been submitted for review!")
 
-            return render(request, 'home/upload_confirm.html', {
-                'success': True,
-                'image_url': fs.url(filename)
-            })
+            return render(request, 'home/upload_confirm.html', {'success': True})
 
         except (ValueError, TypeError, InvalidOperation) as e:
             print(f"Data processing error: {e}")
@@ -468,7 +467,6 @@ def upload_confirm(request):
         return redirect('home')  # Redirect to the home page
 
     return render(request, 'home/upload_confirm.html')
-
 
 def our_services(request):
     return render(request, 'home/our_services.html')
@@ -500,13 +498,21 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
-    user_ads = [] # Replace with your logic to get user's ads
-    user_profile = request.user.profile
+    user_ads = ConfirmedAd.objects.filter(seller_email=request.user.email).order_by('-created_at')
+
+    # Prefetch related images to avoid multiple database queries in the template
+    user_ads = user_ads.prefetch_related('confirmedadimage_set')
+
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
     context = {
         'user_ads': user_ads,
         'user_profile': user_profile,
     }
-    return render(request, 'home/dashboard/dashboard.html', context) # In the 'home/dashboard' folder
+    return render(request, 'home/dashboard/dashboard.html', context)
 
 def user_logout(request):
     logout(request)
