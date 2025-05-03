@@ -54,10 +54,28 @@ class ConfirmedAd(models.Model):
     seller_name = models.CharField(max_length=255)
     seller_tel = models.CharField(max_length=15)
     seller_email = models.EmailField()
-    images = models.ImageField(upload_to='property_images/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.title or f"Confirmed Ad {self.id}"
+
+class ConfirmedAdImage(models.Model):
+    """Stores multiple images related to a ConfirmedAd."""
+    confirmed_ad = models.ForeignKey(ConfirmedAd, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='confirmed_ad_images/') # Specific path for confirmed ad images
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['uploaded_at'] # Optional: order images by upload time
+
+    def __str__(self):
+        try:
+            return f"Image for {self.confirmed_ad.title} ({self.id})"
+        except ConfirmedAd.DoesNotExist:
+             return f"Image for deleted ad ({self.id})"
+
 
 class PendingAd(models.Model):
 
@@ -92,7 +110,6 @@ class PendingAd(models.Model):
     features = models.TextField(blank=True, null=True) # Store selected features (e.g., comma-separated)
 
     # Fields from upload_confirm.html
-    property_image = models.ImageField(upload_to='pending_property_images/', null=True, blank=True) # Use a different path?
     confirmed_ownership = models.BooleanField(default=False)
 
     # Metadata
@@ -100,6 +117,21 @@ class PendingAd(models.Model):
 
     def __str__(self):
         return f"Pending Ad: {self.title} in {self.city}"
+
+class PendingAdImage(models.Model):
+    """Stores multiple images related to a PendingAd."""
+    pending_ad = models.ForeignKey(PendingAd, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='pending_ad_images/') # Specific path for pending ad images
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['uploaded_at'] # Optional: order images by upload time
+
+    def __str__(self):
+        try:
+            return f"Image for Pending Ad: {self.pending_ad.title} ({self.id})"
+        except PendingAd.DoesNotExist:
+             return f"Image for deleted pending ad ({self.id})"
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
