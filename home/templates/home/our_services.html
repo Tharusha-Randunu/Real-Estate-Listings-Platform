@@ -3,7 +3,7 @@
 {% block content %}
 
 <style>
-/* Floating emoji animation */
+/* Floating emoji animation container and effects */
 .emoji-container {
     position: fixed;
     top: 0;
@@ -15,6 +15,7 @@
     overflow: hidden;
 }
 
+/* Each emoji floats with variable size and animation */
 .floating-emoji {
     position: absolute;
     font-size: calc(1.5rem + 2vw); /* Variable sizing for versatility */
@@ -22,6 +23,7 @@
     opacity: 0;
 }
 
+/* Keyframes for floating up with fade in/out effect */
 @keyframes floatCombo {
     0% {
         transform: translate(0, 100vh);
@@ -42,7 +44,7 @@
     }
 }
 
-/* Card and button hover effects */
+/* Card hover effect for subtle elevation */
 .card {
     transition: transform 0.3s ease;
 }
@@ -52,6 +54,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Button hover color transition */
 .btn {
     font-weight: bold;
     transition: background-color 0.3s ease;
@@ -62,8 +65,9 @@
 }
 </style>
 
-<!-- Floating Emoji Layer -->
+<!-- Floating emojis layer for playful background -->
 <div class="emoji-container">
+    <!-- Each emoji floats from a different position and with delay -->
     <div class="floating-emoji" style="left: 5%; animation-delay: 0s; font-size: 2rem;">🏠</div>
     <div class="floating-emoji" style="left: 15%; animation-delay: 2s; font-size: 2.5rem;">🌇</div>
     <div class="floating-emoji" style="left: 25%; animation-delay: 1s; font-size: 1.8rem;">🏘️</div>
@@ -74,10 +78,11 @@
     <div class="floating-emoji" style="left: 75%; animation-delay: 2.3s; font-size: 1.7rem;">🔑</div>
 </div>
 
+<!-- Main container for services listing -->
 <div class="container my-5">
     <h2 class="text-center fw-bold mb-5">Our Services</h2>
 
-    <!-- Advertising Properties -->
+    <!-- Service 1: Advertise Property -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-megaphone me-2"></i>Advertise Your Property</h4>
@@ -86,7 +91,7 @@
         </div>
     </section>
 
-    <!-- Find Properties -->
+    <!-- Service 2: Find Properties -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-house-door me-2"></i>Find Properties</h4>
@@ -95,7 +100,7 @@
         </div>
     </section>
 
-    <!-- Market Insights -->
+    <!-- Service 3: Market Insights -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-graph-up-arrow me-2"></i>Market Insights</h4>
@@ -104,7 +109,7 @@
         </div>
     </section>
 
-    <!-- Find Agents -->
+    <!-- Service 4: Find Agents -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-person-lines-fill me-2"></i>Find Trusted Agents</h4>
@@ -114,5 +119,6 @@
     </section>
 </div>
 
+<!-- Site-wide footer -->
 {% include 'home/footer.html' %}
 {% endblock %}
