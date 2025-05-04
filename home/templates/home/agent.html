@@ -1,129 +1,119 @@
 {% extends "home/base.html" %}
 {% load static %}
-{% block title %}Find an Agent{% endblock %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Find an Agent</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f1f1f1;
-        }
-        .agent-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        .agent-img {
-            max-width: 150px;
-            max-height: 150px;
-            object-fit: contain;
-        }
-        .tag {
-            display: inline-block;
-            background-color: #e0e0e0;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-right: 5px;
-            margin-bottom: 5px;
-        }
-        .agent-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #0d6efd;
-        }
-        .agent-section-title {
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-<div class="container py-5">
-    <h1 class="text-center mb-5">Find an Agent</h1>
+<style>
+  /* Add this to your custom CSS file or in a <style> tag in base.html */
+.card {
+    transition: transform 0.3s ease;
+}
 
-    <div class="agent-card d-flex align-items-center">
-        <img src="{% static 'home/images/realtor.jpeg' %}" class="agent-img me-4" alt="Realtor Club">
-        <div>
-            <div class="agent-title">The Realtor Club (Pvt) Ltd</div>
-            <div class="mb-2">
-                <span class="tag">Residential sales</span>
-                <span class="tag">Rentals</span>
-                <span class="tag">Commercial property</span>
-                <span class="tag">Land</span>
-            </div>
-            <div><span class="agent-section-title">Area(s) covered:</span> Colombo 1, Colombo 5, Colombo 9</div>
-            <div><span class="agent-section-title">Email:</span> realtor.contact@gmail.com</div>
-            <div><span class="agent-section-title">Contact:</span> +94 71 123 4567</div>
-        </div>
-    </div>
+.card:hover {
+    transform: translateY(-10px);  /* Add hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    <div class="agent-card d-flex align-items-center">
-        <img src="{% static 'home/images/lanka.jpg' %}" class="agent-img me-4" alt="Lanka Island Properties">
-        <div>
-            <div class="agent-title">Lanka Island Properties</div>
-            <div class="mb-2">
-                <span class="tag">Sales</span>
-                <span class="tag">Rentals</span>
-                <span class="tag">Land</span>
-            </div>
-            <div><span class="agent-section-title">Area(s) covered:</span> Southern Province, Colombo 3</div>
-            <div><span class="agent-section-title">Email:</span> lankaislands@gmail.com</div>
-            <div><span class="agent-section-title">Contact:</span> +94 71 987 6543</div>
-        </div>
-    </div>
+.btn {
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
 
-    <div class="agent-card d-flex align-items-center">
-        <img src="{% static 'home/images/astral.jpeg' %}" class="agent-img me-4" alt="Astral Realtors">
-        <div>
-            <div class="agent-title">Astral Realtors</div>
-            <div class="mb-2">
-                <span class="tag">Commercial Property</span>
-                <span class="tag">Rentals</span>
-            </div>
-            <div><span class="agent-section-title">Area(s) covered:</span> Colombo 2, Colombo 7, Colombo 10</div>
-            <div><span class="agent-section-title">Email:</span> astral.realestates@gmail.com</div>
-            <div><span class="agent-section-title">Contact:</span> +94 77 456 1230</div>
-        </div>
-    </div>
+.btn:hover {
+    background-color: #0056b3;  /* Change color on hover */
+}
 
-    <div class="agent-card d-flex align-items-center">
-        <img src="{% static 'home/images/elegant.jpg' %}" class="agent-img me-4" alt="Elegant Real Estates">
-        <div>
-            <div class="agent-title">Elegant Real Estates</div>
-            <div class="mb-2">
-                <span class="tag">Sales</span>
-                <span class="tag">Land</span>
-            </div>
-            <div><span class="agent-section-title">Area(s) covered:</span> Colombo 4, Colombo 6</div>
-            <div><span class="agent-section-title">Email:</span> elegant.realestate@gmail.com</div>
-            <div><span class="agent-section-title">Contact:</span> +94 76 888 8888</div>
-        </div>
-    </div>
+/* Floating Emojis */
+.emoji-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
 
-    <div class="agent-card d-flex align-items-center">
-        <img src="{% static 'home/images/sunlands.jpg' %}" class="agent-img me-4" alt="Sun Lands Real Estates (Pvt) Ltd">
-        <div>
-            <div class="agent-title">Sun Lands Real Estates (Pvt) Ltd</div>
-            <div class="mb-2">
-                <span class="tag">Commercial Property</span>
-                <span class="tag">Sales</span>
-            </div>
-            <div><span class="agent-section-title">Area(s) covered:</span> Colombo 1, Colombo 8</div>
-            <div><span class="agent-section-title">Email:</span> sunlands@gmail.com</div>
-            <div><span class="agent-section-title">Contact:</span> +94 72 333 4444</div>
-        </div>
-    </div>
+.floating-emoji {
+    position: absolute;
+    opacity: 0;
+    animation: floatEmoji 20s linear infinite;
+}
+
+@keyframes floatEmoji {
+    0% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-150vh);
+        opacity: 0;
+    }
+}
+</style>
+
+<!-- Floating Emojis -->
+<div class="emoji-container">
+    <div class="floating-emoji" style="left: 5%; animation-delay: 0s; font-size: 2.2rem;">🏠</div>
+    <div class="floating-emoji" style="left: 15%; animation-delay: 3s; font-size: 1.8rem;">🌇</div>
+    <div class="floating-emoji" style="left: 25%; animation-delay: 1.5s; font-size: 2.5rem;">🏢</div>
+    <div class="floating-emoji" style="left: 35%; animation-delay: 4s; font-size: 1.9rem;">🏘️</div>
+    <div class="floating-emoji" style="left: 45%; animation-delay: 2.5s; font-size: 2.3rem;">🌆</div>
+    <div class="floating-emoji" style="left: 55%; animation-delay: 5s; font-size: 2rem;">🏡</div>
+    <div class="floating-emoji" style="left: 65%; animation-delay: 1s; font-size: 2.6rem;">🗺️</div>
+    <div class="floating-emoji" style="left: 75%; animation-delay: 3.5s; font-size: 1.7rem;">🧭</div>
+    <div class="floating-emoji" style="left: 85%; animation-delay: 6s; font-size: 2.1rem;">🌍</div>
+    <div class="floating-emoji" style="left: 95%; animation-delay: 2s; font-size: 1.9rem;">🔑</div>
 </div>
-</body>
-</html>
+
+<div class="container my-5">
+    <h2 class="text-center fw-bold mb-5">Our Services</h2>
+
+    <!-- Advertising Properties -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-megaphone me-2"></i>Advertise Your Property</h4>
+            <p>Reach thousands of potential buyers or renters by advertising your property on our platform. Our user-friendly submission process and wide audience make it easier than ever to get your property noticed.</p>
+            <a href="{% url 'list_property' %}" class="btn btn-primary rounded-pill">Advertise Now</a>
+        </div>
+    </section>
+
+    <!-- Find Properties -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-house-door me-2"></i>Find Properties</h4>
+            <p>Explore a wide range of houses, apartments, lands, and commercial spaces tailored to your needs. Use our smart filter system to find your dream property in just a few clicks.</p>
+            <a href="{% url 'find_a_home' %}" class="btn btn-success rounded-pill">Browse Properties</a>
+        </div>
+    </section>
+
+    <!-- Market Insights -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-graph-up-arrow me-2"></i>Market Insights</h4>
+            <p>Stay ahead of the curve with up-to-date real estate trends, price movements, and neighborhood insights. Make informed decisions whether you're buying, selling, or investing.</p>
+            <a href="{% url 'market_insights' %}" class="btn btn-info rounded-pill">Explore Insights</a>
+        </div>
+    </section>
+
+    <!-- Find Agents -->
+    <section class="mb-5">
+        <div class="card p-4 shadow-sm rounded-4">
+            <h4 class="fw-semibold mb-3"><i class="bi bi-person-lines-fill me-2"></i>Find Trusted Agents</h4>
+            <p>Connect with experienced and verified real estate agents to help you navigate your buying or selling journey. View agent profiles, reviews, and easily get in touch with them.</p>
+            <a href="{% url 'agent' %}" class="btn btn-warning rounded-pill">Find an Agent</a>
+        </div>
+    </section>
+</div>
 
 {% include 'home/footer.html' %}
 {% endblock %}
