@@ -3,46 +3,7 @@
 {% block content %}
 
 <style>
-/* Floating emoji animation container and effects */
-.emoji-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
 
-/* Each emoji floats with variable size and animation */
-.floating-emoji {
-    position: absolute;
-    font-size: calc(1.5rem + 2vw); /* Variable sizing for versatility */
-    animation: floatCombo 20s ease-in-out infinite;
-    opacity: 0;
-}
-
-/* Keyframes for floating up with fade in/out effect */
-@keyframes floatCombo {
-    0% {
-        transform: translate(0, 100vh);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.5;
-    }
-    50% {
-        transform: translate(20px, -10vh);
-    }
-    90% {
-        opacity: 0.5;
-    }
-    100% {
-        transform: translate(0, -120vh);
-        opacity: 0;
-    }
-}
 
 /* Card hover effect for subtle elevation */
 .card {
@@ -65,18 +26,8 @@
 }
 </style>
 
-<!-- Floating emojis layer for playful background -->
-<div class="emoji-container">
-    <!-- Each emoji floats from a different position and with delay -->
-    <div class="floating-emoji" style="left: 5%; animation-delay: 0s; font-size: 2rem;">🏠</div>
-    <div class="floating-emoji" style="left: 15%; animation-delay: 2s; font-size: 2.5rem;">🌇</div>
-    <div class="floating-emoji" style="left: 25%; animation-delay: 1s; font-size: 1.8rem;">🏘️</div>
-    <div class="floating-emoji" style="left: 35%; animation-delay: 3.5s; font-size: 2.2rem;">🌆</div>
-    <div class="floating-emoji" style="left: 45%; animation-delay: 4s; font-size: 2.8rem;">🏡</div>
-    <div class="floating-emoji" style="left: 55%; animation-delay: 1.8s; font-size: 2rem;">🧭</div>
-    <div class="floating-emoji" style="left: 65%; animation-delay: 5s; font-size: 2.4rem;">🌍</div>
-    <div class="floating-emoji" style="left: 75%; animation-delay: 2.3s; font-size: 1.7rem;">🔑</div>
-</div>
+<!-- Container to hold floating emojis -->
+{% include 'home/emoji_floater.html' %}
 
 <!-- Main container for services listing -->
 <div class="container my-5">
@@ -119,6 +70,5 @@
     </section>
 </div>
 
-<!-- Site-wide footer -->
-{% include 'home/footer.html' %}
+
 {% endblock %}

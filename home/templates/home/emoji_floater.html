@@ -1,0 +1,41 @@
+<!-- templates/home/emoji_floater.html -->
+<style>
+    .floating-emoji {
+        position: fixed;
+        z-index: 0;
+        font-size: 2rem;
+        opacity: 0;
+        animation: floatUp 12s linear forwards;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(100vh); opacity: 0; }
+        10% { opacity: 0.5; }
+        90% { opacity: 0.5; }
+        100% { transform: translateY(-120vh); opacity: 0; }
+    }
+</style>
+
+<!-- Emoji container -->
+<div id="emoji-container"></div>
+
+<script>
+    const emojis = ['📺', '💰', '🏢', '📍', '🛏️', '🚪', '🔑','🏡','🏨','🗺️','🌇️','🌆','🌍'];
+    const emojiContainer = document.getElementById('emoji-container');
+
+    function createEmoji() {
+        const emoji = document.createElement('div');
+        emoji.classList.add('floating-emoji');
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = `${Math.random() * 100}vw`;
+        emoji.style.fontSize = `${1 + Math.random() * 1}rem`;
+        emoji.style.animationDuration = `${20 + Math.random() * 2}s`;
+        emojiContainer.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 18000);
+    }
+
+    setTimeout(() => {
+        setInterval(createEmoji, 1200);
+    }, 1500);
+</script>
