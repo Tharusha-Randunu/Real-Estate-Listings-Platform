@@ -8,8 +8,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Property Details</title>
+    <!-- Links for css and java script -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Basic layout and styling */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
@@ -88,13 +90,18 @@
     <!-- Floating Emojis Container -->
     <div id="emoji-container"></div>
 
+    <!-- Form Wrapper -->
     <div class="container my-5 position-relative">
         <h1 class="text-center mb-5">Property Information - Step 2</h1>
 
+        <!-- Form Start -->
         <form method="post" action="{% url 'rent_property_details' %}"> {% csrf_token %}
+
+            <!-- Section: Basic Details -->
             <div class="section">
                 <h4 class="text-center">Basic Details</h4>
                 <div class="row mb-3">
+                    <!-- Bedroom Selection -->
                     <div class="col-md-4 mb-3">
                         <label for="bedrooms" class="form-label">Bedrooms <span class="text-danger">*</span></label>
                         <select id="bedrooms" name="bedrooms" class="form-select" required>
@@ -105,6 +112,7 @@
                             <option value="6">6+</option>
                         </select>
                     </div>
+                    <!-- Bathroom Selection -->
                     <div class="col-md-4 mb-3">
                         <label for="bathrooms" class="form-label">Bathrooms <span class="text-danger">*</span></label>
                         <select id="bathrooms" name="bathrooms" class="form-select" required>
@@ -115,6 +123,7 @@
                             <option value="6">6+</option>
                         </select>
                     </div>
+                    <!-- Floor Area Input -->
                     <div class="col-md-4 mb-3">
                         <label for="floor_area" class="form-label">Floor Area (sq ft) <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="floor_area" name="floor_area" placeholder="e.g. 1200" required min="1">
@@ -122,13 +131,16 @@
                 </div>
             </div>
 
+            <!-- Section: Price Details -->
             <div class="section">
                 <h4 class="text-center">Price Details</h4>
                 <div class="row mb-3 price-row">
+                    <!-- Price Input -->
                     <div class="col-md-6 mb-3">
                         <label for="price" class="form-label">Expected Price (Rs) <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="price" name="price" placeholder="e.g. 75000" required min="0">
                     </div>
+                    <!-- Price Type Selection -->
                     <div class="col-md-6 mb-3">
                         <label for="price_type" class="form-label">Price Type</label>
                         <select class="form-select" id="price_type" name="price_type">
@@ -142,9 +154,11 @@
                 </div>
             </div>
 
+            <!-- Section: Property Specifics -->
             <div class="section">
                 <h4 class="text-center">Property Specifics</h4>
                 <div class="row mb-3">
+                    <!-- No. of Floors -->
                     <div class="col-md-3 mb-3">
                         <label for="floors" class="form-label">No. of Floors</label>
                         <select id="floors" name="floors" class="form-select">
@@ -155,6 +169,7 @@
                             <option value="6">6+</option>
                         </select>
                     </div>
+                    <!-- Status -->
                     <div class="col-md-3 mb-3">
                         <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                         <select id="status" name="status" class="form-select" required>
@@ -165,10 +180,12 @@
                             <option>Let Agreed</option>
                         </select>
                     </div>
+                    <!-- Age -->
                     <div class="col-md-3 mb-3">
                         <label for="age" class="form-label">Age of Property (Years)</label>
                         <input type="number" class="form-control" id="age" name="age" placeholder="e.g. 5" min="0">
                     </div>
+                    <!-- Furnishing -->
                     <div class="col-md-3 mb-3">
                         <label for="furnishing" class="form-label">Furnishing Status</label>
                         <select id="furnishing" name="furnishing" class="form-select">
@@ -178,27 +195,33 @@
                         </select>
                     </div>
                 </div>
+                <!-- Parking Option -->
                 <div class="form-check mt-2">
                     <input class="form-check-input" type="checkbox" id="parking" name="parking" value="true">
                     <label class="form-check-label" for="parking">Parking Available</label>
                 </div>
             </div>
 
+            <!-- Section: Ad Details -->
             <div class="section">
                 <h4 class="text-center">Ad Details</h4>
+                <!-- Ad Title -->
                 <div class="mb-3">
                     <label for="title" class="form-label">Ad Title <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Apartment for Rent in Borella" required maxlength="255">
                 </div>
+                <!-- Ad Description -->
                 <div class="mb-3">
                     <label for="description" class="form-label">Ad Description <span class="text-danger">*</span></label>
                     <textarea class="form-control" id="description" name="description" rows="5" placeholder="Describe your property..." required></textarea>
                 </div>
             </div>
 
+            <!-- Section: Property Features -->
             <div class="section">
                 <h4 class="text-center">Property Features</h4>
                 <input type="hidden" name="features_list" id="features_list_input">
+                <!-- Feature Buttons -->
                 <div class="features-group">
                     {% for feature in features %}
                         <button type="button" class="btn btn-outline-primary btn-feature" onclick="toggleFeature(this, '{{ feature }}')">{{ feature }}</button>
@@ -206,6 +229,7 @@
                 </div>
             </div>
 
+            <!-- Submit Button -->
             <div class="text-center">
                 <button type="submit" class="btn btn-success px-5 py-2">Next</button>
             </div>
@@ -213,6 +237,7 @@
     </div>
 
     <script>
+        // Feature selection logic
         const selectedFeatures = new Set();
         const featuresInput = document.getElementById('features_list_input');
 
@@ -229,7 +254,7 @@
             featuresInput.value = Array.from(selectedFeatures).join(',');
         }
 
-        // Floating emoji script
+        // Floating emoji animation logic
         const emojis = ['🏠','📺', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑','🏘️','🏡','🏢','🏨','🗺️','🌇️','🌆','🧭','🌍'];
         const emojiContainer = document.getElementById('emoji-container');
 
@@ -239,13 +264,14 @@
             emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
             emoji.style.left = `${Math.random() * 100}vw`;
             emoji.style.fontSize = `${1 + Math.random() * 2}rem`;
-            emoji.style.animationDuration = `${20 + Math.random() * 2}s`; // slower float
+            emoji.style.animationDuration = `${20 + Math.random() * 2}s`;
             emojiContainer.appendChild(emoji);
 
-            setTimeout(() => emoji.remove(), 18000); // remove after max animation
+            // Remove emoji after animation ends
+            setTimeout(() => emoji.remove(), 18000);
         }
 
-        // Delay emoji float start
+        // Start floating emojis after delay
         setTimeout(() => {
             setInterval(createEmoji, 1200);
         }, 1500);

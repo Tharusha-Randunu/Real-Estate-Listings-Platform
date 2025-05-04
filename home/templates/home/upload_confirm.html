@@ -4,6 +4,7 @@
 {% block content %}
 
 <style>
+    /* General body styling */
     body {
         font-family: 'Poppins', sans-serif;
         background: #fdfdfd;
@@ -19,6 +20,7 @@
         text-align: center;
     }
 
+    /* Section styling for forms and confirmation */
     .form-section {
         background: rgba(255, 255, 255, 0.95);
         padding: 30px 40px;
@@ -44,6 +46,7 @@
         border-radius: 25px;
     }
 
+    /* Styling for the success message */
     .success-container {
         min-height: 100vh;
         display: flex;
@@ -70,15 +73,16 @@
         margin: 0;
     }
 
+    /* Styling for custom image upload UI */
     .image-upload-container {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        align-items: center; /* Center the button */
+        align-items: center;
     }
 
     .attractive-file-button {
-        background-color: #28a745; /* Green color */
+        background-color: #28a745;
         color: white;
         padding: 12px 25px;
         border: none;
@@ -91,15 +95,16 @@
     }
 
     .attractive-file-button:hover {
-        background-color: #1e7e34; /* Darker green on hover */
+        background-color: #1e7e34;
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     #property_images {
-        display: none; /* Hide the default file input */
+        display: none; /* Hide default file input */
     }
 
+    /* Preview styling for uploaded images */
     .image-preview-container {
         display: flex;
         flex-wrap: wrap;
@@ -144,9 +149,10 @@
         font-weight: 600;
         font-size: 0.95rem;
         color: #555;
-        text-align: center; /* Center the image count */
+        text-align: center;
     }
 
+    /* Utility and animation classes */
     .text-center {
         position: relative;
         z-index: 10;
@@ -167,6 +173,7 @@
         filter: blur(0.2px);
     }
 
+    /* Floating emoji animation */
     @keyframes floatUp {
         0% { transform: translateY(100vh); opacity: 0; }
         10% { opacity: 0.4; }
@@ -179,21 +186,25 @@
     }
 </style>
 
+<!-- Container for floating emoji elements -->
 <div id="emoji-container"></div>
 
 {% if success %}
+    <!-- Success message block -->
     <div class="success-container">
         <div class="success-box">
             <p>✅<br>Submitted Successfully! Your ad is pending review.</p>
         </div>
     </div>
 {% else %}
+    <!-- Image upload and confirmation form -->
     <div class="container my-5">
         <h1>Finalize Your Listing - Step 3</h1>
 
         <form action="{% url 'upload_confirm' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
+            <!-- Upload image section -->
             <div class="form-section">
                 <div class="form-title">Upload Photos of Your Property (up to 5) <span class="text-danger">*</span></div>
                 <div class="image-upload-container">
@@ -207,6 +218,7 @@
                 <div class="image-count" id="imageCount">Uploaded: 0 / 5 images</div>
             </div>
 
+            <!-- Ownership confirmation checkbox -->
             <div class="form-section">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="confirm" name="confirm" value="true" required>
@@ -216,6 +228,7 @@
                 </div>
             </div>
 
+            <!-- Display Django messages if any -->
             {% if messages %}
                 <div class="mt-3">
                     {% for message in messages %}
@@ -224,6 +237,7 @@
                 </div>
             {% endif %}
 
+            <!-- Submit button -->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary px-5 py-2">Submit Listing</button>
             </div>
@@ -232,9 +246,11 @@
 {% endif %}
 
 <script>
+    // Array of emojis to float
     const emojis = ['🏠','📺', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑','🏘️','🏡','🏢','🏨','🗺️','🌇️','🌆','🧭','🌍'];
     const emojiContainer = document.getElementById('emoji-container');
 
+    // Function to create and animate emoji
     function createEmoji() {
         const emoji = document.createElement('div');
         emoji.classList.add('floating-emoji');
@@ -246,6 +262,7 @@
         setTimeout(() => emoji.remove(), 18000);
     }
 
+    // Start floating emoji animation
     setTimeout(() => {
         setInterval(createEmoji, 1200);
     }, 1500);
@@ -256,6 +273,7 @@
     const countDisplay = document.getElementById("imageCount");
     const fileInput = document.getElementById('property_images');
 
+    // Handle image file input and limit
     function handleImageUpload(input) {
         const newFiles = Array.from(input.files);
         const currentImageCount = selectedImages.length;
@@ -263,7 +281,7 @@
 
         if (currentImageCount + newFiles.length > maxImages) {
             alert(`You can upload a maximum of ${maxImages} images.`);
-            input.value = ""; // Clear the file input
+            input.value = ""; // Clear input if limit exceeded
             return;
         }
 
@@ -272,9 +290,9 @@
         }
 
         updateImagePreview();
-
     }
 
+    // Display image previews
     function updateImagePreview() {
         imagePreviewContainer.innerHTML = "";
 
@@ -303,14 +321,16 @@
         countDisplay.textContent = `Uploaded: ${selectedImages.length} / ${maxImages} images`;
     }
 
+    // Remove selected image
     function removeImage(index) {
         selectedImages.splice(index, 1);
         updateImagePreview();
     }
 
+    // Run once DOM is ready
     document.addEventListener('DOMContentLoaded', (event) => {
         if(fileInput) {
-            // Event listener for file input is already set in the HTML
+            // Event already attached via HTML
         } else {
             console.error("File input #property_images not found");
         }
@@ -320,7 +340,8 @@
                 setInterval(createEmoji, 1200);
             }, 1500);
         }
-        updateImagePreview(); // Initial call to display any pre-selected images (if applicable)
+
+        updateImagePreview(); // Show any pre-selected images
     });
 </script>
 
