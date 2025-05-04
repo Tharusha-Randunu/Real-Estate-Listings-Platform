@@ -3,6 +3,7 @@
 {% block title %}List Your Property{% endblock %}
 {% block content %}
 <style>
+    /* Base body styling */
     body {
         font-family: 'Poppins', sans-serif;
         background: #fdfdfd;
@@ -11,6 +12,7 @@
         position: relative;
     }
 
+    /* Form card styling */
     .form-section {
         background: rgba(255, 255, 255, 0.75);
         backdrop-filter: blur(10px);
@@ -19,17 +21,20 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
+    /* Heading style */
     h1 {
         color: #333;
         font-weight: 700;
         margin-bottom: 40px;
     }
 
+    /* Label style */
     label {
         font-weight: bold;
         color: #333;
     }
 
+    /* Option buttons for user type, property type, etc. */
     .btn-choice {
         min-width: 120px;
         margin: 10px;
@@ -40,15 +45,18 @@
         box-shadow: 0 0 10px #0d6efd66;
     }
 
+    /* Active (selected) button style */
     .active-choice {
         background-color: #0d6efd !important;
         color: white !important;
     }
 
+    /* Hover effect for submit button */
     .btn-success:hover {
         box-shadow: 0 0 15px #28a74566;
     }
 
+    /* Floating emoji style and animation */
     .floating-emoji {
         position: fixed;
         z-index: 0;
@@ -75,6 +83,7 @@
         }
     }
 
+    /* Responsive heading size on smaller screens */
     @media (max-width: 768px) {
         h1 {
             font-size: 1.75rem;
@@ -82,17 +91,21 @@
     }
 </style>
 
-<!-- Floating background emojis -->
+<!-- Container for animated emojis -->
 <div id="emoji-container"></div>
 
 <div class="container my-5">
     <h1 class="text-center">List Your Property - Step 1</h1>
 
+    <!-- Property listing form -->
     <form method="post" action="{% url 'list_property' %}"> {% csrf_token %}
+
+        <!-- User type selection -->
         <div class="form-section mb-4">
             <h4 class="text-center">I am</h4>
             <input type="hidden" name="user_type" id="user_type_input" required>
             <div class="btn-choice-group d-flex flex-wrap justify-content-center">
+                <!-- Option buttons -->
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'user_type_input')">Owner</button>
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'user_type_input')">Agent</button>
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'user_type_input')">Developer</button>
@@ -100,6 +113,7 @@
             </div>
         </div>
 
+        <!-- Offer type selection (only 'Sale' for now) -->
         <div class="form-section mb-4">
             <h4 class="text-center">Offer Type</h4>
             <input type="hidden" name="offer_type" id="offer_type_input" value="Sale" required>
@@ -108,10 +122,12 @@
             </div>
         </div>
 
+        <!-- Property type selection -->
         <div class="form-section mb-4">
             <h4 class="text-center">Property Type</h4>
             <input type="hidden" name="property_type" id="property_type_input" required>
             <div class="btn-choice-group d-flex flex-wrap justify-content-center">
+                <!-- Various property types -->
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'property_type_input')">House</button>
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'property_type_input')">Apartment</button>
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'property_type_input')">Land</button>
@@ -124,6 +140,7 @@
             </div>
         </div>
 
+        <!-- Location inputs and map -->
         <div class="form-section mb-4">
             <h4 class="text-center">Location and Map</h4>
             <div class="row mb-3">
@@ -137,6 +154,7 @@
                 </div>
             </div>
 
+            <!-- Latitude, Longitude and get current location button -->
             <div class="row">
                 <div class="col-md-4">
                     <label for="latitude" class="form-label">Latitude <span class="text-danger">*</span></label>
@@ -147,11 +165,13 @@
                     <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 73.5869" required>
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
+                    <!-- Button to get current geolocation -->
                     <button class="btn btn-outline-secondary w-100" type="button" id="get_location_btn">📍 Get Current Location</button>
                 </div>
             </div>
         </div>
 
+        <!-- Submit Button -->
         <div class="text-center">
             <button type="submit" class="btn btn-success px-5 py-2">Next</button>
         </div>
@@ -159,6 +179,7 @@
 </div>
 
 <script>
+    // Function to update hidden input and style selected button
     function selectChoice(button, hiddenInputId) {
         const hiddenInput = document.getElementById(hiddenInputId);
         const buttons = button.closest('.btn-choice-group').children;
@@ -171,6 +192,7 @@
         hiddenInput.value = button.textContent.trim();
     }
 
+    // Get user location using browser geolocation
     document.getElementById('get_location_btn').addEventListener('click', () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -185,6 +207,7 @@
         }
     });
 
+    // Floating emoji animation setup
     const emojis = ['🏠','📺', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑','🏘️','🏡','🏢','🏨','🗺️','🌇️','🌆','🧭','🌍'];
     const emojiContainer = document.getElementById('emoji-container');
 
@@ -199,6 +222,7 @@
         setTimeout(() => emoji.remove(), 18000);
     }
 
+    // Start emoji generation after delay
     setTimeout(() => {
         setInterval(createEmoji, 1200);
     }, 1500);
@@ -206,4 +230,3 @@
 
 {% include 'home/footer.html' %}
 {% endblock %}
-
