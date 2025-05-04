@@ -3,13 +3,52 @@
 {% block content %}
 
 <style>
-  /* Add this to your custom CSS file or in a <style> tag in base.html */
+/* Floating emoji animation */
+.emoji-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.floating-emoji {
+    position: absolute;
+    font-size: calc(1.5rem + 2vw); /* Variable sizing for versatility */
+    animation: floatCombo 20s ease-in-out infinite;
+    opacity: 0;
+}
+
+@keyframes floatCombo {
+    0% {
+        transform: translate(0, 100vh);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(20px, -10vh);
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(0, -120vh);
+        opacity: 0;
+    }
+}
+
+/* Card and button hover effects */
 .card {
     transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-10px);  /* Add hover effect */
+    transform: translateY(-10px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -19,10 +58,21 @@
 }
 
 .btn:hover {
-    background-color: #0056b3;  /* Change color on hover */
+    background-color: #0056b3;
 }
-
 </style>
+
+<!-- Floating Emoji Layer -->
+<div class="emoji-container">
+    <div class="floating-emoji" style="left: 5%; animation-delay: 0s; font-size: 2rem;">🏠</div>
+    <div class="floating-emoji" style="left: 15%; animation-delay: 2s; font-size: 2.5rem;">🌇</div>
+    <div class="floating-emoji" style="left: 25%; animation-delay: 1s; font-size: 1.8rem;">🏘️</div>
+    <div class="floating-emoji" style="left: 35%; animation-delay: 3.5s; font-size: 2.2rem;">🌆</div>
+    <div class="floating-emoji" style="left: 45%; animation-delay: 4s; font-size: 2.8rem;">🏡</div>
+    <div class="floating-emoji" style="left: 55%; animation-delay: 1.8s; font-size: 2rem;">🧭</div>
+    <div class="floating-emoji" style="left: 65%; animation-delay: 5s; font-size: 2.4rem;">🌍</div>
+    <div class="floating-emoji" style="left: 75%; animation-delay: 2.3s; font-size: 1.7rem;">🔑</div>
+</div>
 
 <div class="container my-5">
     <h2 class="text-center fw-bold mb-5">Our Services</h2>
