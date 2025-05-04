@@ -26,8 +26,14 @@
             </ul>
 
             <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'help' %}">Need Help ?</a>
+                </li><br>
+               <li class="nav-item">
                 <a class="btn btn-outline-primary mx-1" href="{% url 'list_property' %}">Post Your Ad</a>
-
+                </li><br>
+                <li class="nav-item">
                 {% if user.is_authenticated %}
                     <div class="nav-item dropdown mx-1">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,11 +54,12 @@
                                 <a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
                             </li>
                         </ul>
-                    </div>
+                    </div> </li>
                 {% else %}
-                    <a class="btn btn-primary mx-1" href="{% url 'login' %}">Login</a>
-                    <a class="btn btn-primary mx-1" href="{% url 'register' %}">Register</a>
+                    <li class="nav-item"><a class="btn btn-primary mx-1" href="{% url 'login' %}">Login</a></li><br>
+                    <li class="nav-item"><a class="btn btn-primary mx-1" href="{% url 'register' %}">Register</a></li>
                 {% endif %}
+                   </ul>
             </div>
         </div>
     </div>
