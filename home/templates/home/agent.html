@@ -3,46 +3,49 @@
 {% block content %}
 
 <style>
-  /* Add this to your custom CSS file or in a <style> tag in base.html */
+  /* Card hover and transition effect */
 .card {
     transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-10px);  /* Add hover effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-10px);  /* Card floats on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
 }
 
+/* Button styling and hover effect */
 .btn {
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #0056b3;  /* Change color on hover */
+    background-color: #0056b3;  /* Darker on hover */
 }
 
-/* Floating Emojis */
+/* Floating Emojis - container setup */
 .emoji-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none;  /* Makes emojis unclickable */
+    z-index: 0;  /* Behind all content */
     overflow: hidden;
 }
 
+/* Individual floating emoji styling */
 .floating-emoji {
     position: absolute;
     opacity: 0;
     animation: floatEmoji 20s linear infinite;
 }
 
+/* Animation for floating emojis */
 @keyframes floatEmoji {
     0% {
-        transform: translateY(100vh);
+        transform: translateY(100vh);  /* Start below screen */
         opacity: 0;
     }
     10% {
@@ -55,7 +58,7 @@
         opacity: 0.6;
     }
     100% {
-        transform: translateY(-150vh);
+        transform: translateY(-150vh);  /* Float above screen */
         opacity: 0;
     }
 }
@@ -63,6 +66,7 @@
 
 <!-- Floating Emojis -->
 <div class="emoji-container">
+    <!-- Each emoji floats from bottom to top with different delays and sizes -->
     <div class="floating-emoji" style="left: 5%; animation-delay: 0s; font-size: 2.2rem;">🏠</div>
     <div class="floating-emoji" style="left: 15%; animation-delay: 3s; font-size: 1.8rem;">🌇</div>
     <div class="floating-emoji" style="left: 25%; animation-delay: 1.5s; font-size: 2.5rem;">🏢</div>
@@ -78,7 +82,7 @@
 <div class="container my-5">
     <h2 class="text-center fw-bold mb-5">Our Services</h2>
 
-    <!-- Advertising Properties -->
+    <!-- Service Card: Advertise Your Property -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-megaphone me-2"></i>Advertise Your Property</h4>
@@ -87,7 +91,7 @@
         </div>
     </section>
 
-    <!-- Find Properties -->
+    <!-- Service Card: Find Properties -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-house-door me-2"></i>Find Properties</h4>
@@ -96,7 +100,7 @@
         </div>
     </section>
 
-    <!-- Market Insights -->
+    <!-- Service Card: Market Insights -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-graph-up-arrow me-2"></i>Market Insights</h4>
@@ -105,7 +109,7 @@
         </div>
     </section>
 
-    <!-- Find Agents -->
+    <!-- Service Card: Find Trusted Agents -->
     <section class="mb-5">
         <div class="card p-4 shadow-sm rounded-4">
             <h4 class="fw-semibold mb-3"><i class="bi bi-person-lines-fill me-2"></i>Find Trusted Agents</h4>

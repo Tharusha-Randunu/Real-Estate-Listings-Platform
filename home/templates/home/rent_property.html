@@ -4,16 +4,21 @@
 {% block content %}
 <!-- START OF RENT PROPERTY CONTENT -->
 
-<!-- Floating background emojis -->
+<!-- Container to hold floating emojis -->
 <div id="emoji-container"></div>
 
 <div class="container my-5">
     <h1 class="text-center">Rent Your Property - Step 1</h1>
 
+    <!-- Start of rental form -->
     <form method="post" action="{% url 'rent_property' %}"> {% csrf_token %}
+
+        <!-- USER TYPE SECTION -->
         <div class="form-section mb-4">
             <h4 class="text-center">I am</h4>
+            <!-- Hidden input to store selected user type -->
             <input type="hidden" name="user_type" id="user_type_input" required>
+            <!-- User type choices -->
             <div class="btn-choice-group d-flex flex-wrap justify-content-center">
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'user_type_input')">Owner</button>
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'user_type_input')">Agent</button>
@@ -22,17 +27,22 @@
             </div>
         </div>
 
+        <!-- OFFER TYPE SECTION -->
         <div class="form-section mb-4">
             <h4 class="text-center">Offer Type</h4>
+            <!-- Pre-selected hidden input for Rent -->
             <input type="hidden" name="offer_type" id="offer_type_input" value="Rent" required>
             <div class="btn-choice-group d-flex flex-wrap justify-content-center">
                 <button type="button" class="btn btn-primary btn-choice active-choice" onclick="selectChoice(this, 'offer_type_input')">Rent</button>
             </div>
         </div>
 
+        <!-- PROPERTY TYPE SECTION -->
         <div class="form-section mb-4">
             <h4 class="text-center">Property Type</h4>
+            <!-- Hidden input to store selected property type -->
             <input type="hidden" name="property_type" id="property_type_input" required>
+            <!-- Property type buttons -->
             <div class="btn-choice-group d-flex flex-wrap justify-content-center">
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'property_type_input')">House</button>
                 <button type="button" class="btn btn-outline-primary btn-choice" onclick="selectChoice(this, 'property_type_input')">Apartment</button>
@@ -46,8 +56,11 @@
             </div>
         </div>
 
+        <!-- LOCATION SECTION -->
         <div class="form-section mb-4">
             <h4 class="text-center">Location and Map</h4>
+
+            <!-- City and Street inputs -->
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="city" class="form-label">City / Town <span class="text-danger">*</span></label>
@@ -59,6 +72,7 @@
                 </div>
             </div>
 
+            <!-- Latitude and Longitude inputs with location button -->
             <div class="row">
                 <div class="col-md-4">
                     <label for="latitude" class="form-label">Latitude <span class="text-danger">*</span></label>
@@ -69,11 +83,13 @@
                     <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 73.5869" required>
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
+                    <!-- Button to auto-fill coordinates -->
                     <button class="btn btn-outline-secondary w-100" type="button" id="get_location_btn">📍 Get Current Location</button>
                 </div>
             </div>
         </div>
 
+        <!-- Submit button -->
         <div class="text-center">
             <button type="submit" class="btn btn-success px-5 py-2">Next</button>
         </div>
@@ -91,6 +107,7 @@
         position: relative;
     }
 
+    /* Form styling */
     .form-section {
         background: rgba(255, 255, 255, 0.75);
         backdrop-filter: blur(10px);
@@ -110,6 +127,7 @@
         color: #333;
     }
 
+    /* Buttons for choices */
     .btn-choice {
         min-width: 120px;
         margin: 10px;
@@ -129,6 +147,7 @@
         box-shadow: 0 0 15px #28a74566;
     }
 
+    /* Floating emoji styling */
     .floating-emoji {
         position: fixed;
         z-index: 0;
@@ -163,6 +182,7 @@
 </style>
 
 <script>
+    // Handle selection for buttons and store value in hidden input
     function selectChoice(button, hiddenInputId) {
         const hiddenInput = document.getElementById(hiddenInputId);
         const buttons = button.closest('.btn-choice-group').children;
@@ -175,6 +195,7 @@
         hiddenInput.value = button.textContent.trim();
     }
 
+    // Get user's current geolocation and fill lat/long fields
     document.getElementById('get_location_btn').addEventListener('click', () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -189,7 +210,7 @@
         }
     });
 
-
+    // Floating emoji generator
     const emojis = ['🏠','📺', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑','🏘️','🏡','🏢','🏨','🗺️','🌇️','🌆','🧭','🌍'];
     const emojiContainer = document.getElementById('emoji-container');
 
@@ -201,9 +222,10 @@
         emoji.style.fontSize = `${1 + Math.random() * 2}rem`;
         emoji.style.animationDuration = `${20 + Math.random() * 2}s`;
         emojiContainer.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 18000);
+        setTimeout(() => emoji.remove(), 18000); // Remove after animation
     }
 
+    // Start creating emojis after 1.5 seconds, then every 1.2 seconds
     setTimeout(() => {
         setInterval(createEmoji, 1200);
     }, 1500);
