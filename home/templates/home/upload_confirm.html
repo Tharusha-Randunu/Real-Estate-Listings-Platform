@@ -163,23 +163,7 @@
         z-index: 10;
     }
 
-    .floating-emoji {
-        position: fixed;
-        z-index: 1;
-        font-size: 2rem;
-        opacity: 0;
-        animation: floatUp 12s linear forwards;
-        pointer-events: none;
-        filter: blur(0.2px);
-    }
 
-    /* Floating emoji animation */
-    @keyframes floatUp {
-        0% { transform: translateY(100vh); opacity: 0; }
-        10% { opacity: 0.4; }
-        90% { opacity: 0.4; }
-        100% { transform: translateY(-120vh); opacity: 0; }
-    }
 
     @media (max-width: 768px) {
         h1 { font-size: 1.75rem; }
@@ -187,7 +171,7 @@
 </style>
 
 <!-- Container for floating emoji elements -->
-<div id="emoji-container"></div>
+{% include 'home/emoji_floater.html' %}
 
 {% if success %}
     <!-- Success message block -->
@@ -246,26 +230,6 @@
 {% endif %}
 
 <script>
-    // Array of emojis to float
-    const emojis = ['🏠','📺', '💰', '🏢', '📢', '📍', '🛏️', '🚪', '🔑','🏘️','🏡','🏢','🏨','🗺️','🌇️','🌆','🧭','🌍'];
-    const emojiContainer = document.getElementById('emoji-container');
-
-    // Function to create and animate emoji
-    function createEmoji() {
-        const emoji = document.createElement('div');
-        emoji.classList.add('floating-emoji');
-        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        emoji.style.left = `${Math.random() * 100}vw`;
-        emoji.style.fontSize = `${1 + Math.random() * 2}rem`;
-        emoji.style.animationDuration = `${20 + Math.random() * 2}s`;
-        emojiContainer.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 18000);
-    }
-
-    // Start floating emoji animation
-    setTimeout(() => {
-        setInterval(createEmoji, 1200);
-    }, 1500);
 
     const maxImages = 5;
     let selectedImages = [];
@@ -345,5 +309,5 @@
     });
 </script>
 
-{% include 'home/footer.html' %}
+
 {% endblock %}
