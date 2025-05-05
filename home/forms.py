@@ -57,4 +57,4 @@ class PasswordChangeFormCustom(PasswordChangeForm):
 class ConfirmedAdForm(forms.ModelForm):
     class Meta:
         model = ConfirmedAd
-        fields = ['title', 'description', 'address', 'city', 'street', 'latitude', 'longitude', 'price', 'price_type', 'property_type', 'offer_type', 'bedrooms', 'bathrooms', 'land_area', 'floor_area', 'floors', 'age_of_building', 'status', 'parking', 'property_features', 'furnishing_status', 'seller_name', 'seller_tel', 'seller_email',  'link',  'user']
+        fields = ['title', 'description', 'address', 'city', 'street', 'latitude', 'longitude', 'price', 'price_type', 'property_type', 'offer_type', 'bedrooms', 'bathrooms', 'land_area', 'floor_area', 'floors', 'age_of_building', 'status', 'parking', 'property_features', 'furnishing_status', 'seller_name', 'seller_tel', 'seller_email',  'link' ]
