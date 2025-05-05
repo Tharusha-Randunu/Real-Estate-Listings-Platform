@@ -5,16 +5,16 @@
 
 {% block content %}
 
-
-
-
 <style>
+    /* Base styling for page */
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #ffffff;
       color: #212529;
       line-height: 1.7;
     }
+
+    /* Header section */
     header {
       background-color: #003366;
       color: white;
@@ -29,6 +29,8 @@
       font-size: 1.2rem;
       opacity: 0.85;
     }
+
+    /* Table of contents section */
     .toc {
       background: #f8f9fa;
       padding: 30px;
@@ -40,11 +42,11 @@
       margin-bottom: 20px;
     }
     .toc ul {
-    list-style-type: circle
+      list-style-type: circle; /* Ensures list has bullets */
       padding-left: 0;
     }
     .toc ul li {
-    list-style-type: circle
+      list-style-type: circle; /* Correct bullet styling */
       list-style: none;
       margin-bottom: 10px;
     }
@@ -56,6 +58,8 @@
     .toc a:hover {
       text-decoration: underline;
     }
+
+    /* Section layout styling */
     section {
       padding: 60px 0;
       border-bottom: 1px solid #e1e1e1;
@@ -73,6 +77,8 @@
       margin-top: 30px;
       color: #212529;
     }
+
+    /* Footer styling */
     footer {
       background-color: #003366;
       color: white;
@@ -80,13 +86,7 @@
       padding: 20px 0;
       margin-top: 60px;
     }
-
-
-
-
-  </style>
-</head>
-<body>
+</style>
 
 <header>
   <div class="container">
@@ -95,9 +95,11 @@
   </div>
 </header>
 
+<!-- Quick Access Table of Contents -->
 <div class="container toc mt-5">
   <h4>Quick Access</h4>
   <ul>
+    <!-- Each section links to content below -->
     <li><a href="#posting">Posting Property Ads</a>
       <ul>
         <li><a href="#1">How do I post my property on LandMark?</a></li>
@@ -131,10 +133,12 @@
   </ul>
 </div>
 
+<!-- Section: Posting Ads -->
 <section id="posting">
   <div class="container">
     <h2>Posting Property Ads</h2>
 
+    <!-- FAQ 1 -->
     <h4 id="1'">How do I post my property on LandMark?</h4>
     <p>
       To post a property, you first need to <strong>create an account</strong> or <strong>log in</strong>. Once you're logged in, click on <em>"Post an Ad"</em> at the top navigation bar. You'll be guided through the process:
@@ -148,6 +152,7 @@
     </ul>
     <p>Once approved, your property will be visible to thousands of interested buyers or renters.</p>
 
+    <!-- FAQ 2 -->
     <h4 id="2'">How do I add images to my ad?</h4>
     <p>
       After filling in property details, the image upload section will appear. You can:
@@ -159,12 +164,14 @@
       You can reorder images by dragging them after upload.
     </p>
 
+    <!-- FAQ 3 -->
     <h4 id="3">How do I find geo data for my ad?</h4>
     <p>
       Use our "Get Location" tool in the form, or alternatively visit
       <a href="https://www.gorissen.info/Pierre/maps/googleMapLocation.php">this geo location tool</a> to retrieve precise latitude and longitude for your property. Input those values into the relevant fields before submitting your ad.
     </p>
 
+    <!-- FAQ 4 -->
     <h4 id="4">Can I sell or rent through LandMark directly?</h4>
     <p>
       We are a listing platform and do not directly sell or rent properties. However, we connect you to a vast audience and offer tools to track interest. If you require professional agent services, we can recommend trusted partners through our <strong><a href="{% url 'agent' %}">Find an Agent</a></strong> service.
@@ -172,10 +179,12 @@
   </div>
 </section>
 
+<!-- Section: Managing Ads -->
 <section id="manage">
   <div class="container">
     <h2>Managing Your Ads</h2>
 
+    <!-- FAQ 5 -->
     <h4 id="5">How do I edit or delete my property listing?</h4>
     <p>
       Login to your dashboard. Under the "My Posted Ads" section:
@@ -185,6 +194,7 @@
       </ul>
     </p>
 
+    <!-- FAQ 6 -->
     <h4 id="6">How do I find my Ad?</h4>
     <p>
       Login to your dashboard. Under the "My Posted Ads" section you will find all the Ads you have posted.
@@ -192,10 +202,12 @@
   </div>
 </section>
 
+<!-- Section: Contact -->
 <section id="contact">
   <div class="container">
     <h2>Contact & Support</h2>
 
+    <!-- FAQ 7 -->
     <h4 id="7">How can I reach your support team?</h4>
     <p>
       Our team is ready to help via:
@@ -209,10 +221,12 @@
   </div>
 </section>
 
+<!-- Section: Buying Property -->
 <section id="buying">
   <div class="container">
     <h2>Buying Property in Sri Lanka</h2>
 
+    <!-- FAQ 8 -->
     <h4 id="8">Where can I get market insights?</h4>
     <p>
       Visit our <strong><a href="{% url 'market_insights' %}">Market Insights</a></strong> page, which includes:
@@ -224,6 +238,7 @@
       We use real-time user data and verified listings to create accurate market snapshots.
     </p>
 
+    <!-- FAQ 9 -->
     <h4 id="9">Can I get help from a professional agent?</h4>
     <p>
       Yes! If you're new to property investment or relocation, we recommend working with a trusted agent. Visit our <strong><a href="{% url 'agent' %}">Find an Agent</a></strong> page to browse licensed professionals, filtered by location, property type, and experience.
@@ -231,10 +246,12 @@
   </div>
 </section>
 
+<!-- Section: Profile Settings -->
 <section id="profile">
   <div class="container">
     <h2>Profile Settings</h2>
 
+    <!-- FAQ 10 -->
     <h4 id="10">How do I update my profile photo?</h4>
     <p>
       Go to your Dashboard > Edit Profile. You can:
@@ -247,5 +264,6 @@
   </div>
 </section>
 
+<!-- Footer include -->
 {% include 'home/footer.html' %}
 {% endblock %}

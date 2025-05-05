@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Log In</title>
     <style>
+        /* Page body styling */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f4f4f4;
@@ -14,6 +15,7 @@
             margin: 0;
         }
 
+        /* Centered login box */
         .login-container {
             background: #fff;
             padding: 40px 30px;
@@ -23,21 +25,25 @@
             max-width: 400px;
         }
 
+        /* Page heading */
         .login-container h2 {
             text-align: center;
             margin-bottom: 25px;
             color: #333;
         }
 
+        /* Form layout */
         form {
             display: flex;
             flex-direction: column;
         }
 
+        /* Spacing between form fields */
         form p {
             margin-bottom: 15px;
         }
 
+        /* Input field styling */
         input[type="text"],
         input[type="password"],
         input[type="email"] {
@@ -49,6 +55,7 @@
             font-size: 14px;
         }
 
+        /* Submit button styling */
         button {
             padding: 12px;
             background-color: #007bff;
@@ -60,33 +67,42 @@
             font-size: 15px;
         }
 
+        /* Button hover effect */
         button:hover {
             background-color: #0056b3;
         }
 
+        /* Register link container */
         .register-link {
             text-align: center;
             margin-top: 20px;
         }
 
+        /* Register link styling */
         .register-link a {
             color: #007bff;
             text-decoration: none;
         }
 
+        /* Register link hover effect */
         .register-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
+    <!-- Main login form container -->
     <div class="login-container">
         <h2>Log In</h2>
+
+        <!-- Login form -->
         <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
+            {% csrf_token %}  <!-- Security token for POST form -->
+            {{ form.as_p }}   <!-- Render form fields as paragraphs -->
             <button type="submit">Log In</button>
         </form>
+
+        <!-- Link to registration page -->
         <div class="register-link">
             <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
         </div>
