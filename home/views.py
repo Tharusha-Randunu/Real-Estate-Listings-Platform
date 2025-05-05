@@ -25,6 +25,8 @@ from .models import HousePriceIndex, LandPriceIndex
 from collections import defaultdict
 
 
+
+
 # --- Helper function to safely convert to float ---
 def safe_float(value, default=None):
     if value is None or value == '':
@@ -55,14 +57,15 @@ def safe_decimal(value, default=None):
     except (InvalidOperation, TypeError): # InvalidOperation used here too!
         return default
 
-
+#function for home page
 def home(request):
     latest_ads = ConfirmedAd.objects.order_by('-id')[:4]
     return render(request, 'home/home.html', {'latest_ads': latest_ads})
 
+#function for list property page
 @login_required(login_url='/login/')
 def list_property(request):
-    # Attempt to get user profile data (similar to rent_property)
+
     try:
         user_profile = request.user.userprofile
     except AttributeError:
@@ -115,9 +118,10 @@ def list_property(request):
 
     return render(request, 'home/list_property.html')
 
+#function for rent property page
 @login_required(login_url='/login/')
 def rent_property(request):
-    # --- Step 1: Collect Basic Info & Fetch Profile Data --- (Keep this as it is)
+
     try:
         user_profile = request.user.userprofile
     except AttributeError:
@@ -170,7 +174,7 @@ def rent_property(request):
 
     return render(request, 'home/rent_property.html')
 
-
+#function for find a home page
 def find_a_home(request):
     query = request.GET.get('q', '')
     city = request.GET.get('city', '')
@@ -237,6 +241,7 @@ def find_a_home(request):
         'offer_type': offer_type,
     })
 
+#function for property details page
 def property_detail(request, ad_id):
     ad = get_object_or_404(ConfirmedAd.objects.prefetch_related('images'), id=ad_id)
     try:
@@ -256,12 +261,17 @@ def serve_image(request, path):
         return HttpResponse(status=404)
 
 
+#function for market_insights page
 def market_insights_page(request):
     return render(request, 'home/market_insights.html')
 
+
+#function for agent page
 def agent(request):
     return render(request, 'home/agent.html')
 
+
+#function for list_property_details page
 @login_required(login_url='/login/')
 def list_property_details(request):
     features = [
@@ -303,9 +313,12 @@ def list_property_details(request):
 
     return render(request, 'home/list_property_details.html', {'features': features})
 
+
+
+#function for rent_property_details page
 @login_required(login_url='/login/')
 def rent_property_details(request):
-    # --- Step 2: Collect Property Details --- (Keep this as it is)
+
     features = [
         "AC Rooms", "Indoor Garden", "Swimming Pool", "Waterfront/Riverside", "Beachfront",
         "Gated Community", "Rooftop Garden", "Lawn Garden", "Luxury Specification", "Brand New",
@@ -345,7 +358,10 @@ def rent_property_details(request):
 
     return render(request, 'home/rent_property_details.html', {'features': features})
 
-@login_required(login_url='/login/') # Protect this step
+
+
+#function for upload_confirm page
+@login_required(login_url='/login/')
 def upload_confirm(request):
     if request.method == 'POST':
         confirm = request.POST.get('confirm') == 'true' or request.POST.get('confirm') == 'on'
@@ -369,7 +385,7 @@ def upload_confirm(request):
             offer_type = basic_info.get('offer_type', 'Sell')
         else:
             messages.error(request, 'Session data is incomplete. Please start the process again.')
-            return redirect('home')  # Redirect to the home page or the start of either flow
+            return redirect('home')
 
         # --- Validation ---
         if not registration_info or not basic_info or not details_info:
@@ -419,20 +435,20 @@ def upload_confirm(request):
                 title=details_info.get('title'),
                 description=details_info.get('description'),
                 features=details_info.get('features_list'),
-                confirmed_ownership=confirm, # Ensure this is saved
+                confirmed_ownership=confirm,
             )
             # Save the main ad FIRST to get an ID
             ad.save()
 
             # --- Save Multiple Images ---
-            fs = FileSystemStorage() # Or use default storage
+            fs = FileSystemStorage()
             saved_image_urls = []
             for img_file in images:
-                # You might want to sanitize filename here before saving
+
                 filename = fs.save(img_file.name, img_file)
                 # Create the related image record
                 PendingAdImage.objects.create(pending_ad=ad, image=filename)
-                saved_image_urls.append(fs.url(filename)) # Store URL if needed
+                saved_image_urls.append(fs.url(filename))
 
             print(f"Successfully saved PendingAd (Offer Type: {offer_type}):", ad.id, ad.title)
             print(f"Saved {len(saved_image_urls)} images.")
@@ -470,14 +486,18 @@ def upload_confirm(request):
 
     return render(request, 'home/upload_confirm.html')
 
+
+#function for our_services page
+
 def our_services(request):
     return render(request, 'home/our_services.html')
 
 
+#function for register page
 
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST, request.FILES)  # <-- include request.FILES
+        form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user, profile = form.save()
             login(request, user)
@@ -487,6 +507,8 @@ def register(request):
     return render(request, 'home/register.html', {'form': form})
 
 
+
+#function for user_login page
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
@@ -496,8 +518,10 @@ def user_login(request):
             return redirect('dashboard')
     else:
         form = LoginForm()
-    return render(request, 'home/login.html', {'form': form}) # Directly in the 'home' folder
+    return render(request, 'home/login.html', {'form': form})
 
+
+#function for dashboard page ads
 @login_required
 def dashboard(request):
     user_ads = ConfirmedAd.objects.filter(seller_email=request.user.email).order_by('-created_at')
@@ -516,11 +540,13 @@ def dashboard(request):
     }
     return render(request, 'home/dashboard/dashboard.html', context)
 
+
+#function for user_logout
 def user_logout(request):
     logout(request)
     return redirect('home') # Make sure you have a URL named 'home'
 
-
+#function for dashboard page user info
 @login_required
 def dashboard(request):
     user_ads = ConfirmedAd.objects.filter(seller_email=request.user.email).order_by('-created_at')
@@ -536,16 +562,18 @@ def dashboard(request):
     }
     return render(request, 'home/dashboard/dashboard.html', context)
 
+
+#function for dashboard page edit profile
 @login_required
 def edit_profile(request):
-    # Get the user's profile (assuming a one-to-one relationship between User and UserProfile)
+    # Get the user's profile
     user_profile = UserProfile.objects.get(user=request.user)
 
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
-            form.save()  # Save the form data
-            return redirect('dashboard')  # Redirect to the dashboard or any page you prefer
+            form.save()
+            return redirect('dashboard')
     else:
         form = EditProfileForm(instance=user_profile)
 
@@ -554,12 +582,10 @@ def edit_profile(request):
 
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import ConfirmedAd
-from .forms import ConfirmedAdForm
 
+#function for dashboard page edit ad
 def edit_ad(request, ad_id):
-    print(f"Received ad_id: {ad_id}")  # Debugging line
+    print(f"Received ad_id: {ad_id}")
 
     ad = get_object_or_404(ConfirmedAd, id=ad_id)
 
@@ -567,19 +593,19 @@ def edit_ad(request, ad_id):
         form = ConfirmedAdForm(request.POST, request.FILES, instance=ad)
         if form.is_valid():
             form.save()
-            return redirect('dashboard')  # or wherever you go after saving
+            return redirect('dashboard')
     else:
         form = ConfirmedAdForm(instance=ad)
 
     return render(request, 'home/edit_ad.html', {'form': form})
 
 
-
+#function for dashboard page delete ad
 def delete_ad(request, ad_id):
     print("Delete view triggered")
     ad = get_object_or_404(ConfirmedAd, id=ad_id)
 
-    # Optional: restrict to owner
+
     if request.user.email != ad.seller_email:
         messages.error(request, "You don't have permission to delete this ad.")
         return redirect('dashboard')
@@ -590,11 +616,11 @@ def delete_ad(request, ad_id):
 
 
 
-
+#function for help page
 def help_page(request):
     return render(request, 'home/help.html')
 
-
+#function for dashboard page change password
 @login_required
 def change_password(request):
     if request.method == 'POST':
@@ -604,7 +630,7 @@ def change_password(request):
             # Keep the user logged in after password change
             update_session_auth_hash(request, form.user)
             messages.success(request, 'Your password has been successfully updated.')
-            return redirect('dashboard')  # Redirect to the dashboard or any page you prefer
+            return redirect('dashboard')
         else:
             messages.error(request, 'There was an error with your password change. Please check your input.')
     else:
@@ -613,7 +639,7 @@ def change_password(request):
     return render(request, 'home/change_password.html', {'form': form})
 
 
-
+#function for market insights house price chart
 def house_price_data(request):
     data = HousePriceIndex.objects.all().order_by('quarter')
     chart_data = defaultdict(list)
@@ -623,7 +649,7 @@ def house_price_data(request):
         chart_data[record.region].append((record.quarter, record.price_index))
 
     datasets = []
-    colors = ['#1e88e5', '#43a047', '#ff5722', '#6a1b9a']  # extend as needed
+    colors = ['#1e88e5', '#43a047', '#ff5722', '#6a1b9a']
     for i, (region, values) in enumerate(chart_data.items()):
         values_dict = dict(values)
         datasets.append({
@@ -635,7 +661,7 @@ def house_price_data(request):
 
     return JsonResponse({'labels': labels, 'datasets': datasets})
 
-
+#function for market insights land price chart
 def land_price_data(request):
     data = LandPriceIndex.objects.all().order_by('quarter')
     chart_data = defaultdict(list)
@@ -645,7 +671,7 @@ def land_price_data(request):
         chart_data[record.city].append((record.quarter, record.price_index))
 
     datasets = []
-    colors = ['#d32f2f', '#388e3c', '#fbc02d', '#1976d2']  # extend as needed
+    colors = ['#d32f2f', '#388e3c', '#fbc02d', '#1976d2']
     for i, (city, values) in enumerate(chart_data.items()):
         values_dict = dict(values)
         datasets.append({

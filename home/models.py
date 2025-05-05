@@ -72,7 +72,7 @@ class ConfirmedAdImage(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['uploaded_at'] # Optional: order images by upload time
+        ordering = ['uploaded_at']
 
     def __str__(self):
         try:
@@ -84,35 +84,35 @@ class ConfirmedAdImage(models.Model):
 # Stores property listings submitted by users that are pending admin approval
 class PendingAd(models.Model):
 
-    registered_name = models.CharField(max_length=255, default='') # Added default
-    registered_email = models.EmailField(default='')             # Added default
-    registered_contact = models.CharField(max_length=20, default='') # Added default
-    registered_district = models.CharField(max_length=100, default='') # Added default
+    registered_name = models.CharField(max_length=255, default='')
+    registered_email = models.EmailField(default='')
+    registered_contact = models.CharField(max_length=20, default='')
+    registered_district = models.CharField(max_length=100, default='')
 
 
     # Fields from rent_property.html
-    user_type = models.CharField(max_length=50, blank=True, null=True) # Owner, Agent, etc.
-    offer_type = models.CharField(max_length=10, default='Rent') # Rent/Sale
-    property_type = models.CharField(max_length=50, blank=True, null=True) # House, Apartment, etc.
+    user_type = models.CharField(max_length=50, blank=True, null=True)
+    offer_type = models.CharField(max_length=10, default='Rent')
+    property_type = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100, blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
 
     # Fields from rent_property_details.html
-    bedrooms = models.PositiveIntegerField(null=True, blank=True) # Make nullable temporarily if not always required
-    bathrooms = models.PositiveIntegerField(null=True, blank=True)# Make nullable temporarily if not always required
-    floor_area = models.PositiveIntegerField(null=True, blank=True) # Make nullable temporarily if not always required
-    price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True) # Make nullable temporarily
+    bedrooms = models.PositiveIntegerField(null=True, blank=True)
+    bathrooms = models.PositiveIntegerField(null=True, blank=True)
+    floor_area = models.PositiveIntegerField(null=True, blank=True)
+    price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     price_type = models.CharField(max_length=50, blank=True, null=True)
     floors = models.PositiveIntegerField(blank=True, null=True)
-    status = models.CharField(max_length=50, blank=True, null=True) # Available Now, etc.
-    age = models.PositiveIntegerField(blank=True, null=True) # Age of Property
-    furnishing = models.CharField(max_length=50, blank=True, null=True) # Fully Furnished, etc.
-    parking = models.BooleanField(default=False) # Parking Available
-    title = models.CharField(max_length=255, blank=True, null=True) # Make nullable temporarily
-    description = models.TextField(blank=True, null=True) # Make nullable temporarily
-    features = models.TextField(blank=True, null=True) # Store selected features (e.g., comma-separated)
+    status = models.CharField(max_length=50, blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    furnishing = models.CharField(max_length=50, blank=True, null=True)
+    parking = models.BooleanField(default=False)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    features = models.TextField(blank=True, null=True)
 
     # Fields from upload_confirm.html
     confirmed_ownership = models.BooleanField(default=False)
@@ -132,7 +132,7 @@ class PendingAdImage(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['uploaded_at'] # Optional: order images by upload time
+        ordering = ['uploaded_at']
 
     def __str__(self):
         try:
