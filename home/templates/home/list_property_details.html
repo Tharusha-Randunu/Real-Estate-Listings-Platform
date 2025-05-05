@@ -87,7 +87,7 @@
                     <label for="bedrooms" class="form-label">Bedrooms <span class="text-danger">*</span></label>
                     <select id="bedrooms" name="bedrooms" class="form-select" required>
                         <option value="" selected disabled>Select...</option>
-                        {% for i in "12345" %}
+                        {% for i in "012345" %}
                             <option value="{{ i }}">{{ i }}</option>
                         {% endfor %}
                         <option value="6">6+</option>
@@ -99,7 +99,7 @@
                     <label for="bathrooms" class="form-label">Bathrooms <span class="text-danger">*</span></label>
                     <select id="bathrooms" name="bathrooms" class="form-select" required>
                         <option value="" selected disabled>Select...</option>
-                        {% for i in "12345" %}
+                        {% for i in "012345" %}
                             <option value="{{ i }}">{{ i }}</option>
                         {% endfor %}
                         <option value="6">6+</option>
