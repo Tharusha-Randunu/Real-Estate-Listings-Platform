@@ -2,194 +2,168 @@
 {% load static %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <style>
-        /* Basic page styling */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<style>
+    body {
+        background: #f4f4f4;
+    }
 
-        /* Registration form container */
-        .login-container {
-            background: #fff;
-            padding: 40px 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-        }
+    .login-container {
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 400px;
+        margin: 50px auto;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        /* Heading style */
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
+    .login-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
 
-        /* Form layout */
-        form {
-            display: flex;
-            flex-direction: column;
-        }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
 
-        /* Label styling */
-        label {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-        }
+    label {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
 
-        /* Input field styling */
-        input[type="text"],
-        input[type="password"],
-        input[type="email"] {
-            width: 93%;
-            padding: 10px 12px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="file"] {
+        width: 100%;
+        padding: 10px 12px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 
-        /* Submit button styling */
-        button {
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-size: 15px;
-        }
+    button {
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 15px;
+    }
 
-        /* Button hover effect */
-        button:hover {
-            background-color: #0056b3;
-        }
+    button:hover {
+        background-color: #0056b3;
+    }
 
-        /* Login link below form */
-        .register-link {
-            text-align: center;
-            margin-top: 20px;
-        }
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-        .register-link a {
-            color: #007bff;
-            text-decoration: none;
-        }
+    .register-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
 
-        .register-link a:hover {
-            text-decoration: underline;
-        }
+    .register-link a:hover {
+        text-decoration: underline;
+    }
 
-        /* Display field-level error messages */
-        .errorlist {
-            color: red;
-            font-size: 13px;
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
-    <!-- Registration form container -->
-    <div class="login-container">
-        <h2>Register</h2>
-        <!-- Registration form -->
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}  <!-- CSRF protection -->
+    .errorlist {
+        color: red;
+        font-size: 13px;
+        margin: 5px 0;
+    }
 
-            {{ form.non_field_errors }}  <!-- Non-field related errors -->
+    .password-rules {
+        font-size: 13px;
+        color: #666;
+        margin-top: 10px;
+    }
 
-            <!-- Username field -->
-            <label for="{{ form.username.id_for_label }}">Username</label>
-            {{ form.username }}
-            {% if form.username.errors %}
-                <div class="errorlist">{{ form.username.errors }}</div>
-            {% endif %}
+    .password-rules ul {
+        padding-left: 20px;
+        margin-top: 5px;
+    }
+</style>
 
-            <!-- Email field -->
-            <label for="{{ form.email.id_for_label }}">Email</label>
-            {{ form.email }}
-            {% if form.email.errors %}
-                <div class="errorlist">{{ form.email.errors }}</div>
-            {% endif %}
+<div class="login-container">
+    <h2>Register</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
 
-            <!-- First name field -->
-            <label for="{{ form.first_name.id_for_label }}">First Name</label>
-            {{ form.first_name }}
-            {% if form.first_name.errors %}
-                <div class="errorlist">{{ form.first_name.errors }}</div>
-            {% endif %}
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <div class="errorlist">{{ form.username.errors }}</div>
+        {% endif %}
 
-            <!-- Last name field -->
-            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
-            {{ form.last_name }}
-            {% if form.last_name.errors %}
-                <div class="errorlist">{{ form.last_name.errors }}</div>
-            {% endif %}
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="errorlist">{{ form.email.errors }}</div>
+        {% endif %}
 
-            <!-- Phone number field -->
-            <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
-            {{ form.phone_number }}
-            {% if form.phone_number.errors %}
-                <div class="errorlist">{{ form.phone_number.errors }}</div>
-            {% endif %}
+        <label for="{{ form.first_name.id_for_label }}">First Name</label>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+            <div class="errorlist">{{ form.first_name.errors }}</div>
+        {% endif %}
 
-            <!-- Profile picture upload -->
-            <label for="{{ form.profile_picture.id_for_label }}">Profile Picture</label>
-            {{ form.profile_picture }}
-            {% if form.profile_picture.errors %}
-                <div class="errorlist">{{ form.profile_picture.errors }}</div>
-            {% endif %}
+        <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+            <div class="errorlist">{{ form.last_name.errors }}</div>
+        {% endif %}
 
-            <!-- Password field -->
-            <label for="{{ form.password1.id_for_label }}">Password</label>
-            {{ form.password1 }}
-            {% if form.password1.errors %}
-                <div class="errorlist">{{ form.password1.errors }}</div>
-            {% endif %}
+        <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+        {{ form.phone_number }}
+        {% if form.phone_number.errors %}
+            <div class="errorlist">{{ form.phone_number.errors }}</div>
+        {% endif %}
 
-            <!-- Password validation guidelines -->
-            <div class="password-rules" style="font-size: 13px; color: #666; margin-top: 10px;">
-                <p><strong>Password must:</strong></p>
-                <ul style="padding-left: 20px; margin-top: 5px;">
-                    <li>Be at least 8 characters long</li>
-                    <li>Not be too similar to your personal information</li>
-                    <li>Not be a commonly used password</li>
-                    <li>Not be entirely numeric</li>
-                </ul>
-            </div>
+        <label for="{{ form.profile_picture.id_for_label }}">Profile Picture</label>
+        {{ form.profile_picture }}
+        {% if form.profile_picture.errors %}
+            <div class="errorlist">{{ form.profile_picture.errors }}</div>
+        {% endif %}
 
-            <!-- Confirm password field -->
-            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
-            {{ form.password2 }}
-            {% if form.password2.errors %}
-                <div class="errorlist">{{ form.password2.errors }}</div>
-            {% endif %}
+        <label for="{{ form.password1.id_for_label }}">Password</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+            <div class="errorlist">{{ form.password1.errors }}</div>
+        {% endif %}
 
-            <!-- Submit button -->
-            <button type="submit">Register</button>
-        </form>
-
-        <!-- Login redirect link -->
-        <div class="register-link">
-            <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+        <div class="password-rules">
+            <p><strong>Password must:</strong></p>
+            <ul>
+                <li>Be at least 8 characters long</li>
+                <li>Not be too similar to your personal information</li>
+                <li>Not be a commonly used password</li>
+                <li>Not be entirely numeric</li>
+            </ul>
         </div>
+
+        <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+            <div class="errorlist">{{ form.password2.errors }}</div>
+        {% endif %}
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="register-link">
+        <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
     </div>
-</body>
-</html>
-
-
+</div>
 
 {% endblock %}

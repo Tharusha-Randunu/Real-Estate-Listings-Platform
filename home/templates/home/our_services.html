@@ -3,27 +3,33 @@
 {% block content %}
 
 <style>
+    /* Card hover effect for subtle elevation */
+    .card {
+        transition: transform 0.3s ease;
+        opacity: 0;
+        transform: translateY(30px);
+    }
 
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-/* Card hover effect for subtle elevation */
-.card {
-    transition: transform 0.3s ease;
-}
+    .fade-in-up {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    /* Button hover color transition */
+    .btn {
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
 
-/* Button hover color transition */
-.btn {
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
+    .btn:hover {
+        background-color: #0056b3;
+    }
 </style>
 
 <!-- Container to hold floating emojis -->
@@ -70,5 +76,25 @@
     </section>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".card");
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("fade-in-up");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+</script>
 
 {% endblock %}
