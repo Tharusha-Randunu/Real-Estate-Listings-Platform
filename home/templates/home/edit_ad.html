@@ -1,14 +1,17 @@
 {% extends "home/base.html" %}
 {% load static %}
+
 {% block content %}
 
-  <style>
+<style>
+    /* Page background */
     body {
         background: #f4f4f4;
         margin: 0;
         padding: 0;
     }
 
+    /* Centered white form container */
     .edit-container {
         background: #fff;
         padding: 40px 30px;
@@ -18,23 +21,27 @@
         margin: 50px auto;
     }
 
+    /* Page title */
     .edit-container h2 {
         text-align: center;
         margin-bottom: 25px;
         color: #333;
     }
 
+    /* Form layout */
     form {
         display: flex;
         flex-direction: column;
     }
 
+    /* Input label styles */
     label {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
     }
 
+    /* Input and select fields */
     input[type="text"],
     input[type="email"],
     input[type="file"],
@@ -49,6 +56,7 @@
         font-size: 14px;
     }
 
+    /* Submit button */
     button {
         padding: 12px;
         background-color: #007bff;
@@ -60,27 +68,41 @@
         font-size: 15px;
     }
 
+    /* Submit button hover effect */
     button:hover {
         background-color: #0056b3;
     }
 
+    /* Error message styling */
     .errorlist {
         color: red;
         font-size: 13px;
         margin: 5px 0;
     }
-  </style>
+</style>
 
-  <div class="edit-container">
+<!-- Main Container for Edit Form -->
+<div class="edit-container">
+
+    <!-- Page Title -->
     <h2>Edit Advertisement</h2>
+
+    <!-- Django Form for Editing Ad -->
     <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.non_field_errors }}
-      {{ form.as_p }}
-      <button type="submit">Save Changes</button>
+        {% csrf_token %}
+
+        <!-- Display non-field errors (like validation issues) -->
+        {{ form.non_field_errors }}
+
+        <!-- Render all form fields with labels and validation messages -->
+        {{ form.as_p }}
+
+        <!-- Submit button -->
+        <button type="submit">Save Changes</button>
     </form>
-  </div>
+</div>
 
+<!-- Global Footer Include -->
 {% include 'home/footer.html' %}
-{% endblock %}
 
+{% endblock %}
