@@ -190,7 +190,7 @@ def find_a_home(request):
         bathrooms = int(bathrooms)
 
     # Start with all ads and prefetch related images
-    ads = ConfirmedAd.objects.all().prefetch_related('images')
+    ads = ConfirmedAd.objects.all().prefetch_related('images').order_by('-created_at')
 
     if query:
         ads = ads.filter(Q(title__icontains=query) | Q(description__icontains=query))
@@ -212,6 +212,8 @@ def find_a_home(request):
     # Apply filtering for features (many-to-many relationship)
     if features:
         ads = ads.filter(property_features__in=features)
+
+    ads = ads.distinct()
 
     # Get the available features for the filter dropdown
     available_features = PropertyFeature.objects.all()
