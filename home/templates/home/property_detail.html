@@ -61,7 +61,25 @@
              <p class="mt-2 text-muted">No images available for this property.</p>
         </div>
     {% endif %}
-</div>
+
+
+<div class="p-2 bg-light rounded">
+<!-- Thumbnails Row -->
+{% if ad.images.all|length > 1 %}
+<div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
+    {% for img_obj in ad.images.all %}
+        <img src="{{ img_obj.image.url }}"
+             class="img-thumbnail"
+             alt="Thumbnail {{ forloop.counter }}"
+             style="width: 100px; height: 75px; object-fit: cover; cursor: pointer;"
+             onclick="goToSlide({{ forloop.counter0 }})">
+    {% endfor %}
+</div></div></div>
+{% endif %}
+
+
+
+
 {# --- Image Carousel End --- #}
 
             <div class="card shadow-sm p-3 mb-4">
@@ -147,5 +165,11 @@
 
 </div>
 
+<script>
+    function goToSlide(index) {
+        var carousel = bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyImageCarousel'));
+        carousel.to(index);
+    }
+</script>
 
 {% endblock %}
