@@ -40,7 +40,7 @@
 
     /* Overview hero section */
     #overview {
-  background: url("/static/home/images/bg3.jpg") no-repeat center center;
+  background: url("/static/home/images/bg7.jpeg") no-repeat center center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -75,7 +75,13 @@
       font-size: 17px;
       text-shadow: 0 5px 5px rgba(0, 0, 0, 1);
     }
+#chart-p{
+max-width: 600px;
+      margin: 0 auto 30px auto;
+      font-size: 17px;
+      text-shadow: 0 5px 5px rgba(0, 0, 0, 0);
 
+}
     .chart-container {
       width: 100%;
       max-width: 700px;
@@ -314,7 +320,7 @@
 <!-- House Price Index -->
 <section id="house-index">
   <h2>House Price Index</h2>
-  <p>Track housing price trends across major regions in Sri Lanka.</p>
+  <p id ="chart-p">Track housing price trends across major regions in Sri Lanka.</p>
   <div class="chart-container">
     <canvas id="houseChart"></canvas>
   </div>
@@ -323,7 +329,7 @@
 <!-- Land Price Index -->
 <section id="land-index">
   <h2>Land Price Index</h2>
-  <p>Analyze land price fluctuations from 2018 to 2023 across national regions.</p>
+  <p id ="chart-p">Analyze land price fluctuations from 2018 to 2023 across national regions.</p>
   <div class="chart-container">
     <canvas id="landChart"></canvas>
   </div>
