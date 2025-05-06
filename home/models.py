@@ -4,12 +4,14 @@ from django.conf import settings
 from django.utils import timezone
 
 
+# Represents a specific feature that a property can have (e.g., garden, pool)
 class PropertyFeature(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
+# Stores confirmed property listings that are publicly visible
 class ConfirmedAd(models.Model):
     PROPERTY_TYPES = [
         ('House', 'House'),
@@ -29,6 +31,7 @@ class ConfirmedAd(models.Model):
         ('Unfurnished', 'Unfurnished'),
     ]
 
+    # Basic property info
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True,null=True)
     details = models.TextField(blank=True,null=True)
@@ -61,6 +64,7 @@ class ConfirmedAd(models.Model):
     def __str__(self):
         return self.title or f"Confirmed Ad {self.id}"
 
+# Stores images related to a confirmed ad listing
 class ConfirmedAdImage(models.Model):
     """Stores multiple images related to a ConfirmedAd."""
     confirmed_ad = models.ForeignKey(ConfirmedAd, related_name='images', on_delete=models.CASCADE)
@@ -77,6 +81,7 @@ class ConfirmedAdImage(models.Model):
              return f"Image for deleted ad ({self.id})"
 
 
+# Stores property listings submitted by users that are pending admin approval
 class PendingAd(models.Model):
 
     registered_name = models.CharField(max_length=255, default='') # Added default
@@ -118,6 +123,8 @@ class PendingAd(models.Model):
     def __str__(self):
         return f"Pending Ad: {self.title} in {self.city}"
 
+
+# Stores images related to a pending ad listing
 class PendingAdImage(models.Model):
     """Stores multiple images related to a PendingAd."""
     pending_ad = models.ForeignKey(PendingAd, related_name='images', on_delete=models.CASCADE)
@@ -133,6 +140,8 @@ class PendingAdImage(models.Model):
         except PendingAd.DoesNotExist:
              return f"Image for deleted pending ad ({self.id})"
 
+
+# Extended profile model linked to Django's built-in User model
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
@@ -142,6 +151,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+# Stores house price index data per region and quarter
 class HousePriceIndex(models.Model):
     region = models.CharField(max_length=100)
     quarter = models.CharField(max_length=10)  # e.g., '2022 Q1'
@@ -151,6 +161,7 @@ class HousePriceIndex(models.Model):
         return f"{self.region} - {self.quarter}"
 
 
+# Stores land price index data per city and quarter
 class LandPriceIndex(models.Model):
     city = models.CharField(max_length=100)
     quarter = models.CharField(max_length=10)

@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+# Define URL patterns and map them to corresponding view functions
 urlpatterns = [
     path('', views.home, name='home'),
     path('find-a-home/', views.find_a_home, name='find_a_home'),

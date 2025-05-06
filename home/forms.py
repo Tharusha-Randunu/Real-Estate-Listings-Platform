@@ -1,3 +1,4 @@
+# Import necessary Django modules and models
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -6,7 +7,7 @@ from .models import ConfirmedAd
 from django.contrib.auth.forms import PasswordChangeForm
 
 
-
+# Custom user registration form extending Django's built-in UserCreationForm
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30, required=False)
@@ -31,9 +32,11 @@ class RegistrationForm(UserCreationForm):
             return user, profile  # Return both user and profile
         return user
 
+# Custom login form using Django's AuthenticationForm
 class LoginForm(AuthenticationForm):
     pass
 
+# Form for editing user profile (phone number and profile picture)
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -48,12 +51,13 @@ class EditProfileForm(forms.ModelForm):
             user_profile.save()
         return user_profile
 
-
+# Customized password change form with more descriptive labels
 class PasswordChangeFormCustom(PasswordChangeForm):
     old_password = forms.CharField(max_length=100, widget=forms.PasswordInput, required=True, label="Old Password")
     new_password1 = forms.CharField(max_length=100, widget=forms.PasswordInput, required=True, label="New Password")
     new_password2 = forms.CharField(max_length=100, widget=forms.PasswordInput, required=True, label="Confirm New Password")
 
+# Form to submit a confirmed ad (used by staff or admin after verification)
 class ConfirmedAdForm(forms.ModelForm):
     class Meta:
         model = ConfirmedAd
