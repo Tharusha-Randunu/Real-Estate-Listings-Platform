@@ -19,12 +19,12 @@
         }
     </style>
 </head>
-<!-- 🟡 Flex layout to push footer down when content is short -->
+
 <body class="d-flex flex-column min-vh-100">
 
     {% include "home/navbar.html" %}
 
-    <!-- 🟡 This fills available space -->
+
     <main class="container py-4 flex-grow-1">
         {% block content %}{% endblock %}
     </main>
