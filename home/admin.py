@@ -8,8 +8,7 @@ from django.conf import settings
 from django.contrib import admin
 from .models import HousePriceIndex, LandPriceIndex
 
-# Register the simple models first
-
+# Register the models
 class ConfirmedAdAdmin(admin.ModelAdmin):
     list_display = ('title', 'city', 'property_type', 'offer_type', 'created_at')
     list_filter = ('city', 'property_type', 'offer_type', 'created_at')
@@ -18,12 +17,12 @@ class ConfirmedAdAdmin(admin.ModelAdmin):
 admin.site.register(ConfirmedAd,ConfirmedAdAdmin)
 admin.site.register(PropertyFeature)
 
-# --- Custom Admin for PendingAd ---
+#Custom Admin for PendingAd
 class PendingAdAdmin(admin.ModelAdmin):
     list_display = ('title', 'city', 'property_type', 'offer_type', 'created_at' )
     list_filter = ('city', 'property_type', 'offer_type', 'created_at')
     search_fields = ('title', 'city', 'description', 'street')
-    actions = ['approve_and_move_ads'] # Add the custom action here
+    actions = ['approve_and_move_ads']
 
     @admin.action(description='Approve selected ads and move to Confirmed Ads')
     def approve_and_move_ads(self, request, queryset):
@@ -36,7 +35,7 @@ class PendingAdAdmin(admin.ModelAdmin):
 
         for pending_ad in queryset:
             try:
-                # --- Field Mapping (same as before) ---
+
                 address = f"{pending_ad.street}, {pending_ad.city}" if pending_ad.street else pending_ad.city
                 details_text = pending_ad.description or ''
                 if pending_ad.latitude and pending_ad.longitude:
@@ -71,11 +70,11 @@ class PendingAdAdmin(admin.ModelAdmin):
                     seller_name=pending_ad.registered_name or "Pending Review",
                     seller_tel=pending_ad.registered_contact or "Pending Review",
                     seller_email=pending_ad.registered_email or "pending@review.com",
-                    # link=None
-                )
-                confirmed_ad.save() # Save here to get an ID
 
-                # --- Transfer Images (Robust Method) ---
+                )
+                confirmed_ad.save()
+
+                # --- Transfer Images  ---
                 pending_ad_images = PendingAdImage.objects.filter(pending_ad=pending_ad)
                 for pending_image in pending_ad_images:
                     try:
@@ -93,10 +92,10 @@ class PendingAdAdmin(admin.ModelAdmin):
                     except Exception as img_err:
                         errors.append(f"Error transferring image for Pending Ad {pending_ad.id}: {img_err}")
                     finally:
-                        # Important: Reset the file pointer after reading
+
                         pending_image.image.seek(0)
 
-                # --- Handle ManyToMany Features (same as before) ---
+                # --- Handle ManyToMany Features---
                 if pending_ad.features:
                     feature_names = [name.strip() for name in pending_ad.features.split(',') if name.strip()]
                     for feature_name in feature_names:
@@ -112,7 +111,7 @@ class PendingAdAdmin(admin.ModelAdmin):
                 # import traceback
                 # print(traceback.format_exc())
 
-        # --- Report Results to Admin (same as before) ---
+        # --- Report Results to Admin  ---
         if successful_count > 0:
             self.message_user(request, ngettext(
                 '%d pending ad was successfully approved and moved.',
