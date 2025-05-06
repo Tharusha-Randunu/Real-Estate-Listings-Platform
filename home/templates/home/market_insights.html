@@ -412,18 +412,22 @@ max-width: 600px;
             <div class="carousel-item">
                 <div class="row justify-content-center">
                     <div class="col-md-3">
-                        <div class="explore-card border border-dark">
+                       <a href="{% url 'our_services' %}" style="text-decoration: none; color: inherit;">
+                         <div class="explore-card border border-dark">
                             <i class="fas fa-handshake icon" style="font-size: 32px; color: #6e3a21;"></i>
-                            <h4>Get assistance with buying & selling</h4>
-                            <p>Expert guidance for your real estate transactions</p>
+                            <h4>Our Services</h4>
+                            <p>We provide expert guidance for your real estate transactions</p>
                         </div>
+                       </a>
                     </div>
                     <div class="col-md-3">
+                        <a href="{% url 'agent' %}" style="text-decoration: none; color: inherit;">
                         <div class="explore-card border border-dark">
                             <i class="fas fa-user-tie icon" style="font-size: 32px; color: #1f1d1c;"></i>
                             <h4>Find an Agent</h4>
                             <p>Get in touch with trusted real estate agents</p>
                         </div>
+                            </a>
                     </div>
                 </div>
             </div>
