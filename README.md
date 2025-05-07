@@ -32,46 +32,46 @@ Other: Django sessions, Django Admin, Media files handling
 # # 📦 Setup Instructions
 Clone the repo:
 
-bash
+```bash
 Copy
 Edit
 git clone https://github.com/your-username/real-estate-platform.git
 cd real-estate-platform
 Create virtual environment:
-
-bash
+```
+```bash
 Copy
 Edit
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 Install dependencies:
-
-bash
+```
+```bash
 Copy
 Edit
 pip install -r requirements.txt
 Run migrations:
-
-bash
+```
+```bash
 Copy
 Edit
 python manage.py makemigrations
 python manage.py migrate
 Create superuser:
-
-bash
+```
+```bash
 Copy
 Edit
 python manage.py createsuperuser
 Run the server:
-
-bash
+```
+```bash
 Copy
 Edit
 python manage.py runserver
 Access the app:
 Go to http://127.0.0.1:8000/
-
+```
 # # 📌 Notes
 Media files are stored in the /media folder and served via Django during development.
 
