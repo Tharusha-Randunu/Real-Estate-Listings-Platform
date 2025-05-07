@@ -35,31 +35,37 @@ Clone the repo:
 ```bash
 git clone https://github.com/your-username/real-estate-platform.git
 cd real-estate-platform
-Create virtual environment:
+
 ```
+Create virtual environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-Install dependencies:
+
 ```
+Install dependencies:
 ```bash
 pip install -r requirements.txt
-Run migrations:
+
 ```
+Run migrations:
 ```bash
 python manage.py makemigrations
 python manage.py migrate
-Create superuser:
+
 ```
+Create superuser:
 ```bash
 python manage.py createsuperuser
-Run the server:
+
 ```
+Run the server:
 ```bash
 python manage.py runserver
+```
 Access the app:
 Go to http://127.0.0.1:8000/
-```
+
 # # 📌 Notes
 Media files are stored in the /media folder and served via Django during development.
 
