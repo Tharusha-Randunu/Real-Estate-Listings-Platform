@@ -1,7 +1,7 @@
 # LandMark - Real Estate Listings Platform
 A full-stack Django-based web application that allows users to browse, post, and manage real estate listings for sale or rent. Designed with a user-friendly interface and a focus on efficient property discovery and management.
 
-# # 🚀 Features
+## 🚀 Features
 🏡 Browse Listings: Users can view available properties with images, prices, and details.
 
 🔍 Search & Filters: Filter listings by location, price, type, and more.
@@ -19,7 +19,7 @@ A full-stack Django-based web application that allows users to browse, post, and
 🖼️ Image Upload: Add multiple images to property listings.
 
 
-# # 🛠️ Technologies Used
+## 🛠️ Technologies Used
 Backend: Django, Python
 
 Frontend: HTML, CSS, Bootstrap, JavaScript
@@ -29,7 +29,7 @@ Database: SQLite (default), customizable to PostgreSQL/MySQL
 Other: Django sessions, Django Admin, Media files handling
 
 
-# # 📦 Setup Instructions
+## 📦 Setup Instructions
 Clone the repo:
 
 ```bash
@@ -67,13 +67,13 @@ Access the app:
 
 Go to http://127.0.0.1:8000/
 
-# # 📌 Notes
+## 📌 Notes
 Media files are stored in the /media folder and served via Django during development.
 
 Admin dashboard is accessible at /admin/.
 
 
-# # 📷 Screenshots
+## 📷 Screenshots
 ![Screenshot 2025-05-06 220729](https://github.com/user-attachments/assets/8b05dca5-02a7-4899-be36-229d5ece875f)
 
 ![Screenshot 2025-05-06 220743](https://github.com/user-attachments/assets/a5dc0cd5-9ee8-495c-96b1-38878d19e02a)
