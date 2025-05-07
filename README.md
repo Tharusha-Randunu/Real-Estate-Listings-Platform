@@ -33,41 +33,29 @@ Other: Django sessions, Django Admin, Media files handling
 Clone the repo:
 
 ```bash
-Copy
-Edit
 git clone https://github.com/your-username/real-estate-platform.git
 cd real-estate-platform
 Create virtual environment:
 ```
 ```bash
-Copy
-Edit
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 Install dependencies:
 ```
 ```bash
-Copy
-Edit
 pip install -r requirements.txt
 Run migrations:
 ```
 ```bash
-Copy
-Edit
 python manage.py makemigrations
 python manage.py migrate
 Create superuser:
 ```
 ```bash
-Copy
-Edit
 python manage.py createsuperuser
 Run the server:
 ```
 ```bash
-Copy
-Edit
 python manage.py runserver
 Access the app:
 Go to http://127.0.0.1:8000/
