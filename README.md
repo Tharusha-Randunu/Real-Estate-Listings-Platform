@@ -28,6 +28,9 @@ Database: SQLite (default), customizable to PostgreSQL/MySQL
 
 Other: Django sessions, Django Admin, Media files handling
 
+## 🚀 Live Demo:
+https://venuja9344.pythonanywhere.com/
+
 
 ## 📦 Setup Instructions
 Clone the repo:
