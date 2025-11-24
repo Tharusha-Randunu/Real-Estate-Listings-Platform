@@ -79,13 +79,8 @@ WSGI_APPLICATION = 'real_estate.wsgi.application'
 # Database configuration for PythonAnywhere MySQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'yourusername$real_estate',  # You'll create this in PythonAnywhere
-        'USER': 'yourusername',  # Your PythonAnywhere username
-        'PASSWORD': 'your_mysql_password',  # You'll set this in PythonAnywhere
-        'HOST': 'yourusername.mysql.pythonanywhere-services.com',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
         },
     }
 }
